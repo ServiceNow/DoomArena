@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from ..attack_config.attack_config import AttackConfig
+from doomarena.core.attack_config.attack_config import AttackConfig
 import logging
 from typing import Any, List
 

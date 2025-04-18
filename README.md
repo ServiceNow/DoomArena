@@ -13,9 +13,18 @@ Contributions are welcome! You can extend this framework by:
 
 ## Setup
 
-Create a virtual environment and install the package locally in editable mode using
+To actively develop `DoomArena`, please create a virtual environment and install the package locally in editable mode using
 ```bash
 pip install -e doomarena/core
+pip install -e doomarena/taubench
+pip install -e doomarena/browsergym
+```
+
+If you just want to use the library just run
+```bash
+pip install doomarena
+pip install doomarena-taubench  # optional
+pip install doomarena-browsergym  # optional
 ```
 
 Then follow the environment-specific setup instructions for [TauBench](doomarena/taubench/README.md) and [BrowserGym](doomarena/browsergym/README.md)
@@ -28,7 +37,8 @@ OPENROUTER_API_KEY="<your api key>"
 
 Once the environments are set up, run the tests to make sure everything is working.
 ```bash
-pytest
+make ci-tests
+make tests  # requires openai key
 ```
 
 
