@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "doomarena"
+version = "0.0.2"
+description = "A framework to test the security and robustness of AI agents"
+authors = [
+  { name="Leo Boisvert", email="leo.boisvert@servicenow.com" },
+  { name="Abhay Puri", email="abhay.puri@servicenow.com" },
+  { name="Gabriel Huang", email="gabriel.huang@servicenow.com" },
+  { name="Mihir Bansal", email="mihir.bansal@servicenow.com" },
+  { name="Chandra Kiran Reddy Evuru", email="chandrakiranreddy.evuru@servicenow.com" },
+  { name="Avinandan Bose", email="avibose@uw.edu" },
+  { name="Maryam Fazel", email="mfazel@uw.edu" },
+  { name="Quentin Cappart", email="quentin.cappart@polymtl.ca" },
+  { name="Alexandre Lacoste", email="alexandre.lacoste@servicenow.com" },
+  { name="Alexandre Drouin", email="alexandre.drouin@servicenow.com" },
+  { name="Krishnamurthy DJ Dvijotham", email="dj.dvijotham@servicenow.com" },
+]
+maintainers = [
+  { name="Gabriel Huang", email="gabriel.huang@servicenow.com" },
+  { name="Mihir Bansal", email="mihir.bansal@servicenow.com" },
+]
+readme = "../README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "License :: OSI Approved :: Apache Software License"
+]
+
+dependencies = [
+    "pydantic",
+    "python-dotenv",
+    "litellm",
+    "tqdm",
+    "PyYAML",
+    "pytest",
+    "tenacity"
+]
+
+[project.urls]
+Homepage = "https://github.com/ServiceNow/DoomArena"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+namespaces = true  # important for sharing the doomarena.* namespace

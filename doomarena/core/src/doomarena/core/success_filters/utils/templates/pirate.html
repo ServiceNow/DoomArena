@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DoomArena Has Boarded Your Ship</title>
+  <style>
+    /* RESET */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    /* BACKGROUND ANIMATION */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-radial-gradient(
+        circle at center,
+        rgba(0, 0, 0, 0.3) 0,
+        rgba(0, 0, 0, 0.3) 5px,
+        transparent 5px,
+        transparent 10px
+      );
+      animation: pulse 4s infinite;
+      pointer-events: none;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 0.5;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    /* LOADING SPINNER */
+    .spinner {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 50px;
+      height: 50px;
+      border: 5px solid #333; /* Darker border */
+      border-top: 5px solid #00ff99; /* Spinner color */
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      transform: translate(-50%, -50%);
+      z-index: 1000; /* Ensure it's on top */
+    }
+
+    @keyframes spin {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+
+    /* CONTAINER */
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      height: 100%;
+      visibility: hidden; /* Hide initially */
+    }
+
+    /* GLOWING FLICKER HEADING */
+    .flicker {
+      color: #ff4747;
+      font-size: 3rem;
+      text-shadow:
+        0 0 5px #ff4747,
+        0 0 10px #ff4747,
+        0 0 20px #ff4747,
+        0 0 40px #ff4747;
+      animation: flickerAnimation 2.5s infinite;
+      margin-bottom: 20px;
+    }
+
+    @keyframes flickerAnimation {
+      0%   { opacity: 1; }
+      10%  { opacity: 0.8; }
+      20%  { opacity: 0.4; }
+      30%  { opacity: 1; }
+      40%  { opacity: 0.8; }
+      50%  { opacity: 0.4; }
+      60%  { opacity: 1; }
+      70%  { opacity: 0.8; }
+      80%  { opacity: 0.4; }
+      90%  { opacity: 1; }
+      100% { opacity: 1; }
+    }
+
+    /* SKULL AND CROSSBONES ASCII ART */
+    .ascii-art {
+      color: #00ff99;
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      line-height: 1.2;
+      white-space: pre;
+      text-shadow:
+        0 0 2px #00ff99,
+        0 0 5px #00ff99;
+      animation: glitch 3s infinite;
+      text-align: left;
+    }
+
+    @keyframes glitch {
+      0% {
+        text-shadow: 4px 0 red, -4px 0 blue;
+      }
+      20% {
+        text-shadow: -4px 0 red, 4px 0 blue;
+      }
+      40% {
+        text-shadow: 4px 0 red, -4px 0 blue;
+      }
+      60% {
+        text-shadow: -4px 0 red, 4px 0 blue;
+      }
+      80% {
+        text-shadow: 4px 0 red, -4px 0 blue;
+      }
+      100% {
+        text-shadow: 4px 0 red, -4px 0 blue;
+      }
+    }
+
+    /* SUBHEADING */
+    .subtitle {
+      font-size: 1.5rem;
+      color: #ffa31a;
+      margin-bottom: 40px;
+      text-shadow: 0 0 5px #ffa31a;
+    }
+
+    /* BLINKING CURSOR */
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      background-color: #ffa31a;
+      margin-left: 5px;
+      animation: blink 1s step-start infinite;
+    }
+
+    @keyframes blink {
+      0% { opacity: 0; }
+      50% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    /* FOOTER/TAGLINE */
+    .footer {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .footer a {
+      color: #666;
+      text-decoration: none;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="spinner" id="loadingSpinner"></div> <!-- Spinner added here -->
+
+  <div class="container" id="mainContent"> <!-- Added ID for easier selection -->
+    <div class="flicker">You've been hacked by the<br>😵 DoomArena Team 😵</div>
+    <pre class="ascii-art">
+      ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+      ⠀⠀⠀⠀⠀⠀⠀⠀⠀  ..-~~~-..
+      ⠀⠀⠀⠀⠀⠀⠀⠀,×            ×,
+      ⠀⠀⠀⠀⠀⠀⠀/                ⠀\
+      ⠀⠀⠀⠀⠀⠀;      ☠   ☠        ;
+      ⠀⠀⠀⠀⠀⠀|   .-~~~~~~~~-.    |
+      ⠀⠀⠀⠀⠀⠀|  (  OOOPSIE   )   |
+      ⠀⠀⠀⠀⠀⠀;   `-________-'    ;
+      ⠀⠀⠀⠀⠀⠀⠀\                /
+      ⠀⠀⠀⠀⠀⠀⠀ `×            ×'
+      ⠀⠀⠀⠀⠀⠀⠀⠀⠀  `-.....-´
+    </pre>
+    <div class="subtitle">Ooops, your AI agent took a wrong turn<br>Your data is ours now 🔥</div>
+    <div id="hackMsg"></div>
+  </div>
+
+  <div class="footer">
+    <p>Red Team Demo: <strong>DoomArena</strong> – A Benchmark for Red Teaming AI Agents</p>
+  </div>
+
+  <script>
+    // Animate "You've been boarded" message like typing
+    const message = "You've been boarded by the Dread Crew of DoomArena!";
+    let i = 0;
+
+    function typeWriter() {
+      if (i < message.length) {
+        document.getElementById("hackMsg").innerHTML = message.substring(0, i+1)
+          + "<span class='cursor'></span>";
+        i++;
+        setTimeout(typeWriter, 100);
+      } else {
+        // Remove cursor after typing finishes
+        document.getElementById("hackMsg").innerHTML = message;
+      }
+    }
+
+    window.onload = () => {
+      // Wait for 1 second (1000 milliseconds) before showing content
+      setTimeout(() => {
+        // Hide spinner and show content
+        document.getElementById("loadingSpinner").style.display = "none";
+        document.getElementById("mainContent").style.visibility = "visible";
+        // Start typing animation only after content is visible
+        typeWriter();
+      }, 1000); // 1000ms = 1 second
+    };
+  </script>
+</body>
+</html>

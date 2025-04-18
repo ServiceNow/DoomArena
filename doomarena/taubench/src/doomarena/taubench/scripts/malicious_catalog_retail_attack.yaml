@@ -1,0 +1,30 @@
+num_trials: 1
+max_concurrency: 1
+attack_gateway: taubench_attack_gateway
+env: retail
+model: openai/gpt-4o-mini
+model_provider: openai
+user_model: openrouter/openai/gpt-4o
+user_model_provider: openrouter
+user_strategy: llm
+add_attack: "Yes"
+task_ids: [2]
+agent_strategy: react
+attackable_components:
+  - attackable_component:
+      type: database
+      database_name: products
+      primary_key: product_id
+      modification_type: full
+      nested_path:
+        - name
+    filter: IsGetProductDetailsActionFilter
+attacks:
+  - name: malicious_catalog_retail_attack
+    type: adversarial_user_agent_attack
+    system_prompt: generalized_retail_db
+    model: "openrouter/openai/gpt-4o"
+    provider: "openrouter"
+    success_filter: RetailSecretsSuccessFilter
+    params: {}
+save_results: true

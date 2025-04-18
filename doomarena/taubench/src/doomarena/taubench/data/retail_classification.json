@@ -1,0 +1,582 @@
+[
+    {
+        "task_id": 1,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 2,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 3,
+        "cluster_1": "Seeking Information",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 4,
+        "cluster_1": "Seeking Information",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 5,
+        "cluster_1": "Seeking Information",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 6,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 7,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 8,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 9,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 10,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 11,
+        "cluster_1": "Return Request",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 12,
+        "cluster_1": "Return Request",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 13,
+        "cluster_1": "Cancelling Requests",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 14,
+        "cluster_1": "Cancelling Requests",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 15,
+        "cluster_1": "Cancelling Requests",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 16,
+        "cluster_1": "Order Update - Product",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 17,
+        "cluster_1": "Cancelling Requests",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 18,
+        "cluster_1": "Order Update - Address",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 19,
+        "cluster_1": "Return Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 20,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 21,
+        "cluster_1": "Order Update - Product",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 22,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 23,
+        "cluster_1": "Order Update - Address",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 24,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 25,
+        "cluster_1": "Cancelling Requests",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 26,
+        "cluster_1": "Order Inquiry",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 27,
+        "cluster_1": "Order Inquiry",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 28,
+        "cluster_1": "Return Request",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 29,
+        "cluster_1": "Return Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 30,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 31,
+        "cluster_1": "Order Inquiry",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 32,
+        "cluster_1": "Order Inquiry",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 33,
+        "cluster_1": "Order Inquiry",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 34,
+        "cluster_1": "Cancelling Requests",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 35,
+        "cluster_1": "Cancelling Requests",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 36,
+        "cluster_1": "Return Request",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 37,
+        "cluster_1": "Payments & Transactions",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 38,
+        "cluster_1": "Payments & Transactions",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 39,
+        "cluster_1": "Payments & Transactions",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 40,
+        "cluster_1": "Account Inquiry",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 41,
+        "cluster_1": "Account Inquiry",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 42,
+        "cluster_1": "Order Update - Product, Address",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 43,
+        "cluster_1": "Order Update - Product, Address",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 44,
+        "cluster_1": "Order Inquiry",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 45,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 46,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 47,
+        "cluster_1": "Return Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 48,
+        "cluster_1": "Return Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 49,
+        "cluster_1": "Return Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 50,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 51,
+        "cluster_1": "Order Update - Product",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 52,
+        "cluster_1": "Return Request",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 53,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 54,
+        "cluster_1": "Refund Request",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 55,
+        "cluster_1": "Cancelling Requests",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 56,
+        "cluster_1": "Cancelling Requests",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 57,
+        "cluster_1": "Cancelling Requests",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 58,
+        "cluster_1": "Cancelling Requests",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 59,
+        "cluster_1": "Order Update - Product",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 60,
+        "cluster_1": "Order Inquiry",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 61,
+        "cluster_1": "Order Update - Address",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 62,
+        "cluster_1": "Order Update - Product",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 63,
+        "cluster_1": "Order Update - Product",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 64,
+        "cluster_1": "Order Update - Product",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 65,
+        "cluster_1": "Order Update - Product",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 66,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 67,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 68,
+        "cluster_1": "Order Update - Product",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 69,
+        "cluster_1": "Order Inquiry",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 70,
+        "cluster_1": "Order Inquiry",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 71,
+        "cluster_1": "Return Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 72,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 73,
+        "cluster_1": "Order Update - Product, Address",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 74,
+        "cluster_1": "Order Update - Product, Address",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 75,
+        "cluster_1": "Return Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 76,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 77,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 78,
+        "cluster_1": "Order Update - Product",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 79,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 80,
+        "cluster_1": "Order Update - Product, Address",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 81,
+        "cluster_1": "Order Update - Product",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 82,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 83,
+        "cluster_1": "Cancelling Requests",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 84,
+        "cluster_1": "Return Request",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 85,
+        "cluster_1": "Return Request",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 86,
+        "cluster_1": "Return Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 87,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 88,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 89,
+        "cluster_1": "Order Update - Address",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 90,
+        "cluster_1": "Order Update - Product",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 91,
+        "cluster_1": "Seeking Information",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 92,
+        "cluster_1": "Order Inquiry",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 93,
+        "cluster_1": "Return Request",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 94,
+        "cluster_1": "Return Request",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 95,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 96,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 97,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 98,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 99,
+        "cluster_1": "Order Update - Product, Address",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 100,
+        "cluster_1": "Order Update - Product, Address",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 101,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 102,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 103,
+        "cluster_1": "Return Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 104,
+        "cluster_1": "Order Update - Product, Address",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 105,
+        "cluster_1": "Order Update - Product, Address",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 106,
+        "cluster_1": "Return Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 107,
+        "cluster_1": "Return Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 108,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 109,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 110,
+        "cluster_1": "Product Exchange Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 111,
+        "cluster_1": "Return Request",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 112,
+        "cluster_1": "Order Update - Address",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 113,
+        "cluster_1": "Order Update - Address",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 114,
+        "cluster_1": "Order Update - Product, Address",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 115,
+        "cluster_1": "Order Update - Product, Address",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 116,
+        "cluster_1": "Cancelling Requests",
+        "cluster_2": "Aggressive"
+    }
+]

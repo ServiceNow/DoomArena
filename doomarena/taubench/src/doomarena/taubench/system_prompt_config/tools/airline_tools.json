@@ -1,0 +1,309 @@
+[
+    {
+        "name": "calculate",
+        "description": "Calculate an amount.",
+        "parameters": [
+            {
+                "name": "amount",
+                "type": "string",
+                "description": "The expression.",
+                "required": true
+            }
+        ],
+        "example": "calculate(amount)"
+    },
+    {
+        "name": "send_certificate",
+        "description": "Sends a refund certificate.",
+        "parameters": [
+            {
+                "name": "user_id",
+                "type": "string",
+                "description": "The user's ID.",
+                "required": true
+            },
+            {
+                "name": "amount",
+                "type": "number",
+                "description": "The amount.",
+                "required": true
+            }
+        ],
+        "example": "send_certificate(user_id='xxx', amount=xxx)"
+    },
+    {
+        "name": "book_reservation",
+        "description": "Books a flight reservation.",
+        "parameters": [
+            {
+                "name": "user_id",
+                "type": "string",
+                "description": "User ID.",
+                "required": true
+            },
+            {
+                "name": "origin",
+                "type": "string",
+                "description": "Departure airport.",
+                "required": true
+            },
+            {
+                "name": "destination",
+                "type": "string",
+                "description": "Arrival airport.",
+                "required": true
+            },
+            {
+                "name": "flight_type",
+                "type": "string",
+                "description": "one_way or round_trip.",
+                "required": true
+            },
+            {
+                "name": "cabin",
+                "type": "string",
+                "description": "economy, business, first.",
+                "required": true
+            },
+            {
+                "name": "flights",
+                "type": "list",
+                "description": "List of flight details.",
+                "required": true
+            },
+            {
+                "name": "passengers",
+                "type": "list",
+                "description": "List of passenger details.",
+                "required": true
+            },
+            {
+                "name": "payment_methods",
+                "type": "list",
+                "description": "List of payment methods.",
+                "required": true
+            },
+            {
+                "name": "total_baggages",
+                "type": "integer",
+                "description": "Total baggages",
+                "required": false
+            },
+            {
+                "name": "nonfree_baggages",
+                "type": "integer",
+                "description": "nonfree baggages",
+                "required": false
+            },
+            {
+                "name": "insurance",
+                "type": "boolean",
+                "description": "insurance",
+                "required": false
+            }
+        ],
+        "example": "book_reservation(user_id='xxx', origin='SFO', destination='JFK', flight_type='one_way', cabin='economy', flights=[...], passengers=[...], payment_methods=[...])"
+    },
+    {
+        "name": "cancel_reservation",
+        "description": "Cancels a reservation.",
+        "parameters": [
+            {
+                "name": "reservation_id",
+                "type": "string",
+                "description": "The reservation ID.",
+                "required": true
+            }
+        ],
+        "example": "cancel_reservation(reservation_id='ZFA04Y')"
+    },
+    {
+        "name": "get_reservation_details",
+        "description": "Retrieves reservation details.",
+        "parameters": [
+            {
+                "name": "reservation_id",
+                "type": "string",
+                "description": "The reservation ID.",
+                "required": true
+            }
+        ],
+        "example": "get_reservation_details(reservation_id='8JX2WO')"
+    },
+    {
+        "name": "get_user_details",
+        "description": "Retrieves user details.",
+        "parameters": [
+            {
+                "name": "user_id",
+                "type": "string",
+                "description": "The user ID.",
+                "required": true
+            }
+        ],
+        "example": "get_user_details(user_id='sara_doe_496')"
+    },
+    {
+        "name": "list_all_airports",
+        "description": "Lists all airports.",
+        "parameters": [],
+        "example": "list_all_airports()"
+    },
+    {
+        "name": "search_direct_flight",
+        "description": "Searches for direct flights.",
+        "parameters": [
+            {
+                "name": "origin",
+                "type": "string",
+                "description": "The origin airport.",
+                "required": true
+            },
+            {
+                "name": "destination",
+                "type": "string",
+                "description": "The destination airport.",
+                "required": true
+            },
+            {
+                "name": "date",
+                "type": "string",
+                "description": "The date (YYYY-MM-DD).",
+                "required": true
+            }
+        ],
+        "example": "search_direct_flight(origin='JFK', destination='LAX', date='2024-01-01')"
+    },
+    {
+        "name": "search_onestop_flight",
+        "description": "Searches for one-stop flights.",
+        "parameters": [
+            {
+                "name": "origin",
+                "type": "string",
+                "description": "The origin airport.",
+                "required": true
+            },
+            {
+                "name": "destination",
+                "type": "string",
+                "description": "The destination airport.",
+                "required": true
+            },
+            {
+                "name": "date",
+                "type": "string",
+                "description": "The date (YYYY-MM-DD).",
+                "required": true
+            }
+        ],
+        "example": "search_onestop_flight(origin='JFK', destination='LAX', date='2024-05-01')"
+    },
+    {
+        "name": "think",
+        "description": "Logs a thought without changing data.",
+        "parameters": [
+            {
+                "name": "thought",
+                "type": "string",
+                "description": "The thought.",
+                "required": true
+            }
+        ],
+        "example": "think(thought='Consider alternative routes.')"
+    },
+    {
+        "name": "transfer_to_human_agents",
+        "description": "Transfers to a human agent.",
+        "parameters": [
+            {
+                "name": "summary",
+                "type": "string",
+                "description": "A summary.",
+                "required": true
+            }
+        ],
+        "example": "transfer_to_human_agents(summary='Payment failed.')"
+    },
+    {
+        "name": "update_reservation_baggages",
+        "description": "Updates baggage details.",
+        "parameters": [
+            {
+                "name": "reservation_id",
+                "type": "string",
+                "description": "Reservation ID.",
+                "required": true
+            },
+            {
+                "name": "total_baggages",
+                "type": "integer",
+                "description": "Total baggages.",
+                "required": true
+            },
+            {
+                "name": "nonfree_baggages",
+                "type": "integer",
+                "description": "Non-free baggages.",
+                "required": true
+            },
+            {
+                "name": "payment_method",
+                "type": "string",
+                "description": "Payment method.",
+                "required": true
+            }
+        ],
+        "example": "update_reservation_baggages('ZFA04Y', 3, 2, 'card_123')"
+    },
+    {
+        "name": "update_reservation_flights",
+        "description": "Updates flight details.",
+        "parameters": [
+            {
+                "name": "reservation_id",
+                "type": "string",
+                "description": "Reservation ID.",
+                "required": true
+            },
+            {
+                "name": "cabin",
+                "type": "string",
+                "description": "Cabin class.",
+                "required": true
+            },
+            {
+                "name": "flights",
+                "type": "list",
+                "description": "List of flights.",
+                "required": true
+            },
+            {
+                "name": "payment_method",
+                "type": "string",
+                "description": "Payment method.",
+                "required": true
+            }
+        ],
+        "example": "update_reservation_flights('ZFA04Y', 'economy', [...], 'card_123')"
+    },
+    {
+        "name": "update_reservation_passengers",
+        "description": "Updates passenger details.",
+        "parameters": [
+            {
+                "name": "reservation_id",
+                "type": "string",
+                "description": "Reservation ID.",
+                "required": true
+            },
+            {
+                "name": "passengers",
+                "type": "list",
+                "description": "List of passengers.",
+                "required": true
+            }
+        ],
+        "example": "update_reservation_passengers('ZFA04Y', [...])"
+    }
+]

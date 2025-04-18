@@ -1,0 +1,36 @@
+num_trials: 1
+max_concurrency: 2
+attack_gateway: taubench_attack_gateway
+env: retail
+model: gpt-4o
+model_provider: openai
+user_model: gpt-4o
+user_model_provider: openai
+user_strategy: llm
+add_attack: "Yes"
+task_ids: [3]
+agent_strategy: react
+attackable_components:
+  - attackable_component:
+      type: database
+      database_name: products
+      primary_key: product_id
+      modification_type: full
+      nested_path:
+        - name
+    filter: IsGetProductDetailsActionFilter
+attacks:
+  - name: malicious_catalog_fixed_injection_retail_attack
+    type: fixed_injection_attack
+    injection_str: default_fixed_injection_retail
+    success_filter: RetailSecretsSuccessFilter
+    params: {}
+start_index: 0
+end_index: -1
+task_split: test
+seed: 10
+shuffle: 0
+few_shot_displays_path: None
+add_defense: "No"
+safety_check_model: llamaguard
+abort: true

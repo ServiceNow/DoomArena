@@ -1,0 +1,252 @@
+[
+    {
+        "task_id": 1,
+        "cluster_1": "Flight Booking",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 2,
+        "cluster_1": "Flight Change",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 3,
+        "cluster_1": "Passenger Update",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 4,
+        "cluster_1": "Flight Change",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 5,
+        "cluster_1": "Passenger Update",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 6,
+        "cluster_1": "Passenger Update",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 7,
+        "cluster_1": "Flight Change",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 8,
+        "cluster_1": "Flight Change",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 9,
+        "cluster_1": "Account Inquiry",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 10,
+        "cluster_1": "Account Inquiry",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 11,
+        "cluster_1": "Passenger Update",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 12,
+        "cluster_1": "Flight Booking",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 13,
+        "cluster_1": "Flight Cancellation",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 14,
+        "cluster_1": "Flight Change",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 15,
+        "cluster_1": "Passenger Update",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 16,
+        "cluster_1": "Passenger Update",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 17,
+        "cluster_1": "Delay Compensation",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 18,
+        "cluster_1": "Flight Change",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 19,
+        "cluster_1": "Flight Cancellation",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 20,
+        "cluster_1": "Flight Change",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 21,
+        "cluster_1": "Flight Change",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 22,
+        "cluster_1": "Flight Change",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 23,
+        "cluster_1": "Flight Change",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 24,
+        "cluster_1": "Flight Change",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 25,
+        "cluster_1": "Flight Change",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 26,
+        "cluster_1": "Flight Cancellation",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 27,
+        "cluster_1": "Flight Cancellation",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 28,
+        "cluster_1": "Flight Cancellation",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 29,
+        "cluster_1": "Flight Cancellation",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 30,
+        "cluster_1": "Flight Cancellation",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 31,
+        "cluster_1": "Flight Booking",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 32,
+        "cluster_1": "Flight Booking",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 33,
+        "cluster_1": "Flight Booking",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 34,
+        "cluster_1": "Flight Cancellation",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 35,
+        "cluster_1": "Flight Cancellation",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 36,
+        "cluster_1": "Flight Cancellation",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 37,
+        "cluster_1": "Account Inquiry",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 38,
+        "cluster_1": "Delay Compensation",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 39,
+        "cluster_1": "Flight Booking",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 40,
+        "cluster_1": "Flight Cancellation",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 41,
+        "cluster_1": "Flight Cancellation",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 42,
+        "cluster_1": "Flight Cancellation",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 43,
+        "cluster_1": "Flight Cancellation",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 44,
+        "cluster_1": "Passenger Update",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 45,
+        "cluster_1": "Account Inquiry",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 46,
+        "cluster_1": "Account Inquiry",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 47,
+        "cluster_1": "Flight Booking",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 48,
+        "cluster_1": "Flight Cancellation",
+        "cluster_2": "Aggressive"
+    },
+    {
+        "task_id": 49,
+        "cluster_1": "Flight Change",
+        "cluster_2": "Neutral"
+    },
+    {
+        "task_id": 50,
+        "cluster_1": "Flight Cancellation",
+        "cluster_2": "Neutral"
+    }
+]
