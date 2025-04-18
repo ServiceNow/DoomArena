@@ -36,4 +36,15 @@ make ci-tests
 make tests  # requires openai key
 ```
 
-Then follow the environment-specific instructions for [TauBench](doomarena/taubench/README.md) and [BrowserGym](doomarena/browsergym/README.md)
+
+## Running Experiments
+
+Follow the environment-specific instructions for [TauBench](doomarena/taubench/README.md) and [BrowserGym](doomarena/browsergym/README.md)
+
+
+## Paper
+
+If you found DoomArena helpful, please cite us
+```
+// put bibtext entry here
+```
