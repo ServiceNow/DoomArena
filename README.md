@@ -1,15 +1,6 @@
-# Research on Agent Attacks
+# DoomArena - Adaptive Security Testing against Evolving Risks
 
 <img src="https://github.com/user-attachments/assets/ee9a9fc4-a22a-4ccd-abca-95ab436e1706" width="600"></img>
-
-## Contributing
-
-Contributions are welcome! You can extend this framework by:
-1. Contributing new attacks, including automated red-teaming agents
-2. Supporting new environements by implementing new attack gateways
-3. Supporting new threat models / attack vectors by extending existing attack gateways
-4. Implementing new evaluation metrics.
-5. Testing additional agent models and LLMs.
 
 ## Setup
 
