@@ -31,7 +31,7 @@ You can run any of the following experiment scripts to test different attack sce
 For example:
 
 ```bash
-python -m scripts.browsergym.scripts.run_bgym_experiment
+python -m doomarena.browsergym.scripts.run_bgym_experiment
 ```
 
 
@@ -42,12 +42,12 @@ When running experiments, you can customize various parameters to configure how 
 ```python
 # Example usage:
 run_bgym_experiment(
-    base_url="http://webarena2.eastus.cloudapp.azure.com",
+    base_url="<path to your webarena instance>",
     bgym_experiments=bgym_experiments,
     relaunch=False,
-    n_jobs=0,  # set to 1 for headless, more for parallel headless with "ray"
+    n_jobs=0,  # set to 0 to display browser, 1 for headless, >=1 for parallel headless with "ray" (incompatible with debugger)
     max_steps=15,  # lower for faster testing, use 15 for full task
-    skip_reset_and_massage=True,
+    skip_reset_and_massage=True,  # skipping is faster, but set False for reproducing numbers
 )
 ```
 
@@ -81,36 +81,19 @@ Experiment results are stored in the `results/browsergym` directory, organized b
 
 You can drill down into individual tasks using standard BrowserGym tools to further analyze agent behavior during the attacks.
 
+To aggregate the results to csv, run:
+```python
+from doomarena.browsergym.scripts import collect_results
+
+collect_results('<Path to your experiments>')  # recursive
+```
+
+This will produce one `attack_df.csv` per task, as well as a globally aggregated one.
+
 ## Attack Types
 
-The framework currently supports several attack types:
+We have implemented several attacks which can be found in `doomarena/browsergym/src/doomarena/browsergym/attacks`:
 
 1. **Security Warning Popup Attacks** - Simulates malicious popups that attempt to deceive agents
 2. **Banner Attacks** - Tests agents against misleading banner elements
 3. **SVG Attacks** - Evaluates agent behavior with potentially malicious SVG elements
-
-## Project Structure
-
-```
-├── README.md
-├── __init__.py
-├── attack_gateway.py
-├── attack_scripts.py
-├── attacked_browser_env_args.py
-├── bgym_requirements.txt
-├── init_scripts.py
-├── scripts
-│   ├── __init__.py
-│   ├── bgym_analysis.py
-│   ├── run_banner_attack_webarena_reddit_notext.py
-│   ├── run_banner_with_alt_text_attack_webarena_reddit.py
-│   ├── run_bgym_experiment.py
-│   ├── run_parallel_bgym_experiment.py
-│   ├── run_popup_attack_webarena_reddit.py
-│   ├── sweep_bgym.py
-│   └── test_task.py
-└── webarena_subsets.py
-```
-
-
-

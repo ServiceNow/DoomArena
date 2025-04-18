@@ -18,11 +18,11 @@ from agentlab.agents.generic_agent import (
 from agentlab.experiments.study import Study
 import bgym
 import numpy as np
-from openai import BaseModel
+from pydantic import BaseModel
 import pandas as pd
 from pydantic import ConfigDict
 from agentlab.experiments.exp_utils import add_dependencies
-import doomarena.core.attacks
+import doomarena.browsergym.attacks  # register attacks
 
 from doomarena.browsergym.attacked_browser_env_args import (
     AttackExpArgs,
