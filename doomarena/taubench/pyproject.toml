@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "doomarena-taubench"
-version = "0.0.2"
+version = "0.0.3"
 description = "TauBench extensions for DoomArena"
 authors = [
   { name="Leo Boisvert", email="leo.boisvert@servicenow.com" },
@@ -29,7 +29,7 @@ requires-python = ">=3.10"
 license = { text = "Apache-2.0" }
 
 dependencies = [
-    "doomarena>=0.0.2",
+    "doomarena>=0.0.3",
     # Note, please manually install taubench from its github using: pip install -e git+https://github.com/sierra-research/tau-bench.git#egg=tau_bench
 ]
 
