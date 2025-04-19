@@ -43,3 +43,9 @@ package-dir = { "" = "src" }
 [tool.setuptools.packages.find]
 where = ["src"]
 namespaces = true  # important for sharing the doomarena.* namespace
+
+[tool.setuptools.package-data]
+"doomarena.taubench.data" = ["*.json"]
+"doomarena.taubench.system_prompt_config.dan_mode" = ["*.txt"]
+"doomarena.taubench.system_prompt_config.few_shot_examples" = ["*.json"]
+"doomarena.taubench.system_prompt_config.tools" = ["*.json"]
