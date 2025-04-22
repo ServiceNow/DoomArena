@@ -13,9 +13,21 @@ You will implement an `AttackGateway` and a simple `FixedInjectionAttack` to alt
 If you only want to use the library just run
 ```bash
 pip install doomarena  # core library, minimal dependencies
+```
+
+If you want to run DoomArena integrated with [TauBench](https://github.com/sierra-research/tau-bench/), additionally run
+
+```bash
 pip install doomarena-taubench  # optional
+```
+
+If you want to run DoomArena integrated with [Browsergym]([https://github.com/sierra-research/tau-bench/](https://github.com/ServiceNow/BrowserGym)), additionally run
+
+```bash
 pip install doomarena-browsergym  # optional
 ```
+
+
 
 Export relevant API keys into your environment or `.env` file.
 ```bash
