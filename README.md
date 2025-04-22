@@ -21,7 +21,7 @@ If you want to run DoomArena integrated with [TauBench](https://github.com/sierr
 pip install doomarena-taubench  # optional
 ```
 
-If you want to run DoomArena integrated with [Browsergym]([https://github.com/sierra-research/tau-bench/](https://github.com/ServiceNow/BrowserGym)), additionally run
+If you want to run DoomArena integrated with [Browsergym](https://github.com/ServiceNow/BrowserGym), additionally run
 
 ```bash
 pip install doomarena-browsergym  # optional
