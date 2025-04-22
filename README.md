@@ -48,5 +48,13 @@ Follow the environment-specific instructions for [TauBench](doomarena/taubench/R
 
 If you found DoomArena helpful, please cite us
 ```
-// put bibtext entry here
+@misc{boisvert2025doomarenaframeworktestingai,
+      title={DoomArena: A framework for Testing AI Agents Against Evolving Security Threats}, 
+      author={Leo Boisvert and Mihir Bansal and Chandra Kiran Reddy Evuru and Gabriel Huang and Abhay Puri and Avinandan Bose and Maryam Fazel and Quentin Cappart and Jason Stanley and Alexandre Lacoste and Alexandre Drouin and Krishnamurthy Dvijotham},
+      year={2025},
+      eprint={2504.14064},
+      archivePrefix={arXiv},
+      primaryClass={cs.CR},
+      url={https://arxiv.org/abs/2504.14064}, 
+}
 ```
