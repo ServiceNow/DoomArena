@@ -1,4 +1,4 @@
-# DoomArena - Adaptive Security Testing against Evolving Risks
+# DoomArena: A framework for Testing AI Agents Against Evolving Security Threats
 
 <img src="https://github.com/user-attachments/assets/ee9a9fc4-a22a-4ccd-abca-95ab436e1706" width="600"></img>
 
