@@ -1,8 +1,12 @@
-# DoomArena: A framework for Testing AI Agents Against Evolving Security Threats
+# DoomArena: A Framework for Testing AI Agents Against Evolving Security Threats
+
+[DoomArena](https://servicenow.github.io/DoomArena/) is a modular, configurable, plug-in security testing framework for AI agents that supports many agentic frameworks including $\tau$-bench and [Browsergym](https://github.com/ServiceNow/browsergym). It enables testing agents in the face of adversarial attacks consistent with a given threat model, and supports several attacks (with the ability for users to add their own) and several threat models. 
 
 <img src="https://raw.githubusercontent.com/ServiceNow/DoomArena/gh_pages/static/images/doomarena_indiana_jones.jpg" width="600"></img>
 
-This is the Github repository for the DoomArena project. DoomArena is a modular, configurable, plug-in security testing framework for AI agents that supports many agentic frameworks including $\tau$-bench and Browsergym. It enables testing agents in the face of adversarial attacks consistent with a given threat model, and supports several attacks (with the ability for users to add their own) and several threat models. 
+
+
+
 
 ## Quick Start
 
