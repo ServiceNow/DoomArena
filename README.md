@@ -6,15 +6,17 @@
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/doomarena?style=flat-square)](https://pypistats.org/packages/doomarena)
 [![GitHub star chart](https://img.shields.io/github/stars/ServiceNow/DoomArena?style=flat-square)](https://star-history.com/#ServiceNow/DoomArena)
 
+<img src="https://raw.githubusercontent.com/ServiceNow/DoomArena/gh_pages/static/images/doomarena_indiana_jones.jpg" width="320"></img>
+
 [DoomArena](https://servicenow.github.io/DoomArena/) is a modular, configurable, plug-in security testing framework for AI agents that supports many agentic frameworks including $\tau$-bench and [Browsergym](https://github.com/ServiceNow/browsergym). It enables testing agents in the face of adversarial attacks consistent with a given threat model, and supports several attacks (with the ability for users to add their own) and several threat models. 
 
-<img src="https://raw.githubusercontent.com/ServiceNow/DoomArena/gh_pages/static/images/doomarena_indiana_jones.jpg" width="600"></img>
 
 
 
 
 
-## Quick Start
+
+## 🚀 Quick Start
 
 The [DoomArena Intro Notebook](https://colab.research.google.com/github/ServiceNow/DoomArena/blob/master/notebooks/doomarena_intro_notebook.ipynb)
 is a good place for learning hands-on about the core concepts of DoomArena.
@@ -45,7 +47,7 @@ OPENAI_API_KEY="<your api key>"
 OPENROUTER_API_KEY="<your api key>"
 ```
 
-## Advanced Setup
+## 🛠️ Advanced Setup
 
 To actively develop `DoomArena`, please create a virtual environment and install the package locally in editable mode using
 ```bash
@@ -61,12 +63,17 @@ make tests  # requires openai key
 ```
 
 
-## Running Experiments
+## 💻 Running Experiments
 
 Follow the environment-specific instructions for [TauBench](doomarena/taubench/README.md) and [BrowserGym](doomarena/browsergym/README.md)
 
+## 🌟 Contributors
 
-## Paper
+[![DoomArena contributors](https://contrib.rocks/image?repo=ServiceNow/doomarena&max=2000)](https://github.com/ServiceNow/DoomArena/graphs/contributors)
+
+Note: contributions made prior to the open-sourcing are not accounted for; please refer to author list for full list of contributors.
+
+## 📝 Paper
 
 If you found DoomArena helpful, please cite us
 ```
