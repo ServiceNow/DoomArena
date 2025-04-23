@@ -49,13 +49,12 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin: 2rem auto;
-      max-width: 800px;
+      margin: 1rem auto;
+      max-width: 1000px;
     }
     
     .figure-section img {
-      width: 75%; /* Reduced from 90% or original size */
-      max-width: 600px; /* Reduced from 800px */
+      width: 95%; /* Reduced from 90% or original size */
       border-radius: 10px;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3), 0 0 30px rgba(41, 227, 193, 0.15);
       border: 2px solid var(--accent-color);
@@ -240,39 +239,7 @@
         gap: 0.7rem;
       }
     }
-    
-    /* Figure Section Styles */
-    .figure-section {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 2rem auto;
-      max-width: 800px;
-    }
-    
-    .figure-section img {
-      width: 75%; /* Reduced from 90% or original size */
-      max-width: 600px; /* Reduced from 800px */
-      border-radius: 10px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3), 0 0 30px rgba(41, 227, 193, 0.15);
-      border: 2px solid var(--accent-color);
-      background: #181e2b;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .figure-caption {
-      margin-top: 1.2rem;
-      color: #7fffd4;
-      font-size: 1rem;
-      text-align: center;
-      font-style: italic;
-      max-width: 80%;
-      background: rgba(41, 227, 193, 0.05);
-      padding: 0.7rem 1.2rem;
-      border-radius: 8px;
-      border: 1px solid rgba(41, 227, 193, 0.1);
-    }
-    
+
     /* Navigation Menu Styles */
     .nav-container {
       position: sticky;
@@ -1980,7 +1947,7 @@
         </p>
 
         <div class="figure-section">
-          <img src="./static/images/doomarena_combined.png" alt="DoomArena Architecture Diagram">
+          <img style="width: 100%; height: auto; display: block;" src="./static/images/doomarena_combined_dark.svg" alt="DoomArena Architecture Diagram">
           <div class="figure-caption">
             Figure 1: Abstract architecture and instantiations of <span class="doomarena">DoomArena</span>.<br>
             AttackGateway enables realistic attack simulations and agent evaluation under adversarial conditions.
