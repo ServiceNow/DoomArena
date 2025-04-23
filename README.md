@@ -11,11 +11,6 @@
 [DoomArena](https://servicenow.github.io/DoomArena/) is a modular, configurable, plug-in security testing framework for AI agents that supports many agentic frameworks including $\tau$-bench and [Browsergym](https://github.com/ServiceNow/browsergym). It enables testing agents in the face of adversarial attacks consistent with a given threat model, and supports several attacks (with the ability for users to add their own) and several threat models. 
 
 
-
-
-
-
-
 ## 🚀 Quick Start
 
 The [DoomArena Intro Notebook](https://colab.research.google.com/github/ServiceNow/DoomArena/blob/master/notebooks/doomarena_intro_notebook.ipynb)
