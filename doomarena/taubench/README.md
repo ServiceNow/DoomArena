@@ -31,7 +31,10 @@ pip install doomarena-taubench
 2. Install taubench
 
 ```bash
-git clone https://github.com/sierra-research/tau-bench scripts/tau-bench
+# Either do a editable install (if you want to inspect and modify tau bench)
+git clone https://github.com/sierra-research/tau-bench ../tau-bench && cd ../tau-bench && pip install -e .
+
+# Or intall as a package
 pip install -e git+https://github.com/sierra-research/tau-bench.git#egg=tau_bench
 ```
 

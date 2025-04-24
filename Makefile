@@ -14,6 +14,7 @@ install:
 	pip install -e doomarena/core
 	pip install -e doomarena/browsergym
 	pip install -e doomarena/taubench
+	@echo "Make sure to install taubench manually, see instructions in doomarena/taubench/README.md"
 
 format:
 	black .
