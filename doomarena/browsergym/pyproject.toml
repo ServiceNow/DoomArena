@@ -34,6 +34,10 @@ dependencies = [
     "agentlab"
 ]
 
+[project.urls]
+Homepage = "https://github.com/ServiceNow/DoomArena/"
+Issues = "https://github.com/ServiceNow/DoomArena/issues"
+
 [tool.setuptools]
 package-dir = { "" = "src" }
 
