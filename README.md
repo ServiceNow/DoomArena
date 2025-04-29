@@ -1,6 +1,6 @@
 # DoomArena: A Framework for Testing AI Agents Against Evolving Security Threats
 
-<img src="https://img.shields.io/badge/Arxiv-2504.14064-A42C25?style=flat&logo=arXiv&logoColor=A42C25"></img>
+<a href='https://arxiv.org/abs/2504.14064'><img src="https://img.shields.io/badge/Arxiv-2504.14064-A42C25?style=flat&logo=arXiv&logoColor=A42C25"></img></a>
 [![pypi](https://badge.fury.io/py/doomarena.svg)](https://pypi.org/project/doomarena/)
 [![PyPI - License](https://img.shields.io/pypi/l/doomarena?style=flat-square)]([https://opensource.org/licenses/MIT](http://www.apache.org/licenses/LICENSE-2.0))
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/doomarena?style=flat-square)](https://pypistats.org/packages/doomarena)
