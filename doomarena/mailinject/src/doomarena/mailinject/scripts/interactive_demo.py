@@ -3,6 +3,7 @@ This is a basic script just for manually interacting with the agent and the envi
 """
 
 import logging
+import os
 
 
 from tapeagents.llms import LiteLLM
@@ -23,7 +24,10 @@ if __name__ == "__main__":
 
     env = LLMailEnvironment(emails=GPT4o_GENERATED_EMAILS_V1)
 
-    MODEL_NAME = "openrouter/meta-llama/llama-3.3-70b-instruct"
+    MODEL_NAME = os.getenv(
+        "MAILINJECT_MODEL_NAME", "openrouter/meta-llama/llama-3.3-70b-instruct"
+    )
+
     # MODEL_NAME = "deepseek-ai/DeepSeek-R1-Distill-Llama-70B"
     TOKENIZER_NAME = "microsoft/Phi-3-mini-128k-instruct"  # just use any model with chat template / only for token counting purposes
 
