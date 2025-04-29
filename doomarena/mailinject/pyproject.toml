@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "doomarena-mailinject"
+version = "0.0.4"
+description = "MailInject environment"
+authors = [
+  { name="Tom Blanchard", email="tpetomb@gmail.com" },
+  { name="Gabriel Huang", email="gabriel.huang@servicenow.com" },
+]
+maintainers = [
+  { name="Tom Blanchard", email="tpetomb@gmail.com" },
+  { name="Gabriel Huang", email="gabriel.huang@servicenow.com" },
+]
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+
+dependencies = [
+    "doomarena>=0.0.4",
+    "pydantic>=2.0",
+    "termcolor",
+    "tapeagents",
+    "black",
+    "bm25s",
+]
+
+[project.urls]
+Homepage = "https://github.com/ServiceNow/DoomArena/"
+Issues = "https://github.com/ServiceNow/DoomArena/issues"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+namespaces = true  # important for sharing the doomarena.* namespace
