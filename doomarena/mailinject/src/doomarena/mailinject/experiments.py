@@ -21,7 +21,7 @@ from .types import (
     ListedEmailsResults,
     Results,
     SendEmailResults,
-    TestCase,
+    MailInjectExperiment,
 )
 from .environment import LLMailEnvironment
 from .environment.assets import GPT4o_GENERATED_EMAILS_V1
@@ -55,7 +55,7 @@ def create_results_folder(base_path: Path = None) -> Path:
 
 
 def prepare_test_case_args(
-    test_case: TestCase,  # Replace with your actual test_case type, e.g. TestCase
+    test_case: MailInjectExperiment,  # Replace with your actual test_case type, e.g. MailInjectExperiment
 ) -> tuple[LLMailAgent, LLMailEnvironment, LLMailTape]:
 
     assert test_case.llm, "Test case must have an LLM"
@@ -99,7 +99,7 @@ def prepare_test_case_args(
     return agent, env, start_tape
 
 
-def run_mailinject_experiment(test_case: TestCase) -> TestCase:
+def run_mailinject_experiment(test_case: MailInjectExperiment) -> MailInjectExperiment:
 
     agent, env, start_tape = prepare_test_case_args(test_case)
 

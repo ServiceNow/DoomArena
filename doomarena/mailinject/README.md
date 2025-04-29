@@ -17,3 +17,9 @@ Export the relevant API keys in your `.env` (for vscode) and/or .zshrc depending
 export OPENAI_API_KEY="..."  # if using openrouter as a provider
 export OPENROUTER_API_KEY="..."  # if using openai as a provider
 ```
+
+Run tests
+```bash
+export MAILINJECT_MODEL_NAME="openrouter/openai/gpt-4o-2024-11-20"  # set the model you want to use for the tests
+pytest doomarena/mailinject
+```

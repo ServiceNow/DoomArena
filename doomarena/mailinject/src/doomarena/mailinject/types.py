@@ -110,7 +110,7 @@ class Results(BaseModel):
     agent_successful: bool
 
 
-class TestCase(BaseModel):
+class MailInjectExperiment(BaseModel):
     user_message: str
     success_filter: SuccessFilter
     emails: list[Email]
