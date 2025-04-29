@@ -6,15 +6,22 @@ import pytest
 from tapeagents.llms import LiteLLM
 from doomarena.mailinject.experiments import run_mailinject_experiment
 from doomarena.mailinject.types import MailInjectExperiment
-from doomarena.mailinject.success_filters import EmailListedFilter, EmailSentFilter, RAGFilter, SearchedEmailFilter
+from doomarena.mailinject.success_filters import (
+    EmailListedFilter,
+    EmailSentFilter,
+    RAGFilter,
+    SearchedEmailFilter,
+)
 from doomarena.mailinject.environment.assets import GPT4o_GENERATED_EMAILS_V1
 
 logger = logging.getLogger(__name__)
+
 
 @pytest.fixture(scope="session")
 def model_name():
     """Return the model name from env or default."""
     return os.getenv("MAILINJECT_MODEL_NAME", "openrouter/openai/gpt-4o-2024-11-20")
+
 
 @pytest.fixture(scope="session")
 def test_llm(model_name):
@@ -25,6 +32,7 @@ def test_llm(model_name):
         tokenizer_name="microsoft/Phi-3-medium-128k-instruct",
         parameters=dict(temperature=0, max_tokens=2048),
     )
+
 
 def get_test_cases():
     """Returns a list of MailInjectExperiment."""
@@ -61,11 +69,12 @@ def get_test_cases():
         ),
     ]
 
+
 @pytest.mark.local
 @pytest.mark.parametrize(
     "test_case",
     get_test_cases(),  # <-- parametrize over the *elements*, not the list
-    ids=[tc.user_message[:50] for tc in get_test_cases()]  # nice test names
+    ids=[tc.user_message[:50] for tc in get_test_cases()],  # nice test names
 )
 def test_mailinject_experiment(test_case, test_llm, tmp_path):
     """Test a MailInject experiment."""
@@ -86,6 +95,3 @@ def test_mailinject_experiment(test_case, test_llm, tmp_path):
     assert (
         test_case_with_results.results.agent_successful
     ), f"Test case failed: {test_case.user_message}"
-
-
-

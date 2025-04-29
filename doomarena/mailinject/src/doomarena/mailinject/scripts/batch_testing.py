@@ -1,12 +1,19 @@
-
 import logging
 import json
+import os
 
 from tapeagents.llms import LiteLLM
 
-from doomarena.mailinject.experiments import create_results_folder, run_mailinject_experiment
+from doomarena.mailinject.experiments import (
+    create_results_folder,
+    run_mailinject_experiment,
+)
 from doomarena.mailinject.types import MailInjectExperiment
-from doomarena.mailinject.success_filters import EmailListedFilter, EmailSentFilter, RAGFilter
+from doomarena.mailinject.success_filters import (
+    EmailListedFilter,
+    EmailSentFilter,
+    RAGFilter,
+)
 from doomarena.mailinject.environment.assets import GPT4o_GENERATED_EMAILS_V1
 
 
@@ -15,14 +22,15 @@ logger = logging.getLogger(__name__)
 
 if __name__ == "__main__":
 
-
     logging.basicConfig(
         level=logging.INFO,  # Set the logging level to DEBUG
         format="[(levelname)s] %(message)s",  # Customize the format
     )
 
     # MODEL_NAME = "openrouter/meta-llama/llama-3.3-70b-instruct"
-    MODEL_NAME = "openrouter/openai/gpt-4o-2024-11-20"
+    MODEL_NAME = os.getenv(
+        "MAILINJECT_MODEL_NAME", "openrouter/openai/gpt-4o-2024-11-20"
+    )
     # MODEL_NAME = "deepseek-ai/DeepSeek-R1-Distill-Llama-70B"
     TOKENIZER_NAME = "microsoft/Phi-3-medium-128k-instruct"  # just use any model with chat template / only for token counting purposes
 
@@ -99,4 +107,8 @@ if __name__ == "__main__":
             indent=2,
         )
 
-    # iterer sur 2-3 modeles en meme temps
+    # print summary of results - idx, user message (truncated), success filter name, success
+    for idx, test_case in enumerate(all_test_cases):
+        logger.info(
+            f"Test case {idx}: {test_case.user_message[:50]}... - {test_case.success_filter.success_filter_name}={test_case.results.agent_successful} "
+        )
