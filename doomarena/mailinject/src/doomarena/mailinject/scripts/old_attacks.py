@@ -141,15 +141,12 @@ LLAMA_70B = {
 }
 
 
-
-
 # Model to attack emails mapping
 MODEL_INJECT_EMAIL_MAPPING = {
     "microsoft/Phi-3-medium-128k-instruct": PHI3,
     "openai/gpt-4o-mini": GPT4,
     "meta-llama/llama-3.3-70b-instruct": LLAMA_70B,
 }
-
 
 
 def get_test_case_for_scenario(

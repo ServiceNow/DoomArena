@@ -4,7 +4,7 @@ from tapeagents.llms import LiteLLM
 
 
 # Make the cache dir if not exists
-cache_dir = Path('.cache')
+cache_dir = Path(".cache")
 cache_dir.mkdir(exist_ok=True)
 
 TOKENIZER_NAME = "microsoft/Phi-3-medium-128k-instruct"  # just use any model with chat template / only for token counting purposes
@@ -33,9 +33,7 @@ Llama3 = LiteLLM(
 
 
 # MODEL_NAME = "openrouter/meta-llama/llama-3.3-70b-instruct"
-MODEL_NAME = os.getenv(
-    "MAILINJECT_MODEL_NAME", "openrouter/openai/gpt-4o-2024-11-20"
-)
+MODEL_NAME = os.getenv("MAILINJECT_MODEL_NAME", "openrouter/openai/gpt-4o-2024-11-20")
 # MODEL_NAME = "deepseek-ai/DeepSeek-R1-Distill-Llama-70B"
 TOKENIZER_NAME = "microsoft/Phi-3-medium-128k-instruct"  # just use any model with chat template / only for token counting purposes
 

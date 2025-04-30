@@ -124,6 +124,11 @@ class MailInjectTestCase(BaseModel):
 
     def model_post_init(self, context):
         if isinstance(self.success_filter, SuccessFilter):
-            self.success_filter = {self.success_filter.success_filter_name: self.success_filter}
+            self.success_filter = {
+                self.success_filter.success_filter_name: self.success_filter
+            }
         elif isinstance(self.success_filter, list):
-            self.success_filter = {success_filter.success_filter_name: success_filter for success_filter in self.success_filter}
+            self.success_filter = {
+                success_filter.success_filter_name: success_filter
+                for success_filter in self.success_filter
+            }
