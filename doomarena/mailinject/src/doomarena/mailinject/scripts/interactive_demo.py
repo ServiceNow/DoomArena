@@ -35,7 +35,8 @@ if __name__ == "__main__":
         model_name=MODEL_NAME,
         stream=False,
         tokenizer_name=TOKENIZER_NAME,
-        parameters=dict(temperature=1, max_tokens=2048),
+        parameters=dict(temperature=0, max_tokens=2048),
+        use_cache=True,
     )
 
     start_tape = LLMailTape(

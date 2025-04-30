@@ -110,9 +110,9 @@ class Results(BaseModel):
     agent_successful: bool
 
 
-class MailInjectExperiment(BaseModel):
+class MailInjectTestCase(BaseModel):
     user_message: str
-    success_filter: SuccessFilter
+    success_filter: SuccessFilter | dict[str, SuccessFilter] | list[SuccessFilter] = {}
     emails: list[Email]
     max_loops: int = 3
     defenses: list[str] = []
@@ -121,3 +121,9 @@ class MailInjectExperiment(BaseModel):
     results: Results | None = None
     final_tape: LLMailTape | None = None
     llm: LLM | str | None = None
+
+    def model_post_init(self, context):
+        if isinstance(self.success_filter, SuccessFilter):
+            self.success_filter = {self.success_filter.success_filter_name: self.success_filter}
+        elif isinstance(self.success_filter, list):
+            self.success_filter = {success_filter.success_filter_name: success_filter for success_filter in self.success_filter}
