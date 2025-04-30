@@ -13,25 +13,9 @@ from doomarena.mailinject.success_filters import (
     SearchedEmailFilter,
 )
 from doomarena.mailinject.environment.assets import GPT4o_GENERATED_EMAILS_V1
+from doomarena.mailinject.scripts.llm_configs import MODEL_FOR_TESTING
 
 logger = logging.getLogger(__name__)
-
-
-@pytest.fixture(scope="session")
-def model_name():
-    """Return the model name from env or default."""
-    return os.getenv("MAILINJECT_MODEL_NAME", "openrouter/openai/gpt-4o-2024-11-20")
-
-
-@pytest.fixture(scope="session")
-def test_llm(model_name):
-    """Initialize the LiteLLM model."""
-    return LiteLLM(
-        model_name=model_name,
-        stream=False,
-        tokenizer_name="microsoft/Phi-3-medium-128k-instruct",
-        parameters=dict(temperature=0, max_tokens=2048),
-    )
 
 
 def get_test_cases():
@@ -76,22 +60,21 @@ def get_test_cases():
     get_test_cases(),  # <-- parametrize over the *elements*, not the list
     ids=[tc.user_message[:50] for tc in get_test_cases()],  # nice test names
 )
-def test_mailinject_experiment(test_case, test_llm, tmp_path):
+def test_mailinject_experiment(test_case, tmp_path):
     """Test a MailInject experiment."""
-    test_case.llm = test_llm  # Inject model
+    test_case.llm = MODEL_FOR_TESTING
 
     logger.info(f"Running test case: {test_case.user_message}")
-    test_case_with_results = run_mailinject_testcase(test_case)
+    results = run_mailinject_testcase(test_case)
 
     # Save results
     result_file = tmp_path / "test_results.json"
     with open(result_file, "w") as f:
-        f.write(test_case_with_results.model_dump_json(indent=2))
+        f.write(json.dumps(results, indent=2))
     print(f"\nTest results written to: {result_file}")
 
-    assert (
-        test_case_with_results.results is not None
-    ), "Test case did not produce results"
-    assert (
-        test_case_with_results.results.agent_successful
-    ), f"Test case failed: {test_case.user_message}"
+    assert results, "No results returned from test case"
+    for filter_key, filter_value in results.items():
+        assert (
+            filter_value
+        ), f"Success filter {filter_key} failed for test case: {test_case.user_message}"

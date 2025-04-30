@@ -5,6 +5,8 @@ This is a basic script just for manually interacting with the agent and the envi
 import logging
 import os
 
+from doomarena.mailinject.scripts.llm_configs import MODEL_FOR_TESTING
+
 
 from tapeagents.llms import LiteLLM
 from tapeagents.dialog_tape import AssistantStep, UserStep
@@ -15,6 +17,7 @@ from doomarena.mailinject.environment import LLMailEnvironment
 from doomarena.mailinject.types import LLMailTape
 from doomarena.mailinject.environment.assets import GPT4o_GENERATED_EMAILS_V1
 
+from doomarena.mailinject.scripts.llm_configs import MODEL_FOR_TESTING
 
 if __name__ == "__main__":
     logging.basicConfig(
@@ -24,20 +27,7 @@ if __name__ == "__main__":
 
     env = LLMailEnvironment(emails=GPT4o_GENERATED_EMAILS_V1)
 
-    MODEL_NAME = os.getenv(
-        "MAILINJECT_MODEL_NAME", "openrouter/meta-llama/llama-3.3-70b-instruct"
-    )
-
-    # MODEL_NAME = "deepseek-ai/DeepSeek-R1-Distill-Llama-70B"
-    TOKENIZER_NAME = "microsoft/Phi-3-mini-128k-instruct"  # just use any model with chat template / only for token counting purposes
-
-    llm = LiteLLM(
-        model_name=MODEL_NAME,
-        stream=False,
-        tokenizer_name=TOKENIZER_NAME,
-        parameters=dict(temperature=0, max_tokens=2048),
-        use_cache=True,
-    )
+    llm = MODEL_FOR_TESTING
 
     start_tape = LLMailTape(
         steps=[
