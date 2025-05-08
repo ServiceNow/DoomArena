@@ -171,3 +171,8 @@ data/attack_attempts.db
 security-dashboard/node_modules/
 security-dashboard/public/visualizations/
 security-dashboard/public/visualization_files.json
+logs/
+notebooks/openai_api_key.txt
+
+# Cache
+tapedata.sqlite
