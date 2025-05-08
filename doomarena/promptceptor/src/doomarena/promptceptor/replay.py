@@ -1,6 +1,7 @@
 from math import log
 from typing import Literal, Type
 from pathlib import Path
+from doomarena.promptceptor.integrations import PATCHER_REGISTRY
 from doomarena.promptceptor.output import write_llm_output
 import yaml
 from functools import wraps
@@ -29,7 +30,7 @@ def _should_recompute(
 
 def replay_missing_outputs(
     log_root: Path,
-    patcher_class: Type[BasePatcher],
+    patcher_class: Type[BasePatcher] | Literal["same"] = "same",
     stream: bool | None = None,
     overwrite_mode: Literal["always", "never", "if_newer"] = "if_newer",
 ):
@@ -38,8 +39,6 @@ def replay_missing_outputs(
     For any input.yaml missing an output.txt or error.txt, it calls the target_func
     with stored args and kwargs, preserving stream behavior.
     """
-    patcher: BasePatcher = patcher_class(log_dir=log_root)
-
     print(f"\n📂 Scanning logs in: {log_root}")
 
     inputs_to_process = []
@@ -75,7 +74,13 @@ def replay_missing_outputs(
             stream = kwargs.get("stream", False)
 
             print(f"🔄 [{i}/{len(inputs_to_process)}] Replaying: {input_path.relative_to(log_root)}")
-
+            
+            if patcher_class != "same":
+                patcher: BasePatcher = patcher_class(log_dir=log_root)
+            else:
+                patcher_name = data["patcher"]
+                patcher: BasePatcher = PATCHER_REGISTRY[patcher_name](log_dir=log_root)
+                
             response = patcher.call_client(*args, **kwargs)
 
             write_llm_output(
