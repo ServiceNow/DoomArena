@@ -16,9 +16,14 @@ class LiteLLMPatcher(BasePatcher):
         )
 
     def call_client(self, *args, **kwargs):
+        from ..patch import get_unwrapped_method
         import litellm
 
-        response = litellm.completion(
+        method = get_unwrapped_method(
+            litellm, "completion"
+        )
+
+        response = method(
             *args, **kwargs
         )
         return response

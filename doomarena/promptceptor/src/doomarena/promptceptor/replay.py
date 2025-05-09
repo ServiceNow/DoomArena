@@ -83,13 +83,17 @@ def replay_missing_outputs(
                 
             response = patcher.call_client(*args, **kwargs)
 
-            write_llm_output(
+            output = write_llm_output(
                 response=response,
                 output_file=output_file,
                 patcher=patcher,
                 stream=stream,
                 show_logs=False,  # quieter in batch mode
             )
+            if stream:
+                # Iterate over the generator to ensure it finishes
+                for chunk in output:
+                    print(f".", end="", flush=True)
 
             print(f"   ✅ Wrote: {output_file.relative_to(log_root)}")
 

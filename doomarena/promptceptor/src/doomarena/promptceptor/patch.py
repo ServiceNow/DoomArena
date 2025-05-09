@@ -13,6 +13,27 @@ YELLOW = "\033[93m"
 RESET = "\033[0m"
 
 
+def get_unwrapped_method(target_object, method_name: str):
+    """
+    Retrieve the original, unpatched method from a target object,
+    if it was previously monkey-patched by patch_llm_method.
+    
+    If no patching occurred, returns the current method.
+
+    Args:
+        target_object: The object or module containing the method.
+        method_name (str): The name of the method to retrieve.
+
+    Returns:
+        Callable: The original (unpatched) method.
+    """
+    original_attr_name = f"_{method_name}_original_method_promptceptor"
+    if hasattr(target_object, original_attr_name):
+        return getattr(target_object, original_attr_name)
+    return getattr(target_object, method_name)
+
+
+
 def patch_llm_method(
     target_object,
     method_name: str,
@@ -29,16 +50,17 @@ def patch_llm_method(
         method_name (str): The name of the method to patch (e.g., "create").
         log_dir (Path): Base path to store logs.
     """
-    attr = getattr(target_object, method_name)
-    if getattr(attr, "_is_patched_promptceptor", False):
-        return  # Already patched; skip
+    original_method = getattr(target_object, method_name)
+
+    # Avoid double patching
+    if getattr(target_object, "_is_patched_promptceptor", False):
+        return patcher.log_dir
+
+    # Save original method on the target object for safe unpatched access
+    setattr(target_object, f"_{method_name}_original_method_promptceptor", original_method)
+
+    # Mark the object as patched
     target_object._is_patched_promptceptor = True
-
-    name = getattr(target_object, '__name__', type(target_object).__name__)
-    print(f"{YELLOW}LLMInspector: Patching {name}.{method_name}{RESET}")
-
-
-    original_method = attr
 
     # Create a session folder with a timestamp
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")

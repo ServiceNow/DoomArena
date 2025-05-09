@@ -1,4 +1,6 @@
 from pathlib import Path
+
+from ray import client
 from .base import BasePatcher
 
 
@@ -35,10 +37,17 @@ class OpenAIResponsesPatcher(BasePatcher):
             return response.output_text  # response.output[0].content[0].text
         
     def call_client(self, *args, **kwargs):
+        from ..patch import get_unwrapped_method
+        import openai
         from openai import OpenAI
-
         client = OpenAI()
-        response = client.responses.create(
+
+        method = get_unwrapped_method(
+            target_object=client.responses,
+            method_name="create",
+        )
+
+        response = method(
             *args, **kwargs
         )
         return response

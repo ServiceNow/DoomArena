@@ -34,10 +34,18 @@ class OpenAIChatPatcher(BasePatcher):
             return response.choices[0].message.content
 
     def call_client(self, *args, **kwargs):
+        from ..patch import get_unwrapped_method
+        import openai
         from openai import OpenAI
 
         client = OpenAI()
-        response = client.chat.completions.create(
+
+        method = get_unwrapped_method(
+            target_object=client.chat.completions,  # we use the instance instead of the class here
+            method_name="create",
+        )
+
+        response = method(
             *args, **kwargs
         )
         return response

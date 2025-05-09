@@ -6,7 +6,7 @@ from doomarena.promptceptor.integrations.litellm import LiteLLMPatcher
 import litellm
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture()
 def patched_litellm_with_logs(tmp_path_factory):
     tmp_path = tmp_path_factory.mktemp("litellm_logs")
     patcher = LiteLLMPatcher(log_dir=tmp_path)
@@ -18,25 +18,24 @@ def patched_litellm_with_logs(tmp_path_factory):
         stream=False,
         temperature=0.3
     )
-    _ = litellm.completion(
+    response = litellm.completion(
         model="gpt-4o-mini",
         messages=[{"role": "user", "content": "Summarize the Sun in one sentence."}],
         stream=True,
         temperature=0.3
     )
+    for chunk in response:
+        print(f".", end="", flush=True)
     return output_folder
 
 
 @pytest.mark.local
-def test_litellm_logging(patched_litellm_with_logs):
+def test_litellm_patch(patched_litellm_with_logs):
     input_files = list(patched_litellm_with_logs.rglob("input.yaml"))
     output_files = list(patched_litellm_with_logs.rglob("output.txt"))
-    assert input_files, "Expected at least one input.yaml file"
-    assert output_files, "Expected at least one output.txt file"
+    assert len(input_files) == 2, "Expected at least one input.yaml file"
+    assert len(output_files) == 2, "Expected at least one output.txt file"
 
-
-@pytest.mark.local
-def test_litellm_replay(patched_litellm_with_logs):
     for output_file in patched_litellm_with_logs.rglob("output.txt"):
         output_file.unlink()
 
@@ -48,4 +47,4 @@ def test_litellm_replay(patched_litellm_with_logs):
     )
 
     restored_outputs = list(patched_litellm_with_logs.rglob("output.txt"))
-    assert restored_outputs, "Expected output.txt to be regenerated"
+    assert len(restored_outputs) == 2, f"Expected number of output.txt files to be 2, but got {len(restored_outputs)}"

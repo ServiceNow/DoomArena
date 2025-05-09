@@ -5,7 +5,7 @@ from doomarena.promptceptor.replay import replay_missing_outputs
 from openai import OpenAI
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture()
 def patched_openai_with_logs(tmp_path_factory):
     tmp_path = tmp_path_factory.mktemp("openai_logs")
     patcher = OpenAIResponsesPatcher(log_dir=tmp_path)
@@ -18,26 +18,25 @@ def patched_openai_with_logs(tmp_path_factory):
         stream=False
     )
 
-    _ = client.responses.create(
+    response = client.responses.create(
         model="gpt-4o-mini",
         input="Tell me 3 facts about quantum physics. One line each.",
         stream=True
     )
+    for chunk in response:
+        print(f".", end="", flush=True)
 
     return output_folder
 
 
 @pytest.mark.local
-def test_openai_logging(patched_openai_with_logs):
+def test_openai_responses(patched_openai_with_logs):
     input_files = list(patched_openai_with_logs.rglob("input.yaml"))
     output_files = list(patched_openai_with_logs.rglob("output.txt"))
 
-    assert input_files, "Expected at least one input.yaml file"
-    assert output_files, "Expected at least one output.txt file"
+    assert len(input_files) == 2, "Expected at least one input.yaml file"
+    assert len(output_files) == 2, "Expected at least one output.txt file"
 
-
-@pytest.mark.local
-def test_openai_replay(patched_openai_with_logs):
     for output_file in patched_openai_with_logs.rglob("output.txt"):
         output_file.unlink()
 
@@ -49,4 +48,4 @@ def test_openai_replay(patched_openai_with_logs):
     )
 
     restored_outputs = list(patched_openai_with_logs.rglob("output.txt"))
-    assert restored_outputs, "Expected output.txt to be regenerated"
+    assert len(restored_outputs) == 2, f"Expected number of output.txt files to be 2, but got {len(restored_outputs)}"
