@@ -11,6 +11,11 @@ Streaming mode is supported.
 
 The calls can then be modified and replayed for quick prototyping of prompt injection attacks and prompt-based defenses, with the option of changing the model and sampling parameters.
 
+## Supported clients
+
+- OpenAI Chat Completions API: non-streaming and streaming.
+- OpenAI Responses API: non-streaming and streaming  # Function calls may not be supported yet
+- LiteLLM: non-streaming and streaming
 
 ## Quick start
 
@@ -21,16 +26,33 @@ pip install doomarena-promptceptor
 
 Or install it locally for development
 ```bash
-pip install doomarena/prompceptor
+pip install -e doomarena/promptceptor
+pytest doomarena/promptceptor  # run the tests (may require some API keys)
 ```
 
-2. Add a single line to your main script (preferably in the main thread) to monkey
+2. Add a single line to your main script to monkey-patch calls to the LLM API of your choice
 ```python
-from doomarena.promptceptor import patch_llm_method
+from doomarena.promptceptor.integrations.openai_chat import OpenAIChatPatcher
 
-# add this in main thread / initialization / setup function
-patch_llm_method(litellm, "completion")  
+# Add this in main thread / initialization / setup function
+output_folder = OpenAIChatPatcher(log_dir='logs').patch_client() 
+
+# All subsequent calls will be logged to output_folder
+client = OpenAI()
+print("\n▶ Running non-streaming chat completion...")
+response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[
+        {
+            "role": "user",
+            "content": "Write a one-sentence bedtime story about a unicorn."
+        }
+    ],
+    stream=False
+)
 ```
+
+Check out the examples in `./src/doomarena/promptceptor/examples` for more info on supported LLM API Clients.
 
 
 3. Inspect the resulting folder structure, which should look something like this:

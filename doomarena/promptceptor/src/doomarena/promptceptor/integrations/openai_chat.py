@@ -10,6 +10,7 @@ class OpenAIChatPatcher(BasePatcher):
     def patch_client(self) -> Path:
         from ..patch import patch_llm_method
         import openai
+        import openai.resources.responses.responses
 
         output_folder = patch_llm_method(
             target_object=openai.resources.chat.completions.Completions,
