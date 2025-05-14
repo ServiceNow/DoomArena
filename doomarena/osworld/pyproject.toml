@@ -3,7 +3,7 @@ requires = ["setuptools>=61", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "doomarena-taubench"
+name = "doomarena-osworld"
 version = "0.0.4"
 description = "OsWorld extensions for DoomArena"
 authors = [
@@ -19,7 +19,8 @@ requires-python = ">=3.10"
 license = { text = "Apache-2.0" }
 
 dependencies = [
-    "doomarena>=0.0.4"
+    "doomarena>=0.0.4",
+    "tqdm"
 ]
 
 [project.urls]
