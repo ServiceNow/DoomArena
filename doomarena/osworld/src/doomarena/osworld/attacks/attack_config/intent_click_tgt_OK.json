@@ -1,0 +1,7 @@
+{
+    "bottom": "True",
+    "notice": "OK",
+    "attack_string": "instruct click tgt",
+    "prefix": "intent",
+    "adv_text": "True"
+}

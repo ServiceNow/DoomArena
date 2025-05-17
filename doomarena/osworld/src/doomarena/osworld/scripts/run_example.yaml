@@ -1,0 +1,17 @@
+observation_type: screenshot
+attack_gateway: osworld_attack_gateway
+add_attack: "Yes"
+attackable_components:
+  - attackable_component:
+      type: popup_inpainting
+    filter: always_true
+attacks:
+  - name: popup_inpainting_attack
+    type: fixed_injection_attack
+    injection_str: default_fixed_injection_retail
+    success_filter: popup_click_success_filter
+model: anthropic/claude-3.7-sonnet
+test_all_meta_path: doomarena/osworld/src/doomarena/osworld/scripts/test_tiny.json
+test_config_base_dir: /Users/mihir.bansal/Library/CloudStorage/OneDrive-ServiceNow/OSWorld/evaluation_examples
+max_steps: 2
+result_dir: ./results
