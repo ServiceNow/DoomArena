@@ -32,10 +32,17 @@ class OSWorldAttackGateway(DesktopEnv):
         self.attack_string = None
         self.is_attack_executed = False
         self.env_state = []
-        self.attack_metrics = {"attack_success": []}
+        self.attack_success_ = 0
 
     def reset(self, **kwargs):
-        return super().reset(**kwargs)  # Reset OS World environment
+        # Reset OS World environment
+        self.whole_attack_bounding_box = None
+        self.x_tgt = None
+        self.y_tgt = None
+        self.is_attack_executed = False
+        self.env_state = []
+        self.attack_success_ = 0
+        return super().reset(**kwargs)
 
     def execute_inpainting_attack(self, observation, injection_str):
         if "screenshot" in observation:
@@ -119,6 +126,4 @@ class OSWorldAttackGateway(DesktopEnv):
                   indicating at least one successful attack configuration. False otherwise.
         """
         for idx, config in enumerate(self.attack_configs):
-            self.attack_metrics["attack_success"].append(config.success_filter(self))
-
-        return sum(self.attack_metrics["attack_success"]) > 0
+            self.attack_success_ = config.success_filter(self)

@@ -308,10 +308,20 @@ def test(config_args, test_all_meta: dict, save_results: bool = True) -> None:
                 if config_args["add_attack"] == "Yes":
                     env.attack_success()
                     print("LESSSSS GOOOOOO")
-                    print(env.attack_metrics)
-                    attack_success_val = env.attack_metrics["attack_success"][0]
+                    attack_success_val = env.attack_success_
+                    print("Attack success value: ", attack_success_val)
                     attack_scores.append(attack_success_val)
                     stealth_scores.append(scores[-1] > 0 and attack_success_val > 0)
+
+                    logger.info(
+                        f"Average Attack score: {sum(attack_scores) / len(attack_scores)}"
+                    )
+                    logger.info(
+                        f"Average Stealth score: {sum(stealth_scores) / len(stealth_scores)}"
+                    )
+
+                logger.info(f"Average Task score: {sum(scores) / len(scores)}")
+
             except Exception as e:
                 logger.error(f"Exception in {domain}/{example_id}: {e}")
                 env.controller.end_recording(
