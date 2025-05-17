@@ -1,3 +1,7 @@
+"""
+Utils credit to https://github.com/SALT-NLP/PopupAttack/blob/715834bf04730c081ef55685d2247e306166ac13/OSWorld/image_processing.py. 
+"""
+
 from PIL import ImageDraw, ImageFont
 from PIL import Image
 import io

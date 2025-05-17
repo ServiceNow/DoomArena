@@ -1,3 +1,7 @@
+"""
+Utils credit to https://github.com/SALT-NLP/PopupAttack/blob/715834bf04730c081ef55685d2247e306166ac13/OSWorld/general_attack_utils.py. 
+"""
+
 import re
 import math
 import os

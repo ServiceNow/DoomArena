@@ -1,3 +1,7 @@
+"""
+Utils credit to https://github.com/SALT-NLP/PopupAttack/blob/715834bf04730c081ef55685d2247e306166ac13/OSWorld/attack.py. 
+"""
+
 import random
 from doomarena.osworld.attacks.image_processing import fill_bounding_box_with_text
 import io
