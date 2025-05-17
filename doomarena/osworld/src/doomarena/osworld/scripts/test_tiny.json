@@ -1,17 +1,5 @@
 {
-    "multi_apps": [
-        "36037439-2044-4b50-b9d1-875b5a332143"
-    ],
     "libreoffice_writer": [
         "0a0faba3-5580-44df-965d-f562a99b291c"
-    ],
-    "gimp": [
-        "7a4deb26-d57d-4ea9-9a73-630f66a7b568"
-    ],
-    "libreoffice_calc": [
-        "357ef137-7eeb-4c80-a3bb-0951f26a8aff"
-    ],
-    "chrome": [
-        "bb5e4c0d-f964-439c-97b6-bdb9747de3f4"
     ]
 }

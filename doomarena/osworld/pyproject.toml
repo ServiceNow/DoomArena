@@ -20,7 +20,9 @@ license = { text = "Apache-2.0" }
 
 dependencies = [
     "doomarena>=0.0.4",
-    "tqdm"
+    "tqdm",
+    "pytesseract",
+    "pillow"
 ]
 
 [project.urls]
