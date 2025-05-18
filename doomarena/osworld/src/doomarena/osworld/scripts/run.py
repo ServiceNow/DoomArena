@@ -150,8 +150,10 @@ def fetch_attack(attack_config):
             - "attack": The initialized attack object.
             - "success_filter": The success filter object.
     """
-    attack_type = attack_config["type"]
-    attack_args = {"name": attack_type, "injection_str": "instruct click tgt"}
+    attack_args = {
+        "name": attack_config["type"],
+        "injection_str": attack_config["injection_str"],
+    }
 
     SUCCESS_FILTER_CLASSES = {
         "popup_click_success_filter": PopupClickSuccessFilter,

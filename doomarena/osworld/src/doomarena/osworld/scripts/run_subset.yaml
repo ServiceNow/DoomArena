@@ -8,9 +8,11 @@ attackable_components:
 attacks:
   - name: popup_inpainting_attack
     type: fixed_injection_attack
-    injection_str: default_fixed_injection_retail
+    injection_str: instruct click tgt
     success_filter: popup_click_success_filter
 model: anthropic/claude-3.7-sonnet
+screen_width: 1920,
+screen_height: 956,
 test_all_meta_path: doomarena/osworld/src/doomarena/osworld/scripts/test_tiny.json
 test_config_base_dir: /Users/mihir.bansal/Library/CloudStorage/OneDrive-ServiceNow/OSWorld/evaluation_examples
 max_steps: 2

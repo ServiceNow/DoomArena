@@ -3,11 +3,12 @@ from doomarena.core.attack_gateways.register_attack_gateway import (
 )
 from PIL import Image
 from io import BytesIO
-from doomarena.osworld.attacks.general_attack_utils import (
+from doomarena.osworld.popup_inpainting_attack import (
     find_largest_non_overlapping_box,
     extract_bounding_boxes_from_image,
+    agent_attack,
+    is_single_color_image,
 )
-from doomarena.osworld.attacks.attack import agent_attack, is_single_color_image
 import sys
 
 sys.path.append("../OSWorld")
@@ -75,14 +76,14 @@ class OSWorldAttackGateway(DesktopEnv):
                 self.y_tgt = y_tgt
                 self.attack_string = attack_string
 
-                if isinstance(current_observation, bytes):
-                    current_observation = Image.open(
-                        BytesIO(current_observation)
-                    ).convert("RGB")
-                image_bytes_io = BytesIO()
-                current_observation.save(image_bytes_io, format="PNG")
-                current_observation.save("output.png", format="PNG")
-                current_observation = image_bytes_io.getvalue()
+                # if isinstance(current_observation, bytes):
+                #     current_observation = Image.open(
+                #         BytesIO(current_observation)
+                #     ).convert("RGB")
+                # image_bytes_io = BytesIO()
+                # current_observation.save(image_bytes_io, format="PNG")
+                # current_observation.save("output.png", format="PNG")
+                # current_observation = image_bytes_io.getvalue()
                 observation["screenshot"] = current_observation
                 self.is_attack_executed = True
             else:
