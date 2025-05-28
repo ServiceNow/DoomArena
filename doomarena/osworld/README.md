@@ -32,3 +32,17 @@ Run experiments with Claude on a
 ```bash
 python doomarena/osworld/src/doomarena/osworld/scripts/run.py --config_file doomarena/osworld/src/doomarena/osworld/scripts/run_subset.yaml
 ```
+
+## Results
+
+We evaluate the vulnerability of LLM-based agents on a set of 39 tasks using various applications like Chrome, GIMP, LibreOffice, etc.
+
+> **Subset:** *OSWorld task subset (39 tasks)*
+
+| Attack Type        | Model               | Attack Success Rate (%) ↓ | Task Success (No Attack) (%) ↑ | Task Success (With Attack) (%) ↑ | Stealth Rate (%) ↓ |
+|--------------------|---------------------|----------------------------|-------------------------------|----------------------------------|---------------------|
+| **Pop-up Inpainting** | GPT-4o              | **78.6**                   | **5.7**                        | **2.9**                           | **2.9**              |
+|                    | Claude-3.7-Sonnet   | **22.9**                   | **13.9**                       | **8.6**                           | **5.7**              |
+||
+
+Table: Task and Attack Success Rates on OSWorld. For each metric, ↓ = lower is better, ↑ = higher is better.
