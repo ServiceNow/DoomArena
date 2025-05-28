@@ -105,7 +105,7 @@ class OSWorldAttackGateway(DesktopEnv):
         observation, reward, done, info = super().step(action, pause)
         for attack_config in self.attack_configs:
             if attack_config.attackable_component.get("type") == "popup_inpainting":
-                injection_str = self.attack_config.attack.get_next_attack()
+                injection_str = attack_config.attack.get_next_attack()
                 malicious_observation = self.execute_inpainting_attack(
                     observation, injection_str
                 )

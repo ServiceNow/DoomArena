@@ -28,15 +28,23 @@ export OPENROUTER_API_KEY="..."  # for anthropic models
 export OPENAI_API_KEY="..."  # for openai models
 ```
 
-Run experiments with Claude on a 
+Run experiments with Claude and GPT-4o
 ```bash
-python doomarena/osworld/src/doomarena/osworld/scripts/run.py --config_file doomarena/osworld/src/doomarena/osworld/scripts/run_subset.yaml
+python doomarena/osworld/src/doomarena/osworld/scripts/run.py --config_file doomarena/osworld/src/doomarena/osworld/scripts/run_subset_gpt4o.yaml
+python doomarena/osworld/src/doomarena/osworld/scripts/run.py --config_file doomarena/osworld/src/doomarena/osworld/scripts/run_subset_claude.yaml
 ```
 
 ## Results
 
 We evaluate the vulnerability of LLM-based agents on a set of 39 tasks using various applications like Chrome, GIMP, LibreOffice, etc.
 
+We provide the pop-up inpainting attack in figure below where the attacker inpaints a malicious pop-up to the screenshot provided to the agent, instructing the agent to click on the (1066, 457) coordinate.
+
+<p align="center">
+  <img src="pop-up_osworld.png" alt="Pop-up inpainting attack in OSWorld" width="600"/>
+  <br/>
+  <em>Figure: Pop-up inpainting attack in OSWorld</em>
+</p>
 
 > **Subset:** *OSWorld task subset (39 tasks)*
 
