@@ -37,6 +37,14 @@ python doomarena/osworld/src/doomarena/osworld/scripts/run.py --config_file doom
 
 We evaluate the vulnerability of LLM-based agents on a set of 39 tasks using various applications like Chrome, GIMP, LibreOffice, etc.
 
+We provide the pop-up inpainting attack in figure below where the attacker inpaints a malicious pop-up to the screenshot provided to the agent, instructing the agent to click on the (1066, 457) coordinate.
+
+<p align="center">
+  <img src="pop-up_osworld.png" alt="Pop-up inpainting attack in OSWorld" width="600"/>
+  <br/>
+  <em>Figure: Pop-up inpainting attack in OSWorld</em>
+</p>
+
 > **Subset:** *OSWorld task subset (39 tasks)*
 
 | Attack Type        | Model               | Attack Success Rate (%) ↓ | Task Success (No Attack) (%) ↑ | Task Success (With Attack) (%) ↑ | Stealth Rate (%) ↓ |
