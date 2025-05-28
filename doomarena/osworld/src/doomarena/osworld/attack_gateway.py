@@ -53,10 +53,8 @@ class OSWorldAttackGateway(DesktopEnv):
                 # try not to block any tags or detected texts
                 current_boundingbox = OCR_boxes[1:]
 
-                x = Image.open(BytesIO(current_observation)).convert("RGB")
-
                 largest_non_overlapping_box = find_largest_non_overlapping_box(
-                    (x.size[0], x.size[1]), current_boundingbox
+                    (1920, 956), current_boundingbox
                 )
 
                 (
@@ -76,14 +74,14 @@ class OSWorldAttackGateway(DesktopEnv):
                 self.y_tgt = y_tgt
                 self.attack_string = attack_string
 
-                # if isinstance(current_observation, bytes):
-                #     current_observation = Image.open(
-                #         BytesIO(current_observation)
-                #     ).convert("RGB")
-                # image_bytes_io = BytesIO()
-                # current_observation.save(image_bytes_io, format="PNG")
-                # current_observation.save("output.png", format="PNG")
-                # current_observation = image_bytes_io.getvalue()
+                if isinstance(current_observation, bytes):
+                    current_observation = Image.open(
+                        BytesIO(current_observation)
+                    ).convert("RGB")
+                image_bytes_io = BytesIO()
+                current_observation.save(image_bytes_io, format="PNG")
+                current_observation.save("output.png", format="PNG")
+                current_observation = image_bytes_io.getvalue()
                 observation["screenshot"] = current_observation
                 self.is_attack_executed = True
             else:
@@ -108,7 +106,7 @@ class OSWorldAttackGateway(DesktopEnv):
         observation, reward, done, info = super().step(action, pause)
         for attack_config in self.attack_configs:
             if attack_config.attackable_component.get("type") == "popup_inpainting":
-                injection_str = attack_config.attack.injection_str
+                injection_str = self.attack_config.attack.get_next_attack()
                 malicious_observation = self.execute_inpainting_attack(
                     observation, injection_str
                 )
