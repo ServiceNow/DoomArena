@@ -11,6 +11,7 @@ attacks:
     injection_str: instruct click tgt
     success_filter: popup_click_success_filter
 model: anthropic/claude-3.7-sonnet
+# We are using openrouter, please export OPENROUTER_API_KEY or OPENAI_API_KEY to the environment
 screen_width: 1920,
 screen_height: 956,
 test_all_meta_path: doomarena/osworld/src/doomarena/osworld/scripts/test_tiny.json

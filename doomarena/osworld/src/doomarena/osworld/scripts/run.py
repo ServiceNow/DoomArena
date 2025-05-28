@@ -422,6 +422,8 @@ def get_result(action_space, use_model, observation_type, result_dir, total_file
 
 
 if __name__ == "__main__":
+    assert os.path.exists("../OSWorld"), "Please clone OSWorld repository next to DoomArena. Run this script from the root of DoomArena."
+
     ####### The complete version of the list of examples #######
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
     args = config()
