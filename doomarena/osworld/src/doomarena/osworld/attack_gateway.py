@@ -17,15 +17,14 @@ from desktop_env.desktop_env import DesktopEnv
 @register_attack_gateway("osworld_attack_gateway")
 class OSWorldAttackGateway(DesktopEnv):
     def __init__(self, **kwargs):
+        self.attack_configs = kwargs.pop("attack_configs")
+
+        assert len(self.attack_configs) <= 1, "At most one attack configuration is allowed for OSWorldAttackGateway."
+
         super().__init__(
-            path_to_vm=kwargs["path_to_vm"],
-            action_space=kwargs["action_space"],
-            screen_size=kwargs["screen_size"],
-            headless=kwargs["headless"],
-            os_type=kwargs["os_type"],
-            require_a11y_tree=kwargs["require_a11y_tree"],
+            **kwargs,
         )
-        self.attack_configs = kwargs["attack_configs"]
+
         self.whole_attack_bounding_box = None
         self.x_tgt = None
         self.y_tgt = None
@@ -33,6 +32,7 @@ class OSWorldAttackGateway(DesktopEnv):
         self.is_attack_executed = False
         self.env_state = []
         self.attack_success_ = 0
+
 
     def reset(self, **kwargs):
         # Reset OS World environment
@@ -125,3 +125,4 @@ class OSWorldAttackGateway(DesktopEnv):
         """
         for idx, config in enumerate(self.attack_configs):
             self.attack_success_ = config.success_filter(self)
+        return self.attack_success_

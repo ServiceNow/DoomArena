@@ -597,7 +597,7 @@ class PromptAgent:
             else:
                 return response.json()['choices'][0]['message']['content']
 
-        elif "/" in self.model:  # if / is detected in model name, use OpenRouter API
+        elif "claude" in self.model:
             headers = {
                 "Content-Type": "application/json",
                 "Authorization": f"Bearer {os.environ['OPENROUTER_API_KEY']}",
@@ -629,71 +629,98 @@ class PromptAgent:
             else:
                 return response.json()['choices'][0]['message']['content']
 
+        # elif "claude" in self.model:
+        #     messages = payload["messages"]
+        #     max_tokens = payload["max_tokens"]
+        #     top_p = payload["top_p"]
+        #     temperature = payload["temperature"]
 
-        elif self.model.startswith("claude"):
-            messages = payload["messages"]
-            max_tokens = payload["max_tokens"]
-            top_p = payload["top_p"]
-            temperature = payload["temperature"]
+        #     claude_messages = []
 
-            claude_messages = []
+        #     for i, message in enumerate(messages):
+        #         claude_message = {
+        #             "role": message["role"],
+        #             "content": []
+        #         }
+        #         assert len(message["content"]) in [1, 2], "One text, or one text with one image"
+        #         for part in message["content"]:
 
-            for i, message in enumerate(messages):
-                claude_message = {
-                    "role": message["role"],
-                    "content": []
-                }
-                assert len(message["content"]) in [1, 2], "One text, or one text with one image"
-                for part in message["content"]:
+        #             if part['type'] == "image_url":
+        #                 image_source = {}
+        #                 image_source["type"] = "base64"
+        #                 image_source["media_type"] = "image/png"
+        #                 image_source["data"] = part['image_url']['url'].replace("data:image/png;base64,", "")
+        #                 claude_message['content'].append({"type": "image", "source": image_source})
 
-                    if part['type'] == "image_url":
-                        image_source = {}
-                        image_source["type"] = "base64"
-                        image_source["media_type"] = "image/png"
-                        image_source["data"] = part['image_url']['url'].replace("data:image/png;base64,", "")
-                        claude_message['content'].append({"type": "image", "source": image_source})
+        #             if part['type'] == "text":
+        #                 claude_message['content'].append({"type": "text", "text": part['text']})
 
-                    if part['type'] == "text":
-                        claude_message['content'].append({"type": "text", "text": part['text']})
+        #         claude_messages.append(claude_message)
 
-                claude_messages.append(claude_message)
+        #     # the claude not support system message in our endpoint, so we concatenate it at the first user message
+        #     # if claude_messages[0]['role'] == "system":
+        #     #     claude_system_message_item = claude_messages[0]['content'][0]
+        #     #     claude_messages[1]['content'].insert(0, claude_system_message_item)
+        #     #     claude_messages.pop(0)
 
-            # the claude not support system message in our endpoint, so we concatenate it at the first user message
-            if claude_messages[0]['role'] == "system":
-                claude_system_message_item = claude_messages[0]['content'][0]
-                claude_messages[1]['content'].insert(0, claude_system_message_item)
-                claude_messages.pop(0)
+        #     # Modifications speciric to anthropuic claude
+        #     system_message = None
+        #     if claude_messages[0]['role'] == "system":
+        #         system_message = claude_messages[0]['content'][0]['text']
+        #         claude_messages.pop(0)            
 
-            logger.debug("CLAUDE MESSAGE: %s", repr(claude_messages))
+        #     logger.debug("CLAUDE MESSAGE: %s", repr(claude_messages))
 
-            headers = {
-                "x-api-key": os.environ["ANTHROPIC_API_KEY"],
-                "anthropic-version": "2023-06-01",
-                "content-type": "application/json"
-            }
+        #     # headers = {
+        #     #     "x-api-key": os.environ["ANTHROPIC_API_KEY"],
+        #     #     "anthropic-version": "2023-06-01",
+        #     #     "content-type": "application/json"
+        #     # }
 
-            payload = {
-                "model": self.model,
-                "max_tokens": max_tokens,
-                "messages": claude_messages,
-                "temperature": temperature,
-                "top_p": top_p
-            }
+        #     # payload = {
+        #     #     "model": self.model,
+        #     #     "max_tokens": max_tokens,
+        #     #     "messages": claude_messages,
+        #     #     "temperature": temperature,
+        #     #     "top_p": top_p
+        #     # }
 
-            response = requests.post(
-                "https://api.anthropic.com/v1/messages",
-                headers=headers,
-                json=payload
-            )
+        #     # response = requests.post(
+        #     #     "https://api.anthropic.com/v1/messages",
+        #     #     headers=headers,
+        #     #     json=payload
+        #     # )
 
-            if response.status_code != 200:
+        #     headers = {
+        #         "Authorization": f"Bearer {os.environ['OPENROUTER_API_KEY']}",
+        #         "Content-Type": "application/json"
+        #     }
 
-                logger.error("Failed to call LLM: " + response.text)
-                time.sleep(5)
-                return ""
-            else:
-                return response.json()['content'][0]['text']
+        #     payload = {
+        #         "model": self.model,  # e.g., "anthropic/claude-3-opus"
+        #         "messages": claude_messages,
+        #         "max_tokens": max_tokens,
+        #         "temperature": temperature,
+        #         "top_p": top_p,
+        #         # System prompt is separate for CLAUDE
+        #     }
+        #     if system_message:
+        #         payload["system"] = system_message
 
+        #     response = requests.post(
+        #         "https://openrouter.ai/api/v1/chat/completions",
+        #         headers=headers,
+        #         json=payload
+        #     )
+
+        #     if response.status_code != 200:
+
+        #         logger.error("Failed to call LLM: " + response.text)
+        #         raise Exception("Failed to call LLM: " + response.text)
+        #         time.sleep(5)
+        #         return ""
+        #     else:
+        #         return response.json()['choices'][0]['message']['content']  #return response.json()['content'][0]['text']
 
         elif self.model.startswith("mistral"):
             messages = payload["messages"]

@@ -243,6 +243,7 @@ def test(config_args, test_all_meta: dict, save_results: bool = True) -> None:
     if config_args["add_attack"] == "Yes":
         env = get_attack_gateway(
             name=config_args["attack_gateway"],
+            cache_dir="../OSWorld/cache",
             attack_configs=attack_configs,
             path_to_vm=config_args["path_to_vm"],
             action_space=agent.action_space,
@@ -255,6 +256,7 @@ def test(config_args, test_all_meta: dict, save_results: bool = True) -> None:
     else:
         env = DesktopEnv(
             path_to_vm=config_args["path_to_vm"],
+            cache_dir="../OSWorld/cache",
             action_space=agent.action_space,
             screen_size=(config_args["screen_width"], config_args["screen_height"]),
             headless=config_args["headless"],
@@ -312,7 +314,6 @@ def test(config_args, test_all_meta: dict, save_results: bool = True) -> None:
 
                 if config_args["add_attack"] == "Yes":
                     env.attack_success()
-                    print("LESSSSS GOOOOOO")
                     attack_success_val = env.attack_success_
                     print("Attack success value: ", attack_success_val)
                     attack_scores.append(attack_success_val)
@@ -423,6 +424,7 @@ def get_result(action_space, use_model, observation_type, result_dir, total_file
 
 if __name__ == "__main__":
     assert os.path.exists("../OSWorld"), "Please clone OSWorld repository next to DoomArena. Run this script from the root of DoomArena."
+    assert os.path.exists("../OSWorld/cache"), "Please download the cache from https://drive.google.com/file/d/1XlEy49otYDyBlA3O9NbR0BpPfr2TXgaD/view and put it in ../OSWorld/cache"
 
     ####### The complete version of the list of examples #######
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
