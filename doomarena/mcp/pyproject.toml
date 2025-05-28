@@ -3,16 +3,14 @@ requires = ["setuptools>=61", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "doomarena-osworld"
+name = "doomarena-mcp"
 version = "0.0.4"
-description = "OsWorld extensions for DoomArena"
+description = "BrowserGym extensions for DoomArena"
 authors = [
   { name="Gabriel Huang", email="gabriel.huang@servicenow.com" },
-  { name="Mihir Bansal", email="mihir.bansal@servicenow.com" },
 ]
 maintainers = [
   { name="Gabriel Huang", email="gabriel.huang@servicenow.com" },
-  { name="Mihir Bansal", email="mihir.bansal@servicenow.com" },
 ]
 readme = "README.md"
 requires-python = ">=3.10"
@@ -20,10 +18,8 @@ license = { text = "Apache-2.0" }
 
 dependencies = [
     "doomarena>=0.0.4",
-    "tqdm",
-    "pytesseract",
-    "pillow",
-    "desktop-env"
+    "fastmcp",
+    "asyncio"
 ]
 
 [project.urls]

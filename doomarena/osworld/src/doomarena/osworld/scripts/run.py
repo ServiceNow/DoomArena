@@ -24,9 +24,8 @@ from doomarena.osworld.success_filters.popup_click_success_filter import (
 )
 from doomarena.core.attacks import get_attacks
 
-sys.path.append("../OSWorld")
-import lib_run_single
-from mm_agents.agent import PromptAgent
+from doomarena.osworld import lib_run_single
+from doomarena.osworld.mm_agents.agent import PromptAgent
 from desktop_env.desktop_env import DesktopEnv
 
 #  Logger Configs {{{ #
@@ -181,6 +180,10 @@ def fetch_attack_configs(attackable_components: list, attacks: list):
     Returns:
         list: A list of `AttackConfig` objects, each containing the attackable component, attack details, and associated filters.
     """
+    assert len(attackable_components) == len(attacks), (
+        "The number of attackable components must match the number of attacks."
+    )
+
     attack_config_objects = []
     FILTER_CLASSES = {
         "always_true": AlwaysTrueFilter,

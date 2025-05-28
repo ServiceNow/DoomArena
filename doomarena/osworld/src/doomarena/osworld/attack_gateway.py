@@ -11,7 +11,6 @@ from doomarena.osworld.popup_inpainting_attack import (
 )
 import sys
 
-sys.path.append("../OSWorld")
 from desktop_env.desktop_env import DesktopEnv
 
 
