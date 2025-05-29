@@ -330,6 +330,9 @@ def test(config_args, test_all_meta: dict, save_results: bool = True) -> None:
 
                 import traceback
                 traceback.print_exc()
+                logger.error(
+                    f"Exception traceback: {traceback.format_exc()}"
+                )
 
                 env.controller.end_recording(
                     os.path.join(example_result_dir, "recording.mp4")
