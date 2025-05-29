@@ -9,7 +9,7 @@ class EmailAttack(Attacks):
 
     @abstractmethod
     def get_next_attack(self, **kwargs) -> Email:
-        return self.injection_str
+        pass
 
 
 class FixedEmailAttack(EmailAttack):
