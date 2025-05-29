@@ -1,5 +1,8 @@
 # OsWorld Attack Gateway
 
+This is a wrapper around the OSWorld environment for delivering attacks.
+Currently, we have implemented the inpainting-based PopUp Attack proposed by [Zhang et al.](https://github.com/SALT-NLP/PopupAttack).
+
 ## Acknowledgements
 
 Some of the files in this package have been directly copied from the original OSWorld repository, 
