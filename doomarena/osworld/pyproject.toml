@@ -23,7 +23,6 @@ dependencies = [
     "tqdm",
     "pytesseract",
     "pillow",
-    "desktop-env"
 ]
 
 [project.urls]

@@ -319,11 +319,9 @@ def test(config_args, test_all_meta: dict, save_results: bool = True) -> None:
                     attack_scores.append(attack_success_val)
                     stealth_scores.append(scores[-1] > 0 and attack_success_val > 0)
 
+                    logger.info(f"Average Attack score: {sum(attack_scores) / len(attack_scores)} (over {len(attack_scores)})")
                     logger.info(
-                        f"Average Attack score: {sum(attack_scores) / len(attack_scores)}"
-                    )
-                    logger.info(
-                        f"Average Stealth score: {sum(stealth_scores) / len(stealth_scores)}"
+                        f"Average Stealth score: {sum(stealth_scores) / len(stealth_scores)} (over {len(stealth_scores)})"
                     )
 
                 logger.info(f"Average Task score: {sum(scores) / len(scores)}")
@@ -342,11 +340,12 @@ def test(config_args, test_all_meta: dict, save_results: bool = True) -> None:
                     f.write("\n")
 
     env.close()
+    logger.info(f"Total examples: {len(scores)}")
     logger.info(f"Average Task score: {sum(scores) / len(scores)}")
     if config_args["add_attack"] == "Yes":
-        logger.info(f"Average Attack score: {sum(attack_scores) / len(attack_scores)}")
+        logger.info(f"Average Attack score: {sum(attack_scores) / len(attack_scores)} (over {len(attack_scores)})")
         logger.info(
-            f"Average Stealth score: {sum(stealth_scores) / len(stealth_scores)}"
+            f"Average Stealth score: {sum(stealth_scores) / len(stealth_scores)} (over {len(stealth_scores)})"
         )
 
 
@@ -418,7 +417,7 @@ def get_result(action_space, use_model, observation_type, result_dir, total_file
         print("New experiment, no result yet.")
         return None
     else:
-        print("Current Success Rate:", sum(all_result) / len(all_result) * 100, "%")
+        print("Current Success Rate:", sum(all_result) / len(all_result) * 100, "%", f"({len(all_result)} examples)")
         return all_result
 
 
@@ -455,4 +454,5 @@ if __name__ == "__main__":
         args["result_dir"],
         test_all_meta,
     )
+
     test(args, test_file_list)

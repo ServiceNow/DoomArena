@@ -8,12 +8,17 @@ In particular, the `mm_agents`, `run.py` and `doomarena/osworld/src/doomarena/os
 
 ## Setup
 
-Install the OSWOrld Gateway package. Note that this will install OSWorld as a dependency.
+Install the OSWOrld Gateway package.
 ```bash
 pip install -e doomarena/osworld
 ```
 
 Additionally, please clone [OSWorld](https://github.com/xlang-ai/OSWorld) to a sibling directory to DoomArena to provide access to the evaluation examples.
+```
+cd ../OSWorld
+pip install -e .
+```
+Note: you may need to comment out some library versions in the osworld `setup.py`.
 
 Finally, complete the OSWorld setup by following their original setup instructions.
 - You need to setup a virtual machine - we used VMWare Fusion on Mac.
