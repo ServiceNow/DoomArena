@@ -28,8 +28,10 @@ JEDI_SERVICE_URL = "Your Jedi Service URL"
 from .prompts import JEDI_PLANNER_SYS_PROMPT, JEDI_GROUNDER_SYS_PROMPT
 from .img_utils import smart_resize
 
+
 def encode_image(image_content):
     return base64.b64encode(image_content).decode("utf-8")
+
 
 class JediAgent7B:
     def __init__(
@@ -42,7 +44,7 @@ class JediAgent7B:
         temperature=0.5,
         action_space="pyautogui",
         observation_type="screenshot",
-        max_steps=15
+        max_steps=15,
     ):
         self.platform = platform
         self.planner_model = planner_model
@@ -72,78 +74,98 @@ class JediAgent7B:
         image = Image.open(BytesIO(obs["screenshot"]))
         width, height = image.convert("RGB").size
 
-        previous_actions = ("\n".join([
-            f"Step {i+1}: {action}" for i, action in enumerate(self.actions)
-        ]) if self.actions else "None")
+        previous_actions = (
+            "\n".join(
+                [f"Step {i+1}: {action}" for i, action in enumerate(self.actions)]
+            )
+            if self.actions
+            else "None"
+        )
 
-        user_prompt = (
-            f"""Please generate the next move according to the UI screenshot and instruction. And you can refer to the previous actions and observations for reflection.\n\nInstruction: {instruction}\n\n""")
+        user_prompt = f"""Please generate the next move according to the UI screenshot and instruction. And you can refer to the previous actions and observations for reflection.\n\nInstruction: {instruction}\n\n"""
 
-        messages = [{
-            "role": "system",
-            "content": [{
-                "type": "text",
-                "text": JEDI_PLANNER_SYS_PROMPT.replace("{current_step}", str(self.current_step)).replace("{max_steps}", str(self.max_steps))
-            }]
-        }]
+        messages = [
+            {
+                "role": "system",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": JEDI_PLANNER_SYS_PROMPT.replace(
+                            "{current_step}", str(self.current_step)
+                        ).replace("{max_steps}", str(self.max_steps)),
+                    }
+                ],
+            }
+        ]
 
         # Determine which observations to include images for (only most recent ones)
         obs_start_idx = max(0, len(self.observations) - self.max_image_history_length)
-        
+
         # Add all thought and action history
         for i in range(len(self.thoughts)):
             # For recent steps, include the actual screenshot
             if i >= obs_start_idx:
-                messages.append({
-                    "role": "user",
-                    "content": [{
-                        "type": "image_url",
-                        "image_url": {
-                            "url": f"data:image/png;base64,{encode_image(self.observations[i]['screenshot'])}",
-                            "detail": "high"
-                        },
-                    }]
-                })
+                messages.append(
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "image_url",
+                                "image_url": {
+                                    "url": f"data:image/png;base64,{encode_image(self.observations[i]['screenshot'])}",
+                                    "detail": "high",
+                                },
+                            }
+                        ],
+                    }
+                )
             # For older steps, use the observation caption instead of the image
             else:
-                messages.append({
-                    "role": "user",
-                    "content": [{
-                        "type": "text",
-                        "text": f"Observation: {self.observation_captions[i]}"
-                    }]
-                })
+                messages.append(
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": f"Observation: {self.observation_captions[i]}",
+                            }
+                        ],
+                    }
+                )
 
             thought_messages = f"Thought:\n{self.thoughts[i]}"
 
             action_messages = f"Action:"
             for action in self.actions[i]:
                 action_messages += f"\n{action}"
-            messages.append({
-                "role": "assistant",
-                "content": [{
-                    "type": "text",
-                    "text": thought_messages + "\n" + action_messages
-                }]
-            })
-            #print(thought_messages + "\n" + action_messages)
+            messages.append(
+                {
+                    "role": "assistant",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": thought_messages + "\n" + action_messages,
+                        }
+                    ],
+                }
+            )
+            # print(thought_messages + "\n" + action_messages)
 
-        messages.append({
-            "role":"user",
-            "content": [
-                {
-                    "type":"image_url",
-                    "image_url":{
-                        "url":f"data:image/png;base64,{encode_image(obs['screenshot'])}",
-                        "detail": "high"
+        messages.append(
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "image_url",
+                        "image_url": {
+                            "url": f"data:image/png;base64,{encode_image(obs['screenshot'])}",
+                            "detail": "high",
+                        },
                     },
-                },
-                {
-                    "type": "text",
-                    "text": user_prompt
-                },
-            ],
-        })
+                    {"type": "text", "text": user_prompt},
+                ],
+            }
+        )
 
         planner_response = self.call_llm(
             {
@@ -162,13 +184,20 @@ class JediAgent7B:
         retry_count = 0
         max_retries = 5
         while not codes and retry_count < max_retries:
-            logger.info(f"No codes parsed from planner response. Retrying ({retry_count+1}/{max_retries})...")
-            messages.append({
-                "role": "user",
-                "content": [
-                    {"type": "text", "text": "You didn't generate valid actions. Please try again."}
-                ]
-            })
+            logger.info(
+                f"No codes parsed from planner response. Retrying ({retry_count+1}/{max_retries})..."
+            )
+            messages.append(
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "You didn't generate valid actions. Please try again.",
+                        }
+                    ],
+                }
+            )
             planner_response = self.call_llm(
                 {
                     "model": self.planner_model,
@@ -182,20 +211,18 @@ class JediAgent7B:
             logger.info(f"Retry Planner Output: {planner_response}")
             codes = self.parse_code_from_planner_response(planner_response)
             retry_count += 1
-            
+
         thought = self.parse_thought_from_planner_response(planner_response)
-        observation_caption = self.parse_observation_caption_from_planner_response(planner_response)
-        resized_height, resized_width = smart_resize(height, width, max_pixels= 2700 * 28 * 28)
+        observation_caption = self.parse_observation_caption_from_planner_response(
+            planner_response
+        )
+        resized_height, resized_width = smart_resize(
+            height, width, max_pixels=2700 * 28 * 28
+        )
         pyautogui_actions = []
         for line in codes:
             code = self.convert_action_to_grounding_model_instruction(
-                line,
-                obs,
-                instruction,
-                height,
-                width,
-                resized_height,
-                resized_width
+                line, obs, instruction, height, width, resized_height, resized_width
             )
             pyautogui_actions.append(code)
         self.actions.append([pyautogui_actions])
@@ -204,7 +231,7 @@ class JediAgent7B:
         self.observation_captions.append(observation_caption)
         self.current_step += 1
         return planner_response, pyautogui_actions, {}
-        
+
     def parse_observation_caption_from_planner_response(self, input_string: str) -> str:
         pattern = r"Observation:\n(.*?)\n"
         matches = re.findall(pattern, input_string, re.DOTALL)
@@ -221,8 +248,10 @@ class JediAgent7B:
 
     def parse_code_from_planner_response(self, input_string: str) -> List[str]:
 
-        input_string = "\n".join([line.strip() for line in input_string.split(';') if line.strip()])
-        if input_string.strip() in ['WAIT', 'DONE', 'FAIL']:
+        input_string = "\n".join(
+            [line.strip() for line in input_string.split(";") if line.strip()]
+        )
+        if input_string.strip() in ["WAIT", "DONE", "FAIL"]:
             return [input_string.strip()]
 
         pattern = r"```(?:\w+\s+)?(.*?)```"
@@ -231,21 +260,30 @@ class JediAgent7B:
 
         for match in matches:
             match = match.strip()
-            commands = ['WAIT', 'DONE', 'FAIL']
+            commands = ["WAIT", "DONE", "FAIL"]
 
             if match in commands:
                 codes.append(match.strip())
-            elif match.split('\n')[-1] in commands:
-                if len(match.split('\n')) > 1:
-                    codes.append("\n".join(match.split('\n')[:-1]))
-                codes.append(match.split('\n')[-1])
+            elif match.split("\n")[-1] in commands:
+                if len(match.split("\n")) > 1:
+                    codes.append("\n".join(match.split("\n")[:-1]))
+                codes.append(match.split("\n")[-1])
             else:
                 codes.append(match)
 
         return codes
 
-    def convert_action_to_grounding_model_instruction(self, line: str, obs: Dict, instruction: str, height: int, width: int, resized_height: int, resized_width: int ) -> str:
-        pattern = r'(#.*?)\n(pyautogui\.(moveTo|click|rightClick|doubleClick|middleClick|dragTo)\((?:x=)?(\d+)(?:,\s*|\s*,\s*y=)(\d+)(?:,\s*duration=[\d.]+)?\))'
+    def convert_action_to_grounding_model_instruction(
+        self,
+        line: str,
+        obs: Dict,
+        instruction: str,
+        height: int,
+        width: int,
+        resized_height: int,
+        resized_width: int,
+    ) -> str:
+        pattern = r"(#.*?)\n(pyautogui\.(moveTo|click|rightClick|doubleClick|middleClick|dragTo)\((?:x=)?(\d+)(?:,\s*|\s*,\s*y=)(\d+)(?:,\s*duration=[\d.]+)?\))"
         matches = re.findall(pattern, line, re.DOTALL)
         if not matches:
             return line
@@ -257,12 +295,21 @@ class JediAgent7B:
 
             if "click()" in original_action.lower():
                 continue
-            
+
             messages = []
-            messages.append({
-                "role": "system",
-                "content": [{"type": "text", "text": JEDI_GROUNDER_SYS_PROMPT.replace("{height}", str(resized_height)).replace("{width}", str(resized_width))}]
-            })
+            messages.append(
+                {
+                    "role": "system",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": JEDI_GROUNDER_SYS_PROMPT.replace(
+                                "{height}", str(resized_height)
+                            ).replace("{width}", str(resized_width)),
+                        }
+                    ],
+                }
+            )
             messages.append(
                 {
                     "role": "user",
@@ -276,40 +323,47 @@ class JediAgent7B:
                         },
                         {
                             "type": "text",
-                            "text": '\n' + comment,
+                            "text": "\n" + comment,
                         },
                     ],
                 }
             )
-            grounding_response = self.call_llm({
-                "model": self.executor_model,
-                "messages": messages,
-                "max_tokens": self.max_tokens,
-                "top_p": self.top_p,
-                "temperature": self.temperature
-            }, self.executor_model)
-            coordinates = self.parse_jedi_response(grounding_response, width, height, resized_width, resized_height)
+            grounding_response = self.call_llm(
+                {
+                    "model": self.executor_model,
+                    "messages": messages,
+                    "max_tokens": self.max_tokens,
+                    "top_p": self.top_p,
+                    "temperature": self.temperature,
+                },
+                self.executor_model,
+            )
+            coordinates = self.parse_jedi_response(
+                grounding_response, width, height, resized_width, resized_height
+            )
             logger.info(coordinates)
             if coordinates == [-1, -1]:
                 continue
-            action_parts = original_action.split('(')
+            action_parts = original_action.split("(")
             new_action = f"{action_parts[0]}({coordinates[0]}, {coordinates[1]}"
-            if len(action_parts) > 1 and 'duration' in action_parts[1]:
-                duration_part = action_parts[1].split(',')[-1]
+            if len(action_parts) > 1 and "duration" in action_parts[1]:
+                duration_part = action_parts[1].split(",")[-1]
                 new_action += f", {duration_part}"
-            elif len(action_parts) > 1 and 'button' in action_parts[1]:
-                button_part = action_parts[1].split(',')[-1]
+            elif len(action_parts) > 1 and "button" in action_parts[1]:
+                button_part = action_parts[1].split(",")[-1]
                 new_action += f", {button_part}"
             else:
                 new_action += ")"
             logger.info(new_action)
             new_instruction = new_instruction.replace(original_action, new_action)
         return new_instruction
-        
-    def parse_jedi_response(self, response, width: int, height: int, resized_width: int, resized_height: int) -> List[str]:
+
+    def parse_jedi_response(
+        self, response, width: int, height: int, resized_width: int, resized_height: int
+    ) -> List[str]:
         """
         Parse the LLM response and convert it to low level action and pyautogui code.
-        """ 
+        """
 
         low_level_instruction = ""
         pyautogui_code = []
@@ -344,7 +398,7 @@ class JediAgent7B:
                 # 处理解析错误，返回默认值或空值
                 action = ""
                 args = {}
-            
+
             # convert the coordinate to the original resolution
             x = int(args.get("coordinate", [-1, -1])[0] * width / resized_width)
             y = int(args.get("coordinate", [-1, -1])[1] * height / resized_height)
@@ -382,7 +436,7 @@ class JediAgent7B:
         if model.startswith("gpt"):
             headers = {
                 "Content-Type": "application/json",
-                "Authorization": f"Bearer {OPENAI_API_KEY}"
+                "Authorization": f"Bearer {OPENAI_API_KEY}",
             }
             logger.info("Generating content with GPT model: %s", model)
             response = requests.post(
@@ -401,7 +455,7 @@ class JediAgent7B:
         elif model.startswith("jedi"):
             headers = {
                 "Content-Type": "application/json",
-                "Authorization": f"Bearer {JEDI_API_KEY}"
+                "Authorization": f"Bearer {JEDI_API_KEY}",
             }
             response = requests.post(
                 f"{JEDI_SERVICE_URL}/v1/chat/completions",
@@ -417,8 +471,11 @@ class JediAgent7B:
 
     def reset(self, _logger=None):
         global logger
-        logger = (_logger if _logger is not None else
-                  logging.getLogger("desktopenv.jedi_7b_agent"))
+        logger = (
+            _logger
+            if _logger is not None
+            else logging.getLogger("desktopenv.jedi_7b_agent")
+        )
 
         self.thoughts = []
         self.action_descriptions = []

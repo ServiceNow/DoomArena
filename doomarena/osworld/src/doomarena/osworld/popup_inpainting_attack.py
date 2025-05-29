@@ -16,6 +16,7 @@ def pil_image_to_bytes(pil_image):
     pil_image = image_bytes_io.getvalue()
     return pil_image
 
+
 def draw_edges_inside_bounding_box_pil(
     image, bounding_box, edge_thickness=2, edge_color=(0, 0, 0)
 ):

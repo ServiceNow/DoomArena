@@ -3,6 +3,7 @@ from fastmcp import FastMCP
 
 mcp = FastMCP("Add server 🚀")
 
+
 @mcp.tool()
 def add(a: int, b: int) -> int:
     """Add two numbers"""
