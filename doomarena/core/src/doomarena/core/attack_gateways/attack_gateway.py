@@ -32,7 +32,7 @@ class AttackGateway(ABC):
     def step(self, **kwargs) -> Any:
         raise NotImplementedError
 
-    @abstractmethod
+    # @abstractmethod  # making it optional / some gateways may not need this
     def attack_success(self, **kwargs) -> bool:
         # Return whether any attack has been successful
         raise NotImplementedError

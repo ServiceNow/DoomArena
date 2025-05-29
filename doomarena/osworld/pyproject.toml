@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "doomarena-osworld"
+version = "0.0.4"
+description = "OsWorld extensions for DoomArena"
+authors = [
+  { name="Gabriel Huang", email="gabriel.huang@servicenow.com" },
+  { name="Mihir Bansal", email="mihir.bansal@servicenow.com" },
+]
+maintainers = [
+  { name="Gabriel Huang", email="gabriel.huang@servicenow.com" },
+  { name="Mihir Bansal", email="mihir.bansal@servicenow.com" },
+]
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+
+dependencies = [
+    "doomarena>=0.0.4",
+    "tqdm",
+    "pytesseract",
+    "pillow",
+]
+
+[project.urls]
+Homepage = "https://github.com/ServiceNow/DoomArena/"
+Issues = "https://github.com/ServiceNow/DoomArena/issues"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+namespaces = true  # important for sharing the doomarena.* namespace

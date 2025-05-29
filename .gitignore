@@ -174,3 +174,12 @@ data/attack_attempts.db
 security-dashboard/node_modules/
 security-dashboard/public/visualizations/
 security-dashboard/public/visualization_files.json
+
+logs/
+vmware_vm_data/
+.vmware*
+cache/
+doomarena/osworld/src/doomarena/osworld/scripts/run_temp.py
+output.png
+notebooks/doomarena_intro_notebook.ipynb
+notebooks/Taubench_attack_demo.ipynb

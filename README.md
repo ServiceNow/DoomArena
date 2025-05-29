@@ -36,8 +36,14 @@ pip install doomarena-browsergym  # optional
 
 If you want to test attacks on a Mail Agent (which can summarize and send emails on your behalf) inspired by the [LLMail Challenge](https://llmailinject.azurewebsites.net/) run
 ```bash
-pip install doomarena-mailinject  # optional
+pip install -e doomarena/mailinject  # optional
 ```
+
+If you want to run DoomArena integrated with [OSWorld](https://github.com/xlang-ai/OSWorld) run
+```
+pip install -e doomarena/osworld
+```
+and follow our setup instructions [here](doomarena/osworld/README.md).
 
 
 Export relevant API keys into your environment or `.env` file.
@@ -54,6 +60,7 @@ pip install -e doomarena/core
 pip install -e doomarena/taubench
 pip install -e doomarena/browsergym
 pip install -e doomarena/mailinject
+pip install -e doomarena/osworld
 ```
 
 Once the environments are set up, run the tests to make sure everything is working.
