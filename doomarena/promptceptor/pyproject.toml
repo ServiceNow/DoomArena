@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "doomarena-promptceptor"
+version = "0.0.4"
+description = "Promptceptor tool"
+authors = [
+  { name="Gabriel Huang", email="gabriel.huang@servicenow.com" },
+]
+maintainers = [
+  { name="Gabriel Huang", email="gabriel.huang@servicenow.com" },
+]
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+
+dependencies = [
+  "openai >= 1.78.0",
+  "pytest",
+  "PyYAML",
+  "litellm >= 1.66.3",
+]
+
+[project.urls]
+Homepage = "https://github.com/ServiceNow/DoomArena/"
+Issues = "https://github.com/ServiceNow/DoomArena/issues"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+namespaces = true  # important for sharing the doomarena.* namespace
+
+[project.scripts]
+promptceptor = "doomarena.promptceptor.cli:main"
