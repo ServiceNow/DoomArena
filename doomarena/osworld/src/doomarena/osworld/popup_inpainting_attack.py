@@ -83,7 +83,7 @@ def is_single_color_image(image, threshold=0.01):
     return True
 
 
-def agent_attack(
+def inject_popup_inpainting_attack(
     injection_str,
     current_observation,
     largest_non_overlapping_box,

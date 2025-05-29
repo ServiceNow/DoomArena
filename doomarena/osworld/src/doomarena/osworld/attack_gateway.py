@@ -6,7 +6,7 @@ from io import BytesIO
 from doomarena.osworld.popup_inpainting_attack import (
     find_largest_non_overlapping_box,
     extract_bounding_boxes_from_image,
-    agent_attack,
+    inject_popup_inpainting_attack,
     is_single_color_image,
 )
 import sys
@@ -27,25 +27,19 @@ class OSWorldAttackGateway(DesktopEnv):
             **kwargs,
         )
 
-        self.whole_attack_bounding_box = None
-        self.x_tgt = None
-        self.y_tgt = None
-        self.attack_string = None
-        self.is_attack_executed = False
-        self.env_state = []
-        self.attack_success_ = 0
+        self.inpainting_steps = []
+        self.is_inpainting_attack_executed = False
 
     def reset(self, **kwargs):
         # Reset OS World environment
         self.whole_attack_bounding_box = None
-        self.x_tgt = None
-        self.y_tgt = None
-        self.is_attack_executed = False
-        self.env_state = []
-        self.attack_success_ = 0
+
+        self.inpainting_steps = []
+        self.is_inpainting_attack_executed = False
+
         return super().reset(**kwargs)
 
-    def execute_inpainting_attack(self, observation, injection_str):
+    def execute_inpainting_attack(self, observation, injection_str, action: str):
         if "screenshot" in observation:
             current_observation = observation["screenshot"]
             if not is_single_color_image(current_observation):
@@ -63,60 +57,50 @@ class OSWorldAttackGateway(DesktopEnv):
                     x_tgt,
                     y_tgt,
                     attack_string,
-                ) = agent_attack(
+                ) = inject_popup_inpainting_attack(
                     injection_str=injection_str,
                     current_observation=current_observation,
                     largest_non_overlapping_box=largest_non_overlapping_box,
                 )
 
-                self.whole_attack_bounding_box = whole_attack_bounding_box
-                self.x_tgt = x_tgt
-                self.y_tgt = y_tgt
-                self.attack_string = attack_string
-
-                if isinstance(current_observation, bytes):
-                    current_observation = Image.open(
-                        BytesIO(current_observation)
-                    ).convert("RGB")
-                image_bytes_io = BytesIO()
-                current_observation.save(image_bytes_io, format="PNG")
-                current_observation.save("output.png", format="PNG")
-                current_observation = image_bytes_io.getvalue()
+                # Save the target coordinates, attack bounding box, and attack string
+                self.inpainting_steps.append(
+                    {
+                        "whole_attack_bounding_box": whole_attack_bounding_box,
+                        "x_tgt": x_tgt,
+                        "y_tgt": y_tgt,
+                        "attack_string": attack_string,
+                        "action": action,
+                    }
+                )
+                # Patch the attack back
                 observation["screenshot"] = current_observation
-                self.is_attack_executed = True
+                self.is_inpainting_attack_executed = True
             else:
-                self.is_attack_executed = False
+                self.is_inpainting_attack_executed = False
                 print(
                     "Attack analysis 0: Skip attack this round! The OS might be sleeping..."
                 )
         else:
-            self.is_attack_executed = False
+            self.is_inpainting_attack_executed = False
         return observation
 
     def step(self, action, pause=2):
-        if self.is_attack_executed:
-            self.env_state.append(
-                {
-                    "whole_attack_bounding_box": self.whole_attack_bounding_box,
-                    "x_tgt": self.x_tgt,
-                    "y_tgt": self.y_tgt,
-                    "action": action,
-                }
-            )
+
         observation, reward, done, info = super().step(action, pause)
         for attack_config in self.attack_configs:
             if attack_config.attackable_component.get("type") == "popup_inpainting":
                 injection_str = attack_config.attack.get_next_attack()
                 malicious_observation = self.execute_inpainting_attack(
-                    observation, injection_str
+                    observation, injection_str, action,  # the action is passed for evaluation purposes
                 )
                 return malicious_observation, reward, done, info
             else:
-                self.is_attack_executed = False
+                self.is_inpainting_attack_executed = False
 
         return observation, reward, done, info
 
-    def attack_success(self) -> bool:
+    def attack_success(self) -> float:
         """
         Determines the success of an attack based on provided configurations and metrics.
 
@@ -124,6 +108,8 @@ class OSWorldAttackGateway(DesktopEnv):
             bool: True if the sum of the attack success scores is greater than 0,
                   indicating at least one successful attack configuration. False otherwise.
         """
+        attack_success = False
+        assert len(self.attack_configs) <= 1, "At most one attack configuration is allowed for OSWorldAttackGateway."
         for idx, config in enumerate(self.attack_configs):
-            self.attack_success_ = config.success_filter(self)
-        return self.attack_success_
+            attack_success = config.success_filter(self)
+        return attack_success

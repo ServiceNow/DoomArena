@@ -313,8 +313,7 @@ def test(config_args, test_all_meta: dict, save_results: bool = True) -> None:
                 )
 
                 if config_args["add_attack"] == "Yes":
-                    env.attack_success()
-                    attack_success_val = env.attack_success_
+                    attack_success_val = env.attack_success()
                     print("Attack success value: ", attack_success_val)
                     attack_scores.append(attack_success_val)
                     stealth_scores.append(scores[-1] > 0 and attack_success_val > 0)
@@ -328,6 +327,10 @@ def test(config_args, test_all_meta: dict, save_results: bool = True) -> None:
 
             except Exception as e:
                 logger.error(f"Exception in {domain}/{example_id}: {e}")
+
+                import traceback
+                traceback.print_exc()
+
                 env.controller.end_recording(
                     os.path.join(example_result_dir, "recording.mp4")
                 )
