@@ -9,6 +9,9 @@ __pycache__/
 .DS_Store
 *.swp
 
+# Tapeagents cache
+tapedata.sqlite
+
 # Distribution / packaging
 .Python
 build/
