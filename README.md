@@ -8,7 +8,7 @@
 
 <img src="https://raw.githubusercontent.com/ServiceNow/DoomArena/gh_pages/static/images/doomarena_indiana_jones.jpg" width="320"></img>
 
-[DoomArena](https://servicenow.github.io/DoomArena/) is a modular, configurable, plug-in security testing framework for AI agents that supports many agentic frameworks including $\tau$-bench, [Browsergym](https://github.com/ServiceNow/browsergym), [OSWorld](https://github.com/xlang-ai/OSWorld) and [TapeAgents](https://github.com/ServiceNow/tapeagents) (see Mail agent example). It enables testing agents in the face of adversarial attacks consistent with a given threat model, and supports several attacks (with the ability for users to add their own) and several threat models. 
+[DoomArena](https://servicenow.github.io/DoomArena/) is a modular, configurable, plug-in security testing framework for AI agents that supports many agentic frameworks including [$\tau$-bench](https://github.com/sierra-research/tau-bench), [Browsergym](https://github.com/ServiceNow/browsergym), [OSWorld](https://github.com/xlang-ai/OSWorld) and [TapeAgents](https://github.com/ServiceNow/tapeagents) (see Mail agent example). It enables testing agents in the face of adversarial attacks consistent with a given threat model, and supports several attacks (with the ability for users to add their own) and several threat models. 
 
 
 ## 🚀 Quick Start
