@@ -11,22 +11,21 @@ from openai import OpenAI
 import litellm
 import json
 import sys
+
 load_dotenv()  # load environment variables from .env
 
 
 def get_server_params(server_script_path: str) -> StdioServerParameters:
     """Create server parameters based on script type"""
-    is_python = server_script_path.endswith('.py')
-    is_js = server_script_path.endswith('.js')
+    is_python = server_script_path.endswith(".py")
+    is_js = server_script_path.endswith(".js")
     if not (is_python or is_js):
         raise ValueError("Server script must be a .py or .js file")
 
-    command = sys.executable if is_python else "node"  # use current Python interpreter for .py files
-    return StdioServerParameters(
-        command=command,
-        args=[server_script_path],
-        env=None
-    )
+    command = (
+        sys.executable if is_python else "node"
+    )  # use current Python interpreter for .py files
+    return StdioServerParameters(command=command, args=[server_script_path], env=None)
 
 
 # class MCPClient:
@@ -138,27 +137,27 @@ def get_server_params(server_script_path: str) -> StdioServerParameters:
 
 #         return "\n".join(final_text)
 
-    # async def chat_loop(self):
-    #     """Run an interactive chat loop"""
-    #     print("\nMCP Client Started!")
-    #     print("Type your queries or 'quit' to exit.")
+# async def chat_loop(self):
+#     """Run an interactive chat loop"""
+#     print("\nMCP Client Started!")
+#     print("Type your queries or 'quit' to exit.")
 
-    #     while True:
-    #         try:
-    #             query = input("\nQuery: ").strip()
+#     while True:
+#         try:
+#             query = input("\nQuery: ").strip()
 
-    #             if query.lower() == 'quit':
-    #                 break
+#             if query.lower() == 'quit':
+#                 break
 
-    #             response = await self.process_query(query)
-    #             print("\n" + response)
+#             response = await self.process_query(query)
+#             print("\n" + response)
 
-    #         except Exception as e:
-    #             print(f"\nError: {str(e)}")
+#         except Exception as e:
+#             print(f"\nError: {str(e)}")
 
-    # async def cleanup(self):
-    #     """Clean up resources"""
-    #     await self.exit_stack.aclose()
+# async def cleanup(self):
+#     """Clean up resources"""
+#     await self.exit_stack.aclose()
 
 
 # def run_client(server_params):
@@ -170,7 +169,6 @@ def get_server_params(server_script_path: str) -> StdioServerParameters:
 #     asyncio.run(runner())
 
 
-
 # async def main():
 #     client = MCPClient()
 #     try:
@@ -180,31 +178,31 @@ def get_server_params(server_script_path: str) -> StdioServerParameters:
 #         await client.cleanup()
 
 
-
 async def process_query(session: ClientSession, query: str) -> str:
 
     # Initial user message
-    messages = [
-        {"role": "user", "content": query}
-    ]
+    messages = [{"role": "user", "content": query}]
 
     # Get tools from session and convert to OpenAI function-call format
     response = await session.list_tools()
-    available_tools_openai = [{
-        "type": "function",
-        "function": {
-            "name": tool.name,
-            "description": tool.description,
-            "parameters": tool.inputSchema
-        },
-    } for tool in response.tools]
+    available_tools_openai = [
+        {
+            "type": "function",
+            "function": {
+                "name": tool.name,
+                "description": tool.description,
+                "parameters": tool.inputSchema,
+            },
+        }
+        for tool in response.tools
+    ]
 
     # Initial GPT-4o call with available tools
     response = litellm.completion(
         model="gpt-4o-mini",
         messages=messages,
         tools=available_tools_openai,
-        tool_choice="auto"
+        tool_choice="auto",
     )
 
     # Process first response
@@ -215,11 +213,13 @@ async def process_query(session: ClientSession, query: str) -> str:
     tool_calls = response_message.get("tool_calls", [])
     if tool_calls:
         # Add assistant message with tool calls
-        messages.append({
-            "role": "assistant",
-            # "content": assistant_message_content,
-            "tool_calls": tool_calls
-        })
+        messages.append(
+            {
+                "role": "assistant",
+                # "content": assistant_message_content,
+                "tool_calls": tool_calls,
+            }
+        )
 
         for tool_call in tool_calls:
             tool_name = tool_call["function"]["name"]
@@ -233,18 +233,17 @@ async def process_query(session: ClientSession, query: str) -> str:
             final_text.append(f"[Calling tool {tool_name} with args {tool_args}]")
 
             # Add tool response to messages
-            messages.append({
-                "tool_call_id": tool_use_id,
-                "role": "tool",
-                "name": tool_name,
-                "content": result.model_dump()['content']
-            })
+            messages.append(
+                {
+                    "tool_call_id": tool_use_id,
+                    "role": "tool",
+                    "name": tool_name,
+                    "content": result.model_dump()["content"],
+                }
+            )
 
         # Follow-up LLM call after tool response
-        follow_up_response = litellm.completion(
-            model="gpt-4o-mini",
-            messages=messages
-        )
+        follow_up_response = litellm.completion(model="gpt-4o-mini", messages=messages)
         follow_up_message = follow_up_response.choices[0].message
 
         if follow_up_message.get("content"):
@@ -282,14 +281,16 @@ import asyncio
 from contextlib import AsyncExitStack
 from typing import List
 
+
 async def handle_server(session: ClientSession, query: str, server_name: str):
     await session.initialize()
     response = await session.list_tools()
     tools = response.tools
     print(f"\n[{server_name}] Connected with tools: {[tool.name for tool in tools]}")
-    
+
     result = await process_query(session, query)
     print(f"\n[{server_name}] Result:\n{result}")
+
 
 async def run_all_servers(server_params_list: List[StdioServerParameters]):
     query = input("\nEnter a prompt (applies to all servers): ")
@@ -301,18 +302,26 @@ async def run_all_servers(server_params_list: List[StdioServerParameters]):
             stdio_transport = await stack.enter_async_context(stdio_client(params))
             stdio, write = stdio_transport
             session = await stack.enter_async_context(ClientSession(stdio, write))
-            sessions.append((session, f'server_{server_idx}'))
+            sessions.append((session, f"server_{server_idx}"))
 
         # Run query on all connected sessions
-        await asyncio.gather(*(handle_server(session, query, name) for session, name in sessions))
+        await asyncio.gather(
+            *(handle_server(session, query, name) for session, name in sessions)
+        )
+
 
 def main():
     server_params_list = [
-        get_server_params("/Users/gabriel.huang/code/DoomArena/doomarena/mcp/src/doomarena/mcp/add_server.py"),
-        get_server_params("/Users/gabriel.huang/code/DoomArena/doomarena/mcp/src/doomarena/mcp/sort_server.py"),
+        get_server_params(
+            "/Users/gabriel.huang/code/DoomArena/doomarena/mcp/src/doomarena/mcp/add_server.py"
+        ),
+        get_server_params(
+            "/Users/gabriel.huang/code/DoomArena/doomarena/mcp/src/doomarena/mcp/sort_server.py"
+        ),
         # Add more server paths here
     ]
     asyncio.run(run_all_servers(server_params_list))
+
 
 if __name__ == "__main__":
     main()

@@ -19,7 +19,9 @@ class OSWorldAttackGateway(DesktopEnv):
     def __init__(self, **kwargs):
         self.attack_configs = kwargs.pop("attack_configs")
 
-        assert len(self.attack_configs) <= 1, "At most one attack configuration is allowed for OSWorldAttackGateway."
+        assert (
+            len(self.attack_configs) <= 1
+        ), "At most one attack configuration is allowed for OSWorldAttackGateway."
 
         super().__init__(
             **kwargs,
@@ -32,7 +34,6 @@ class OSWorldAttackGateway(DesktopEnv):
         self.is_attack_executed = False
         self.env_state = []
         self.attack_success_ = 0
-
 
     def reset(self, **kwargs):
         # Reset OS World environment

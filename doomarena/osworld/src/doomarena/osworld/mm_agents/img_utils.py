@@ -17,7 +17,14 @@ def floor_by_factor(number: int, factor: int) -> int:
     return math.floor(number / factor) * factor
 
 
-def smart_resize(height, width, factor=28, min_pixels=56 * 56, max_pixels=14 * 14 * 4 * 1280, max_long_side=8192):
+def smart_resize(
+    height,
+    width,
+    factor=28,
+    min_pixels=56 * 56,
+    max_pixels=14 * 14 * 4 * 1280,
+    max_long_side=8192,
+):
     """缩放后图片满足以下条件:
     1. 长宽能被 factor 整除
     2. pixels 总数被限制在 [min_pixels, max_pixels] 内
@@ -25,9 +32,13 @@ def smart_resize(height, width, factor=28, min_pixels=56 * 56, max_pixels=14 * 1
     4. 保证其长宽比基本不变
     """
     if height < 2 or width < 2:
-        raise ValueError(f"height:{height} or width:{width} must be larger than factor:{factor}")
+        raise ValueError(
+            f"height:{height} or width:{width} must be larger than factor:{factor}"
+        )
     elif max(height, width) / min(height, width) > 200:
-        raise ValueError(f"absolute aspect ratio must be smaller than 100, got {height} / {width}")
+        raise ValueError(
+            f"absolute aspect ratio must be smaller than 100, got {height} / {width}"
+        )
 
     if max(height, width) > max_long_side:
         beta = max(height, width) / max_long_side
@@ -46,7 +57,9 @@ def smart_resize(height, width, factor=28, min_pixels=56 * 56, max_pixels=14 * 1
     return h_bar, w_bar
 
 
-def update_image_size_(image_ele: dict, min_tokens=1, max_tokens=12800, merge_base=2, patch_size=14):
+def update_image_size_(
+    image_ele: dict, min_tokens=1, max_tokens=12800, merge_base=2, patch_size=14
+):
     """根据 min_tokens, max_tokens 更新 image_ele 的尺寸信息
 
     Args:
@@ -157,8 +170,12 @@ def _convert_bbox_format_to_abs_origin(bbox, image_ele: dict, *, src_format: str
 
 
 def convert_bbox_format(bbox, image_ele: dict, *, src_format: str, tgt_format: str):
-    bbox_abs_origin = _convert_bbox_format_to_abs_origin(bbox, image_ele, src_format=src_format)
-    bbox_tgt_format = _convert_bbox_format_from_abs_origin(bbox_abs_origin, image_ele, tgt_format=tgt_format)
+    bbox_abs_origin = _convert_bbox_format_to_abs_origin(
+        bbox, image_ele, src_format=src_format
+    )
+    bbox_tgt_format = _convert_bbox_format_from_abs_origin(
+        bbox_abs_origin, image_ele, tgt_format=tgt_format
+    )
     return bbox_tgt_format
 
 
@@ -221,8 +238,12 @@ def _convert_point_format_to_abs_origin(point, image_ele: dict, *, src_format: s
 
 
 def convert_point_format(point, image_ele: dict, *, src_format: str, tgt_format: str):
-    point_abs_origin = _convert_point_format_to_abs_origin(point, image_ele, src_format=src_format)
-    point_tgt_format = _convert_point_format_from_abs_origin(point_abs_origin, image_ele, tgt_format=tgt_format)
+    point_abs_origin = _convert_point_format_to_abs_origin(
+        point, image_ele, src_format=src_format
+    )
+    point_tgt_format = _convert_point_format_from_abs_origin(
+        point_abs_origin, image_ele, tgt_format=tgt_format
+    )
     return point_tgt_format
 
 

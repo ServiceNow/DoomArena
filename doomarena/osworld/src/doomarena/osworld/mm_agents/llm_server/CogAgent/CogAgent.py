@@ -12,15 +12,20 @@ from fastapi.middleware.cors import CORSMiddleware
 from loguru import logger
 from pydantic import BaseModel, Field
 from sse_starlette.sse import EventSourceResponse
-from transformers import AutoModelForCausalLM, LlamaTokenizer, PreTrainedModel, PreTrainedTokenizer, \
-    TextIteratorStreamer
+from transformers import (
+    AutoModelForCausalLM,
+    LlamaTokenizer,
+    PreTrainedModel,
+    PreTrainedTokenizer,
+    TextIteratorStreamer,
+)
 from PIL import Image
 from io import BytesIO
 
-MODEL_PATH = os.environ.get('MODEL_PATH', 'THUDM/cogvlm-chat-hf')
-TOKENIZER_PATH = os.environ.get("TOKENIZER_PATH", 'lmsys/vicuna-7b-v1.5')
-DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
-if os.environ.get('QUANT_ENABLED'):
+MODEL_PATH = os.environ.get("MODEL_PATH", "THUDM/cogvlm-chat-hf")
+TOKENIZER_PATH = os.environ.get("TOKENIZER_PATH", "lmsys/vicuna-7b-v1.5")
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+if os.environ.get("QUANT_ENABLED"):
     QUANT_ENABLED = True
 else:
     with torch.cuda.device(DEVICE):
@@ -30,6 +35,7 @@ else:
             QUANT_ENABLED = True
         else:
             QUANT_ENABLED = False
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -59,6 +65,7 @@ class ModelCard(BaseModel):
     A Pydantic model representing a model card, which provides metadata about a machine learning model.
     It includes fields like model ID, owner, and creation time.
     """
+
     id: str
     object: str = "model"
     created: int = Field(default_factory=lambda: int(time.time()))
@@ -137,7 +144,9 @@ class UsageInfo(BaseModel):
 class ChatCompletionResponse(BaseModel):
     model: str
     object: Literal["chat.completion", "chat.completion.chunk"]
-    choices: List[Union[ChatCompletionResponseChoice, ChatCompletionResponseStreamChoice]]
+    choices: List[
+        Union[ChatCompletionResponseChoice, ChatCompletionResponseStreamChoice]
+    ]
     created: Optional[int] = Field(default_factory=lambda: int(time.time()))
     usage: Optional[UsageInfo] = None
 
@@ -148,7 +157,9 @@ async def list_models():
     An endpoint to list available models. It returns a list of model cards.
     This is useful for clients to query and understand what models are available for use.
     """
-    model_card = ModelCard(id="cogvlm-chat-17b")  # can be replaced by your model id like cogagent-chat-18b
+    model_card = ModelCard(
+        id="cogvlm-chat-17b"
+    )  # can be replaced by your model id like cogagent-chat-18b
     return ModelList(data=[model_card])
 
 
@@ -187,7 +198,12 @@ async def create_chat_completion(request: ChatCompletionRequest):
     task_usage = UsageInfo.model_validate(response["usage"])
     for usage_key, usage_value in task_usage.model_dump().items():
         setattr(usage, usage_key, getattr(usage, usage_key) + usage_value)
-    return ChatCompletionResponse(model=request.model, choices=[choice_data], object="chat.completion", usage=usage)
+    return ChatCompletionResponse(
+        model=request.model,
+        choices=[choice_data],
+        object="chat.completion",
+        usage=usage,
+    )
 
 
 async def predict(model_id: str, params: dict):
@@ -199,17 +215,17 @@ async def predict(model_id: str, params: dict):
     global model, tokenizer
 
     choice_data = ChatCompletionResponseStreamChoice(
-        index=0,
-        delta=DeltaMessage(role="assistant"),
-        finish_reason=None
+        index=0, delta=DeltaMessage(role="assistant"), finish_reason=None
     )
-    chunk = ChatCompletionResponse(model=model_id, choices=[choice_data], object="chat.completion.chunk")
+    chunk = ChatCompletionResponse(
+        model=model_id, choices=[choice_data], object="chat.completion.chunk"
+    )
     yield "{}".format(chunk.model_dump_json(exclude_unset=True))
 
     previous_text = ""
     for new_response in generate_stream_cogvlm(model, tokenizer, params):
         decoded_unicode = new_response["text"]
-        delta_text = decoded_unicode[len(previous_text):]
+        delta_text = decoded_unicode[len(previous_text) :]
         previous_text = decoded_unicode
         delta = DeltaMessage(
             content=delta_text,
@@ -219,17 +235,23 @@ async def predict(model_id: str, params: dict):
             index=0,
             delta=delta,
         )
-        chunk = ChatCompletionResponse(model=model_id, choices=[choice_data], object="chat.completion.chunk")
+        chunk = ChatCompletionResponse(
+            model=model_id, choices=[choice_data], object="chat.completion.chunk"
+        )
         yield "{}".format(chunk.model_dump_json(exclude_unset=True))
     choice_data = ChatCompletionResponseStreamChoice(
         index=0,
         delta=DeltaMessage(),
     )
-    chunk = ChatCompletionResponse(model=model_id, choices=[choice_data], object="chat.completion.chunk")
+    chunk = ChatCompletionResponse(
+        model=model_id, choices=[choice_data], object="chat.completion.chunk"
+    )
     yield "{}".format(chunk.model_dump_json(exclude_unset=True))
 
 
-def generate_cogvlm(model: PreTrainedModel, tokenizer: PreTrainedTokenizer, params: dict):
+def generate_cogvlm(
+    model: PreTrainedModel, tokenizer: PreTrainedTokenizer, params: dict
+):
     """
     Generates a response using the CogVLM model. It processes the chat history and image data, if any,
     and then invokes the model to generate a response.
@@ -240,8 +262,9 @@ def generate_cogvlm(model: PreTrainedModel, tokenizer: PreTrainedTokenizer, para
     return response
 
 
-def process_history_and_images(messages: List[ChatMessageInput]) -> Tuple[
-    Optional[str], Optional[List[Tuple[str, str]]], Optional[List[Image.Image]]]:
+def process_history_and_images(
+    messages: List[ChatMessageInput],
+) -> Tuple[Optional[str], Optional[List[Tuple[str, str]]], Optional[List[Image.Image]]]:
     """
     Process history messages to extract text, identify the last user query,
     and convert base64 encoded image URLs to PIL images.
@@ -255,14 +278,16 @@ def process_history_and_images(messages: List[ChatMessageInput]) -> Tuple[
     """
     formatted_history = []
     image_list = []
-    last_user_query = ''
+    last_user_query = ""
 
     for i, message in enumerate(messages):
         role = message.role
         content = message.content
 
         if isinstance(content, list):  # text
-            text_content = ' '.join(item.text for item in content if isinstance(item, TextContent))
+            text_content = " ".join(
+                item.text for item in content if isinstance(item, TextContent)
+            )
         else:
             text_content = content
 
@@ -271,25 +296,31 @@ def process_history_and_images(messages: List[ChatMessageInput]) -> Tuple[
                 if isinstance(item, ImageUrlContent):
                     image_url = item.image_url.url
                     if image_url.startswith("data:image/jpeg;base64,"):
-                        base64_encoded_image = image_url.split("data:image/jpeg;base64,")[1]
+                        base64_encoded_image = image_url.split(
+                            "data:image/jpeg;base64,"
+                        )[1]
                         image_data = base64.b64decode(base64_encoded_image)
-                        image = Image.open(BytesIO(image_data)).convert('RGB')
+                        image = Image.open(BytesIO(image_data)).convert("RGB")
                         image_list.append(image)
                     elif image_url.startswith("data:image/png;base64,"):
-                        base64_encoded_image = image_url.split("data:image/png;base64,")[1]
+                        base64_encoded_image = image_url.split(
+                            "data:image/png;base64,"
+                        )[1]
                         image_data = base64.b64decode(base64_encoded_image)
-                        image = Image.open(BytesIO(image_data)).convert('RGB')
+                        image = Image.open(BytesIO(image_data)).convert("RGB")
                         image_list.append(image)
 
-        if role == 'user':
+        if role == "user":
             if i == len(messages) - 1:  # 最后一条用户消息
                 last_user_query = text_content
             else:
-                formatted_history.append((text_content, ''))
-        elif role == 'assistant':
+                formatted_history.append((text_content, ""))
+        elif role == "assistant":
             if formatted_history:
-                if formatted_history[-1][1] != '':
-                    assert False, f"the last query is answered. answer again. {formatted_history[-1][0]}, {formatted_history[-1][1]}, {text_content}"
+                if formatted_history[-1][1] != "":
+                    assert (
+                        False
+                    ), f"the last query is answered. answer again. {formatted_history[-1][0]}, {formatted_history[-1][1]}, {text_content}"
                 formatted_history[-1] = (formatted_history[-1][0], text_content)
             else:
                 assert False, f"assistant reply before user"
@@ -300,7 +331,9 @@ def process_history_and_images(messages: List[ChatMessageInput]) -> Tuple[
 
 
 @torch.inference_mode()
-def generate_stream_cogvlm(model: PreTrainedModel, tokenizer: PreTrainedTokenizer, params: dict):
+def generate_stream_cogvlm(
+    model: PreTrainedModel, tokenizer: PreTrainedTokenizer, params: dict
+):
     """
     Generates a stream of responses using the CogVLM model in inference mode.
     It's optimized to handle continuous input-output interactions with the model in a streaming manner.
@@ -314,30 +347,30 @@ def generate_stream_cogvlm(model: PreTrainedModel, tokenizer: PreTrainedTokenize
 
     logger.debug(f"==== request ====\n{query}")
 
-    input_by_model = model.build_conversation_input_ids(tokenizer, query=query, history=history,
-                                                        images=[image_list[-1]])
+    input_by_model = model.build_conversation_input_ids(
+        tokenizer, query=query, history=history, images=[image_list[-1]]
+    )
     inputs = {
-        'input_ids': input_by_model['input_ids'].unsqueeze(0).to(DEVICE),
-        'token_type_ids': input_by_model['token_type_ids'].unsqueeze(0).to(DEVICE),
-        'attention_mask': input_by_model['attention_mask'].unsqueeze(0).to(DEVICE),
-        'images': [[input_by_model['images'][0].to(DEVICE).to(torch_type)]],
+        "input_ids": input_by_model["input_ids"].unsqueeze(0).to(DEVICE),
+        "token_type_ids": input_by_model["token_type_ids"].unsqueeze(0).to(DEVICE),
+        "attention_mask": input_by_model["attention_mask"].unsqueeze(0).to(DEVICE),
+        "images": [[input_by_model["images"][0].to(DEVICE).to(torch_type)]],
     }
-    if 'cross_images' in input_by_model and input_by_model['cross_images']:
-        inputs['cross_images'] = [[input_by_model['cross_images'][0].to(DEVICE).to(torch_type)]]
+    if "cross_images" in input_by_model and input_by_model["cross_images"]:
+        inputs["cross_images"] = [
+            [input_by_model["cross_images"][0].to(DEVICE).to(torch_type)]
+        ]
 
     input_echo_len = len(inputs["input_ids"][0])
     streamer = TextIteratorStreamer(
-        tokenizer=tokenizer,
-        timeout=60.0,
-        skip_prompt=True,
-        skip_special_tokens=True
-)
+        tokenizer=tokenizer, timeout=60.0, skip_prompt=True, skip_special_tokens=True
+    )
     gen_kwargs = {
         "repetition_penalty": repetition_penalty,
         "max_new_tokens": max_new_tokens,
         "do_sample": True if temperature > 1e-5 else False,
         "top_p": top_p if temperature > 1e-5 else 0,
-        'streamer': streamer,
+        "streamer": streamer,
     }
     if temperature > 1e-5:
         gen_kwargs["temperature"] = temperature
@@ -371,35 +404,46 @@ gc.collect()
 torch.cuda.empty_cache()
 
 if __name__ == "__main__":
-    tokenizer = LlamaTokenizer.from_pretrained(
-        TOKENIZER_PATH,
-        trust_remote_code=True)
+    tokenizer = LlamaTokenizer.from_pretrained(TOKENIZER_PATH, trust_remote_code=True)
 
     if torch.cuda.is_available() and torch.cuda.get_device_capability()[0] >= 8:
         torch_type = torch.bfloat16
     else:
         torch_type = torch.float16
 
-    print("========Use torch type as:{} with device:{}========\n\n".format(torch_type, DEVICE))
+    print(
+        "========Use torch type as:{} with device:{}========\n\n".format(
+            torch_type, DEVICE
+        )
+    )
 
-    if 'cuda' in DEVICE:
+    if "cuda" in DEVICE:
         if QUANT_ENABLED:
             model = AutoModelForCausalLM.from_pretrained(
                 MODEL_PATH,
                 load_in_4bit=True,
                 trust_remote_code=True,
                 torch_dtype=torch_type,
-                low_cpu_mem_usage=True
+                low_cpu_mem_usage=True,
             ).eval()
         else:
-            model = AutoModelForCausalLM.from_pretrained(
-                MODEL_PATH,
-                load_in_4bit=False,
-                trust_remote_code=True,
-                torch_dtype=torch_type,
-                low_cpu_mem_usage=True
-            ).to(DEVICE).eval()
-            
+            model = (
+                AutoModelForCausalLM.from_pretrained(
+                    MODEL_PATH,
+                    load_in_4bit=False,
+                    trust_remote_code=True,
+                    torch_dtype=torch_type,
+                    low_cpu_mem_usage=True,
+                )
+                .to(DEVICE)
+                .eval()
+            )
+
     else:
-        model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, trust_remote_code=True).float().to(DEVICE).eval()
-    uvicorn.run(app, host='0.0.0.0', port=8000, workers=1)
+        model = (
+            AutoModelForCausalLM.from_pretrained(MODEL_PATH, trust_remote_code=True)
+            .float()
+            .to(DEVICE)
+            .eval()
+        )
+    uvicorn.run(app, host="0.0.0.0", port=8000, workers=1)

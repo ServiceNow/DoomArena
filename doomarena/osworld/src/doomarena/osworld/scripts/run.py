@@ -180,9 +180,9 @@ def fetch_attack_configs(attackable_components: list, attacks: list):
     Returns:
         list: A list of `AttackConfig` objects, each containing the attackable component, attack details, and associated filters.
     """
-    assert len(attackable_components) == len(attacks), (
-        "The number of attackable components must match the number of attacks."
-    )
+    assert len(attackable_components) == len(
+        attacks
+    ), "The number of attackable components must match the number of attacks."
 
     attack_config_objects = []
     FILTER_CLASSES = {
@@ -423,8 +423,12 @@ def get_result(action_space, use_model, observation_type, result_dir, total_file
 
 
 if __name__ == "__main__":
-    assert os.path.exists("../OSWorld"), "Please clone OSWorld repository next to DoomArena. Run this script from the root of DoomArena."
-    assert os.path.exists("../OSWorld/cache"), "Please download the cache from https://drive.google.com/file/d/1XlEy49otYDyBlA3O9NbR0BpPfr2TXgaD/view and put it in ../OSWorld/cache"
+    assert os.path.exists(
+        "../OSWorld"
+    ), "Please clone OSWorld repository next to DoomArena. Run this script from the root of DoomArena."
+    assert os.path.exists(
+        "../OSWorld/cache"
+    ), "Please download the cache from https://drive.google.com/file/d/1XlEy49otYDyBlA3O9NbR0BpPfr2TXgaD/view and put it in ../OSWorld/cache"
 
     ####### The complete version of the list of examples #######
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
