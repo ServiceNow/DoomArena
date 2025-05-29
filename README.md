@@ -8,7 +8,7 @@
 
 <img src="https://raw.githubusercontent.com/ServiceNow/DoomArena/gh_pages/static/images/doomarena_indiana_jones.jpg" width="320"></img>
 
-[DoomArena](https://servicenow.github.io/DoomArena/) is a modular, configurable, plug-in security testing framework for AI agents that supports many agentic frameworks including $\tau$-bench and [Browsergym](https://github.com/ServiceNow/browsergym). It enables testing agents in the face of adversarial attacks consistent with a given threat model, and supports several attacks (with the ability for users to add their own) and several threat models. 
+[DoomArena](https://servicenow.github.io/DoomArena/) is a modular, configurable, plug-in security testing framework for AI agents that supports many agentic frameworks including [$\tau$-bench](https://github.com/sierra-research/tau-bench), [Browsergym](https://github.com/ServiceNow/browsergym), [OSWorld](https://github.com/xlang-ai/OSWorld) and [TapeAgents](https://github.com/ServiceNow/tapeagents) (see Mail agent example). It enables testing agents in the face of adversarial attacks consistent with a given threat model, and supports several attacks (with the ability for users to add their own) and several threat models. 
 
 
 ## 🚀 Quick Start
@@ -36,8 +36,14 @@ pip install doomarena-browsergym  # optional
 
 If you want to test attacks on a Mail Agent (which can summarize and send emails on your behalf) inspired by the [LLMail Challenge](https://llmailinject.azurewebsites.net/) run
 ```bash
-pip install doomarena-mailinject  # optional
+pip install -e doomarena/mailinject  # optional
 ```
+
+If you want to run DoomArena integrated with [OSWorld](https://github.com/xlang-ai/OSWorld) run
+```
+pip install -e doomarena/osworld
+```
+and follow our setup instructions [here](doomarena/osworld/README.md).
 
 
 Export relevant API keys into your environment or `.env` file.
@@ -54,6 +60,7 @@ pip install -e doomarena/core
 pip install -e doomarena/taubench
 pip install -e doomarena/browsergym
 pip install -e doomarena/mailinject
+pip install -e doomarena/osworld
 ```
 
 Once the environments are set up, run the tests to make sure everything is working.
