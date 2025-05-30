@@ -166,7 +166,7 @@ def get_test_case_from_experiment(
             success_filter=[EmailDestinationOk(), EmailBodyOk()],
             emails=EMAILS_3,
             llm=experiment.llm,
-            max_loops=2,
+            max_loops=3,
             defenses=experiment.defenses,
         )
 
@@ -271,15 +271,15 @@ def collect_mailinject_results(exp_root: Path | str):
             else "NODEFENSE"
         )
         defenses_str = (
-            "|".join(defense["defense_name"] for defense in experiment["defenses"])
+            "|".join(defense for defense in experiment["defenses"])
             if experiment["defenses"]
             else "NODEFENSE"
         )
         row = {
             "scenario": experiment["scenario"],
+            "defenses": defenses_str,
             "model_name": experiment["llm"]["model_name"],
             "attacks": attacks_str,
-            "defenses": defenses_str,
         }
         for key, value in results.items():
             row[f"r_{key}"] = value
@@ -288,5 +288,6 @@ def collect_mailinject_results(exp_root: Path | str):
 
     # Make dataframe
     df = pd.DataFrame(rows.values())
+    df = df.sort_values(['scenario', 'defenses', 'model_name', ])
     df.to_csv(exp_root / "results.csv", index=False)
     logger.info(f"Results written to {exp_root / 'results.csv'}")

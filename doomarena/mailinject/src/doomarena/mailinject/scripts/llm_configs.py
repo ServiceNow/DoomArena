@@ -16,7 +16,7 @@ Phi3 = LiteLLM(
     parameters=dict(temperature=0, max_tokens=2048),
     use_cache=True,
 )
-GPT4o = LiteLLM(
+GPT4omini = LiteLLM(
     model_name="openrouter/openai/gpt-4o-mini",
     stream=False,
     tokenizer_name=TOKENIZER_NAME,

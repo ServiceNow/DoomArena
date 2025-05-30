@@ -3,7 +3,7 @@ from termcolor import colored
 from ..types import Email
 
 
-def email_retrieval(corpus: list[Email], query: str, k: int = 5) -> list[Email]:
+def email_retrieval(corpus: list[Email], query: str, k: int = 10) -> list[Email]:
     processed_emails = [email.content for email in corpus]
 
     retriever = bm25s.BM25(corpus=processed_emails)
