@@ -143,6 +143,9 @@ def collect_results(exp_root: str | Path):
                     exp_record["attack_undetected"] = attack_summary[
                         "attack_undetected"
                     ]
+                    exp_record["success_filter_results"] = attack_summary[
+                        "success_filter_results"
+                    ]
             except Exception as e:
                 logging.error(f"Error reading {attack_summary_path}: {e}")
                 exp_record["attack_summary_info_EXISTS"] = False
@@ -151,6 +154,7 @@ def collect_results(exp_root: str | Path):
                 exp_record["successful_attack_contents"] = ""
                 exp_record["triggered_defenses"] = []
                 exp_record["attack_undetected"] = None
+                exp_record["success_filter_results"] = {}
         else:
             exp_record["attack_summary_info_EXISTS"] = False  # important for debugging
             exp_record["attack_successful"] = None
@@ -158,6 +162,8 @@ def collect_results(exp_root: str | Path):
             exp_record["successful_attack_contents"] = ""
             exp_record["triggered_defenses"] = []
             exp_record["attack_undetected"] = None
+            exp_record["success_filter_results"] = {}
+
 
         # Experiment logs -> extract tokens used
         experiment_log_path = exp_dir / "experiment.log"
@@ -178,7 +184,17 @@ def collect_results(exp_root: str | Path):
             defense.defense_name for defense in exp_record.get("env_args.defenses", [])
         )
 
-        exp_records[exp_dir] = exp_record
+        if exp_record["success_filter_results"]:  # we are exploring attacks
+            for success_filter_key, success_filter_value in exp_record["success_filter_results"].items():
+                exp_record_copy = exp_record.copy()
+                exp_record_copy["success_filter_key"] = success_filter_key
+                exp_record_copy["success_filter_value"] = success_filter_value
+                exp_records[f"{exp_dir}_{success_filter_key}"] = exp_record_copy
+        else:  # we are exploring baselines
+            exp_record_copy = exp_record.copy()
+            exp_record_copy["success_filter_key"] = "no_attack_success_filter"
+            exp_record_copy["success_filter_value"] = 666
+            exp_records[exp_dir] = exp_record
 
     # Build a big dataframe
     df = pd.DataFrame(exp_records.values())
@@ -229,7 +245,9 @@ def collect_results(exp_root: str | Path):
             # Results
             "attack_summary_info_EXISTS",
             "reward",
-            "attack_success",
+            "attack_success",  # this should be ignored from now on (2025-06-05)
+            "success_filter_key",  # look at this instead (2025-06-05)
+            "success_filter_value",  # and this (2025-06-05)
             "attack_undetected",
             "attack_undetected_2",
             "steps",
@@ -292,6 +310,8 @@ def collect_results(exp_root: str | Path):
         "attackable_component",
         "success_filter",
         "filter",
+        # Success filter characteristics
+        "success_filter_key",  # group by metric
     ]
 
     short_results_deduplicated = short_results.drop_duplicates(
@@ -308,7 +328,8 @@ def collect_results(exp_root: str | Path):
             .groupby(ATTACK_DF_COLUMNS, group_keys=False)
             .agg(
                 U_ASR=("undetected_attack_success", "mean"),
-                ASR=("attack_success", "mean"),
+                ASR_DEPRECATED=("attack_success", "mean"),
+                ASR_NEW=("success_filter_value", "mean"),  # look at this instead
                 TSR=("reward", "mean"),
                 DSR=("attack_undetected_2", "mean"),
                 stealth_rate=("attack_stealth", "mean"),
@@ -349,7 +370,8 @@ def collect_results(exp_root: str | Path):
                 "defense_name",
                 "attack",
                 "U_ASR",
-                "ASR",
+                "ASR_DEPRECATED",
+                "ASR_NEW",
                 "TSR",
                 "stealth_rate",
                 "agent_tokens",
@@ -376,7 +398,8 @@ def collect_results(exp_root: str | Path):
         .groupby(ATTACK_DF_COLUMNS, group_keys=False)
         .agg(
             U_ASR=("undetected_attack_success", "mean"),
-            ASR=("attack_success", "mean"),
+            ASR_DEPRECATED=("attack_success", "mean"),
+            ASR_NEW=("success_filter_value", "mean"),
             TSR=("reward", "mean"),
             DSR=("attack_undetected_2", "mean"),
             stealth_rate=("attack_stealth", "mean"),
@@ -398,6 +421,7 @@ def collect_results(exp_root: str | Path):
                 "agent_model",
                 "use_screenshot",
                 "attack",
+                "success_filter_key",
             ]
         )
     )

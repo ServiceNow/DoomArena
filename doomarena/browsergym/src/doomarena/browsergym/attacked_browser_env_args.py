@@ -74,8 +74,17 @@ class AttackExpArgs(ExpArgs):
             "successful_attack_contents": [],
             "triggered_defenses": [],
             "attack_undetected": True,
+            "success_filter_results": {},
         }
         for i, step_info in enumerate(episode_info):
+
+            if step_info.task_info and "success_filter_results" in step_info.task_info:
+                success_filter_results: dict = step_info.task_info["success_filter_results"]
+                for key, value in success_filter_results.items():
+                    attack_summary_info['success_filter_results'].setdefault(key, False)
+                    if value:
+                        attack_summary_info['success_filter_results'][key] = True
+
             if step_info.task_info and "successful_attacks" in step_info.task_info:
                 if len(step_info.task_info["successful_attacks"]) > 0:
                     attack_summary_info["attack_successful"] = True

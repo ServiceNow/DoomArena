@@ -247,20 +247,23 @@ class BrowserGymAttackGateway(AttackGateway):
 
         successful_attacks = []
         successful_attack_contents = []
+        success_filter_results = {}
         for idx, attack_config in enumerate(self.attack_configs):
-            attack_successful = False
-            if attack_config.success_filter and attack_config.success_filter(
-                obs, self.env
-            ):
-                # successful_attacks.append(attack_config.attack.attack_name)
 
-                # Track by success filter name instead of attack name
-                # make sure to customize success filter name if multiple different ones
-                successful_attacks.append(attack_config.success_filter.success_filter_name)
-                successful_attack_contents.append(attack_contents[idx])
-                attack_successful = True
+            if attack_config.success_filter:
+                success_filter_result =  attack_config.success_filter(obs, self.env)
+                success_filter_results[attack_config.success_filter.success_filter_name] = success_filter_result
+
+                if success_filter_result:
+                    successful_attacks.append(attack_config.attack.attack_name)
+
+                    # Track by success filter name instead of attack name
+                    # make sure to customize success filter name if multiple different ones
+                    # successful_attacks.append(attack_config.success_filter.success_filter_name)
+                    successful_attack_contents.append(attack_contents[idx])
 
         info["task_info"]["successful_attacks"] = successful_attacks
+        info["task_info"]["success_filter_results"] = success_filter_results  # this one will be used for aggregation
         info["task_info"]["successful_attack_contents"] = successful_attack_contents
         info["task_info"][
             "abort_on_successful_attack"

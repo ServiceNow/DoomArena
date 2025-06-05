@@ -139,7 +139,7 @@ if __name__ == "__main__":
         bgym_experiments=bgym_experiments,
         reproducibility_mode=False,
         relaunch=False,
-        n_jobs=4,  # use RAY
+        n_jobs=0,  # use RAY
         max_steps=15,
         skip_reset_and_massage=skip_reset_and_massage,
     )
