@@ -252,7 +252,11 @@ class BrowserGymAttackGateway(AttackGateway):
             if attack_config.success_filter and attack_config.success_filter(
                 obs, self.env
             ):
-                successful_attacks.append(attack_config.attack.attack_name)
+                # successful_attacks.append(attack_config.attack.attack_name)
+
+                # Track by success filter name instead of attack name
+                # make sure to customize success filter name if multiple different ones
+                successful_attacks.append(attack_config.success_filter)
                 successful_attack_contents.append(attack_contents[idx])
                 attack_successful = True
 

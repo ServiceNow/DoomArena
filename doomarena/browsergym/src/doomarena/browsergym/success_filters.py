@@ -5,7 +5,7 @@ from doomarena.core.success_filters import SuccessFilter
 
 
 class TargetUrl(SuccessFilter):
-    success_filter_name: Literal["target_url"] = "target_url"
+    success_filter_name: Literal["target_url"] | str = "target_url"  # allow to diffentiate
     target_urls: list[str]  # use ["*"] to allow all urls
     port: int
 
@@ -14,6 +14,8 @@ class TargetUrl(SuccessFilter):
             raise ValueError(
                 f"Port {self.port} must be included in at least one of the target URLs: {self.target_urls}"
             )
+        # Custoize success filter name based on port
+        self.success_filter_name = f"target_url_{self.port}"
         return super().model_post_init(context)
 
     def __call__(self, observation: dict, env: BrowserEnv) -> bool:

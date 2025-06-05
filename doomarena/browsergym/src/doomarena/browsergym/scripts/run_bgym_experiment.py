@@ -136,6 +136,7 @@ class AttackStudy(Study):
     defenses: list[AttackSafetyCheck] = field(default_factory=list)
     max_steps: int = 15
     headless: bool = True
+    agents_on_benchmark_called: bool = False
 
     def __post_init__(self):
         assert isinstance(self.attack_configs, tuple) and all(
@@ -174,6 +175,7 @@ class AttackStudy(Study):
 
         Everything else is the same as the original function.
         """
+        self.agents_on_benchmark_called = True
 
         if not isinstance(agents, (list, tuple)):
             agents = [agents]
@@ -363,6 +365,9 @@ def run_bgym_experiment(
             strict_reproducibility=reproducibility_mode,
             parallel_backend="ray" if n_jobs > 1 else "sequential",
         )
+
+        assert study.agents_on_benchmark_called, "agents_on_benchmark was not called in BgymExperiment. You MUST install the latest Browsergym and Agentlab from Github, not from pypi."
+
         collect_results(exp_root)
 
         if reproducibility_mode:

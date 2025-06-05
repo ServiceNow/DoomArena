@@ -74,10 +74,9 @@ if __name__ == "__main__":
     # popup_port = 1234  # use same port as banner
     popup_port = 4321  # use different port for popup attack to check for interference
 
-    attack = get_popup_attack(report_url=f"localhost:{popup_port}")
     popup_attack_config = AttackConfig(
         attackable_component={"type": "popup-element"},
-        attack=attack,
+        attack=get_popup_attack(report_url=f"localhost:{popup_port}"),
         filter=StartAtStepFilter(),
         success_filter=TargetUrl(port=popup_port, target_urls=[f"localhost:{popup_port}"]),
     )

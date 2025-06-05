@@ -15,6 +15,18 @@ This toolkit specifically focuses on testing agents in the [BrowserGym](https://
 ## Installation
 
 1. Run `pip install -e doomarena/browsergym` from the root repo or do `pip install doomarena-browsergym` for the latest release
+
+Note: you must manually clone and install the newest version of browsergym and agentlab
+```bash
+git clone https://github.com/ServiceNow/browsergym
+cd browsergym
+make install
+
+git clone https://github.com/ServiceNow/agentlab
+cd agentlab
+make setup
+```
+
 2. Run your instance of webarena and set an environment variable `DOOMARENA_WEBARENA_BASE_URL="http://XXXX.com"`
 3. Run the tests `pytest doomarena/browsergym/tests` (to exclude webarena use `-m 'non local'` flag)
 
