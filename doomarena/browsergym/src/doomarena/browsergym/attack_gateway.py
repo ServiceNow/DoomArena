@@ -256,7 +256,7 @@ class BrowserGymAttackGateway(AttackGateway):
 
                 # Track by success filter name instead of attack name
                 # make sure to customize success filter name if multiple different ones
-                successful_attacks.append(attack_config.success_filter)
+                successful_attacks.append(attack_config.success_filter.success_filter_name)
                 successful_attack_contents.append(attack_contents[idx])
                 attack_successful = True
 

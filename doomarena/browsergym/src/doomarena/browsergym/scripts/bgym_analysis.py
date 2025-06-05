@@ -128,9 +128,12 @@ def collect_results(exp_root: str | Path):
                     exp_record["attack_successful"] = attack_summary[
                         "attack_successful"
                     ]
-                    exp_record["successful_attacks"] = attack_summary[
+                    exp_record["successful_attacks"] = [success_filter_name for idx, success_filter_name in attack_summary[
                         "successful_attacks"
-                    ]
+                    ]]
+                    # exp_record["successful_attacks"] = attack_summary[
+                    #     "successful_attacks"
+                    # ]
                     exp_record["successful_attack_contents"] = attack_summary[
                         "successful_attack_contents"
                     ]
@@ -140,8 +143,8 @@ def collect_results(exp_root: str | Path):
                     exp_record["attack_undetected"] = attack_summary[
                         "attack_undetected"
                     ]
-            except:
-                logging.error(f"Error reading {attack_summary_path}")
+            except Exception as e:
+                logging.error(f"Error reading {attack_summary_path}: {e}")
                 exp_record["attack_summary_info_EXISTS"] = False
                 exp_record["attack_successful"] = None
                 exp_record["successful_attacks"] = []
@@ -406,7 +409,7 @@ def collect_results(exp_root: str | Path):
 
 
 if __name__ == "__main__":
-    collect_results("/home/toolkit/research-agent-attacks/final_results")
+    collect_results("results/browsergym/study_2025-06-05_02-14-28")
     # sum_defense_tokens(
     #     "results/browsergym/study_2025-03-12_19-29-44/2025-03-12_19-29-44_genericagent-anthropic-claude-3-5-sonnet-beta-on-webarena-shopping-subset20/2025-03-12_19-29-48_GenericAgent-anthropic_claude-3.5-sonnet_beta_on_webarena.588_0/experiment.log"
     # )
