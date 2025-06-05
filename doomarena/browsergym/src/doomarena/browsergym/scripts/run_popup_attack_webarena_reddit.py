@@ -38,14 +38,14 @@ popup_attack_config = AttackConfig(
     attack=get_popup_attack(),
     # filter=FilterByUrl(allowed_urls=["*"]),
     filter=StartAtStepFilter(),
-    success_filter=TargetUrl(target_urls=["localhost:1234"]),
+    success_filter=TargetUrl(port=1234, target_urls=["localhost:1234"]),
 )
 user_generated_content_attack = get_attacks("information_theft_comment_attack")
 user_generated_content_attack_config = AttackConfig(
     attackable_component={"type": "user-generated-content"},
     attack=user_generated_content_attack,
     filter=FilterByUrl(allowed_urls=["*"]),
-    success_filter=TargetUrl(target_urls=["localhost:1234"]),
+    success_filter=TargetUrl(port=1234, target_urls=["localhost:1234"]),
 )
 
 benchmark = bgym.DEFAULT_BENCHMARKS["miniwob_tiny_test"]()

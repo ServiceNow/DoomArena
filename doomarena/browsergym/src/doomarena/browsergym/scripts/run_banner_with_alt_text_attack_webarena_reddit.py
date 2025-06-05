@@ -210,7 +210,7 @@ reddit_user_generated_content_attack_config = AttackConfig(
     attackable_component={"type": "banner"},
     attack=svg_banner_with_alt_attack,
     filter=FilterByUrl(allowed_urls=["*"]),
-    success_filter=TargetUrl(target_urls=["localhost:1234"]),
+    success_filter=TargetUrl(port=1234, target_urls=["localhost:1234"]),
 )
 
 # benchmark = bgym.DEFAULT_BENCHMARKS["webarena_reddit_tiny"]()

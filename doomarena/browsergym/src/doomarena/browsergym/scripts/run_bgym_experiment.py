@@ -382,7 +382,7 @@ if __name__ == "__main__":
         attackable_component={"type": "popup-element"},
         attack=attack,
         filter=FilterByUrl(allowed_urls=["*"]),
-        success_filter=TargetUrl(target_urls=["localhost:1234"]),
+        success_filter=TargetUrl(port=1234, target_urls=["localhost:1234"]),
     )
 
     # Example of banner attack config (uncomment to use)
@@ -392,7 +392,7 @@ if __name__ == "__main__":
     #         banner_configs=banner_configs,
     #     ),
     #     filter=FilterByUrl(allowed_urls=["*"]),
-    #     success_filter=TargetUrl(target_urls=["localhost:1234"]),
+    #     success_filter=TargetUrl(port=1234, target_urls=["localhost:1234"]),
     # )
     bgym_experiments = [
         BgymExperiment(

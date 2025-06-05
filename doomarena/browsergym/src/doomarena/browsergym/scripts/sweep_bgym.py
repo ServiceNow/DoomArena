@@ -43,7 +43,7 @@ user_generated_content_attack_config = AttackConfig(
     attackable_component={"type": "user-generated-content"},
     attack=user_generated_content_attack,
     filter=FilterByUrl(allowed_urls=["*"]),
-    success_filter=TargetUrl(target_urls=["localhost:1234"]),
+    success_filter=TargetUrl(port=1234, target_urls=["localhost:1234"]),
 )
 
 
@@ -52,9 +52,9 @@ if __name__ == "__main__":
     # Pick the benchmark you want to use; all browsergym benchmarks are available but we also include some subsets
     benchmark = bgym.DEFAULT_BENCHMARKS["webarena_reddit_subset20"]()
 
-    skip_reset_and_massage = False
-    TASK_SETTING = "prompted-4o"
-    # TASK_SETTING = "no-defense"
+    skip_reset_and_massage = True
+    # TASK_SETTING = "prompted-4o"
+    TASK_SETTING = "no-defense"
     # TASK_SETTING = "llamaguard-abort"
 
     # Set this to the base URL of the WebArena server you want to use
@@ -70,12 +70,16 @@ if __name__ == "__main__":
                 abort_on_detection=True,
             )
         ]
-    attack = get_popup_attack()
+
+    # popup_port = 1234  # use same port as banner
+    popup_port = 4321  # use different port for popup attack to check for interference
+
+    attack = get_popup_attack(report_url=f"localhost:{popup_port}")
     popup_attack_config = AttackConfig(
         attackable_component={"type": "popup-element"},
         attack=attack,
         filter=StartAtStepFilter(),
-        success_filter=TargetUrl(target_urls=["localhost:1234"]),
+        success_filter=TargetUrl(port=popup_port, target_urls=[f"localhost:{popup_port}"]),
     )
 
     banner_alt_attack_config = AttackConfig(
@@ -84,13 +88,14 @@ if __name__ == "__main__":
             banner_configs=banner_configs,
         ),
         filter=FilterByUrl(allowed_urls=["*"]),
-        success_filter=TargetUrl(target_urls=["localhost:1234"]),
+        success_filter=TargetUrl(port=1234, target_urls=["localhost:1234"]),
     )
 
     if skip_reset_and_massage:
         print("WARNING: skip_reset_and_massage=True")
         attack_configs_list = [
-            (popup_attack_config,),
+            # (popup_attack_config,),
+            (popup_attack_config, banner_alt_attack_config),
         ]
 
         benchmark_names = ["webarena_reddit_nano"]
@@ -130,7 +135,7 @@ if __name__ == "__main__":
         )
 
     run_bgym_experiment(
-        base_url=url,
+        # base_url=url,  # may override with custom URL or use env var DOOMARENA_WEBARENA_BASE_URL
         bgym_experiments=bgym_experiments,
         reproducibility_mode=False,
         relaunch=False,
