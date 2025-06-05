@@ -59,12 +59,12 @@ dummy_attack_config_base = AttackConfig(
     attackable_component={"type": "user-generated-content"},
     attack=get_attacks("user_generated_content_attack"),
     filter=FilterByUrl(allowed_urls=[f"{webarena_base_url}:8080"]),
-    success_filter=TargetUrl(target_urls=["localhost:1234"]),
+    success_filter=TargetUrl(port=1234, target_urls=["localhost:1234"]),
 )
 dummy_attack_config_theft = AttackConfig(
     attackable_component={"type": "user-generated-content"},
     filter=FilterByUrl(allowed_urls=[f"{webarena_base_url}:8080"]),
-    success_filter=TargetUrl(target_urls=["localhost:1234"]),
+    success_filter=TargetUrl(port=1234, target_urls=["localhost:1234"]),
     attack=get_attacks("information_theft_comment_attack"),
 )
 

@@ -50,7 +50,7 @@ register_task("gateway-test", PopupTestTask)
 attack_config = dummy_attack_config_theft = AttackConfig(
     attackable_component={"type": "user-generated-content"},
     filter=FilterByUrl(allowed_urls=["*"]),
-    success_filter=TargetUrl(target_urls=["localhost:1234"]),
+    success_filter=TargetUrl(port=1234, target_urls=["localhost:1234"]),
     attack=get_attacks("information_theft_comment_attack"),
 )
 
