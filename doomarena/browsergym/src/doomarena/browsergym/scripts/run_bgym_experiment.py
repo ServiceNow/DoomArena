@@ -137,6 +137,7 @@ class AttackStudy(Study):
     max_steps: int = 15
     headless: bool = True
     agents_on_benchmark_called: bool = False
+    abort_on_successful_attack: bool = True  # If True, the study will stop if any attack is successful
 
     def __post_init__(self):
         assert isinstance(self.attack_configs, tuple) and all(
@@ -263,6 +264,7 @@ class BgymExperiment(BaseModel):
     attack_configs: None | AttackConfig | list[AttackConfig]
     benchmark: Benchmark
     defenses: list[AttackSafetyCheck] = []
+    abort_on_successful_attack: bool = True
 
 
 def _override_webarena_env_vars(base_url: str):
@@ -353,6 +355,7 @@ def run_bgym_experiment(
                 benchmark=bgym_experiment.benchmark,
                 logging_level_stdout=logging.WARNING,
                 ignore_dependencies=True,
+                abort_on_successful_attack=bgym_experiment.abort_on_successful_attack,
                 attack_configs=attack_config,
                 headless=(n_jobs != 0),
                 max_steps=max_steps,

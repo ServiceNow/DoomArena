@@ -125,6 +125,7 @@ if __name__ == "__main__":
                     attack_configs=attack_configs,
                     benchmark=benchmark,
                     defenses=defenses,
+                    abort_on_successful_attack=False,  # WAS TRUE FOR PAPER / FALSE FOR REBUTTAL
                 )
                 bgym_experiments.append(experiment)
 
@@ -138,7 +139,7 @@ if __name__ == "__main__":
         bgym_experiments=bgym_experiments,
         reproducibility_mode=False,
         relaunch=False,
-        n_jobs=0,  # use RAY
+        n_jobs=4,  # use RAY
         max_steps=15,
         skip_reset_and_massage=skip_reset_and_massage,
     )

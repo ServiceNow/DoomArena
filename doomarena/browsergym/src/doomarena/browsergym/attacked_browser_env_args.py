@@ -30,6 +30,7 @@ class AttackedBrowserEnvArgs(EnvArgs):
     benchmark_name: str = ""  # track the benchmark name for easier data aggregation
     attack_configs: Optional[tuple] = ()  # Add this field to support the parameter
     defenses: list[AttackSafetyCheck] = field(default_factory=list)
+    abort_on_successful_attack: bool = True
 
     def make_env(self, action_mapping, exp_dir, exp_task_kwargs: dict = {}):
         """
@@ -52,6 +53,7 @@ class AttackedBrowserEnvArgs(EnvArgs):
             task_name=self.task_name,
             defenses=self.defenses,
             abort_on_detection=abort_on_detection,
+            abort_on_successful_attack=self.abort_on_successful_attack,
         )
 
 
