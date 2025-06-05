@@ -29,6 +29,7 @@ dry-release:
 	@printf "doomarena-core:        %s\n" "$$(grep -E '^\s*version\s*=' doomarena/core/pyproject.toml | head -n1)"
 	@printf "doomarena-browsergym:  %s\n" "$$(grep -E '^\s*version\s*=' doomarena/browsergym/pyproject.toml | head -n1)"
 	@printf "doomarena-taubench:    %s\n" "$$(grep -E '^\s*version\s*=' doomarena/taubench/pyproject.toml | head -n1)"
+	@printf "doomarena-promptceptor:    %s\n" "$$(grep -E '^\s*version\s*=' doomarena/promptceptor/pyproject.toml | head -n1)"
 	@echo ""
 
 	@if [ -z "$(version)" ]; then \
@@ -48,19 +49,21 @@ dry-release:
 	@echo "  - doomarena/core/pyproject.toml"
 	@echo "  - doomarena/browsergym/pyproject.toml"
 	@echo "  - doomarena/taubench/pyproject.toml"
+	@echo "  - doomarena/promptceptor/pyproject.toml"
 	@echo ""
 
 	@echo "### 3. Build and upload each package to PyPI (please use --repository testpypi for testing first!!)"
 	@echo "(cd doomarena/core && python -m build && twine upload dist/*)"
 	@echo "(cd doomarena/browsergym && python -m build && twine upload dist/*)"
 	@echo "(cd doomarena/taubench && python -m build && twine upload dist/*)"
+	@echo "(cd doomarena/promptceptor && python -m build && twine upload dist/*)"
 	@echo ""
 
 	@echo "### 4. Test it's working"
 	@echo "conda create python=3.12 --name doomarena-test-$(version)"
 	@echo "conda activate doomarena-test-$(version)"
 	@echo "FOR TESTING: pip install --index-url https://test.pypi.org/simple/ doomarena==$(version) --no-deps"
-	@echo "FOR REAL: pip install doomarena browsergym taubench"
+	@echo "FOR REAL: pip install doomarena doomarena-browsergym doomarena-taubench doomarena-promptceptor"
 	@echo "Then run: make tests"
 	@echo ""
 
