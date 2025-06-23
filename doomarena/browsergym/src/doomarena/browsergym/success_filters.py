@@ -10,7 +10,7 @@ class TargetUrl(SuccessFilter):
     port: int
 
     def model_post_init(self, context: Any) -> None:
-        if not any(str(self.port) in url for url in self.target_urls):
+        if self.port != 80 and not any(str(self.port) in url for url in self.target_urls):
             raise ValueError(
                 f"Port {self.port} must be included in at least one of the target URLs: {self.target_urls}"
             )
