@@ -48,7 +48,7 @@ user_generated_content_attack_config = AttackConfig(
     success_filter=TargetUrl(port=1234, target_urls=["localhost:1234"]),
 )
 
-benchmark = bgym.DEFAULT_BENCHMARKS["miniwob_tiny_test"]()
+benchmark = bgym.DEFAULT_BENCHMARKS["webarena_reddit_tiny"]()
 
 bgym_experiments = [
     BgymExperiment(
