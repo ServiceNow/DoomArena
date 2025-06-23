@@ -1786,10 +1786,10 @@
     </button>
     <nav class="nav-menu" id="navMenu">
       <a href="#overview"><i class="fas fa-home"></i> Overview</a>
-      <a href="#demo-section"><i class="fas fa-sitemap"></i>Demo</a>
       <a href="#main-findings"><i class="fas fa-flask"></i>Main Findings</a>
+      <a href="#demo-section"><i class="fas fa-sitemap"></i>Demo</a>
       <a href="#experiments"><i class="fas fa-flask"></i>Experiments</a>
-      <a href="#architecture"><i class="fas fa-sitemap"></i>Architecture</a>
+      <a href="#architecture"><i class="fas fa-sitemap"></i>Framework Architecture</a>
       <a href="#features"><i class="fas fa-shield-alt"></i>Key Features</a>
       <a href="#tutorial"><i class="fas fa-book-open"></i>Colab Tutorial</a>
       <a href="#use-cases"><i class="fas fa-laptop-code"></i> Use Cases</a>
@@ -1821,6 +1821,123 @@
       </div>
     </div>
   </section>
+
+
+
+  <!-- Use Cases Section -->
+  <section id="main-findings" class="content-section">
+    <div class="container">
+      <h2 class="section-title"><i class="fas fa-laptop-code"></i>Main Findings: Breaking Frontier-LLM Agents</h2>
+      <div class="section-content">
+
+        <p>
+          We use <span class="doomarena">DoomArena</span> to evaluate state-of-the-art AI agents (GPT-4o,
+          Claude-3.5-Sonnet) against various attacks in <span class="emph">tool-calling</span> (τ-Bench, e-mail agent), <span
+            class="emph">web navigation</span> (BrowserGym), and <span class="emph">computer-use</span> (OSWorld) environments.
+          We present our main findings below, which highlight the vulnerabilities of these agents to various attacks.
+        </p>
+
+        <!-- <p>
+          We find that even <span class="emph">frontier LLMs</span> such as GPT-4o and Claude-3.5-Sonnet present significant <span class="danger">vulnerabilities</span> when used out-of-the-box.
+        </p> -->
+
+        <div class="use-cases-container">
+
+          <div class="use-case shadow-card">
+            <div class="use-case-header">
+              <div class="use-case-icon"><i class="fas fa-globe"></i></div>
+              <h3>Web Agents</h3>
+            </div>
+            <div class="use-case-content">
+              <p>Some elements of a web page may be controlled by a malicious 3rd party, such as <span class="danger">banners</span> and <span class="danger">pop-ups</span>.
+                We inject attacks into the WebArena environment through BrowserGym.</p>
+
+              <div style="display: flex; justify-content: center; align-items: center; gap: 10px; font-size: 1.5em;">
+                <img src="static/images/banner_attack.png" style="width: 30%;" alt="BrowserGym Banner">
+                <span>OR</span>
+                <img src="static/images/popup_attack.png" style="width: 30%; max-width: 300px;" alt="BrowserGym Pop-ups">
+                <span>→</span>
+                <img src="static/images/landing_page.png" style="width: 30%; max-width: 300px;" alt="BrowserGym Landing page">
+              </div>
+
+              <div class="use-case-result">
+                <span class="result-label">Finding:</span> GPT-4o and Claude-3.5-Sonnet showed high vulnerability to
+                pop-ups, often failing tasks, though defenses were effective.
+              </div>
+            </div>
+
+            <div class="use-case-content">
+              Run these experiments on <a href="https://github.com/ServiceNow/DoomArena/tree/main/doomarena/browsergym">github</a> or
+              jump to the <a href="#">results table</a>.
+            </div>
+          </div>
+
+          <div class="use-case shadow-card">
+            <div class="use-case-header">
+              <div class="use-case-icon"><i class="fas fa-desktop"></i></div>
+              <h3>Computer-Use Agents</h3>
+            </div>
+            <div class="use-case-content">
+              <p>Similarly, unwanted pop-ups may sometimes appear in a computer environment. We inject <span class="danger">pop-up inpainting attacks</span> into OSWorld observations using <span class="doomarena">DoomArena</span>.</p>
+
+              <p style="text-align: center;">
+                <img src="static/images/osworld_attack.png" style="width: 60%; max-width: 300;" alt="OSWorld Pop-ups" class="use-case-image">
+              </p>
+
+              <div class="use-case-result">
+                <span class="result-label">Finding:</span> Frontier models including GPT-4o and Claude-3.5-Sonnet take the bait and fail 23%-78% of the time.
+              </div>
+
+              <p>
+                Run these experiments on <a href="https://github.com/ServiceNow/DoomArena/tree/main/doomarena/osworld">github</a> or
+                jump to the <a href="#">results table</a>.
+              </p>
+            </div>
+          </div>
+
+          <div class="use-case shadow-card">
+            <div class="use-case-header">
+              <div class="use-case-icon"><i class="fas fa-tools"></i></div>
+              <h3>Tool-Calling Agents (Tau-Bench)</h3>
+            </div>
+            <div class="use-case-content">
+              <p>We evaluate TauBench agents in the Airline and Retail scenarios against malicious <span class="danger">user inputs</span> and <span class="danger">poisoned tool outputs </span>(e.g., malicious catalog items).</p>
+              <div class="use-case-result">
+                <span class="result-label">Finding:</span> GPT-4o was more susceptible to malicious user inputs and
+                catalog items than Claude-3.5-Sonnet. Combined attacks significantly increased success rates.
+              </div>
+
+              
+              <!-- Reproduced an [e-mail agent
+              environment](https://github.com/ServiceNow/DoomArena/tree/main/doomarena/mailinject) inspired from the
+              LLMail-Inject challenge with spotlighting and LLM-as-a-judge defenses. -->
+
+            </div>
+          </div>
+
+          <div class="use-case shadow-card">
+            <div class="use-case-header">
+              <div class="use-case-icon"><i class="fas fa-shield-alt"></i></div>
+              <h3>Defense Mechanism Evaluation</h3>
+            </div>
+            <div class="use-case-content">
+              <p>Compared the effectiveness of a GPT-4o based judge defense against various attacks in both web and
+                tool-calling contexts.</p>
+              <div class="use-case-result">
+                <span class="result-label">Finding:</span> The defense significantly reduced attack success rates across
+                most scenarios, especially for pop-ups and malicious user inputs, although task success sometimes
+                slightly decreased.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
 
   <!-- Demo Section -->
   <section id="demo-section" class="content-section">
@@ -1858,99 +1975,6 @@
   </section>
 
 
-
-
-  <!-- Use Cases Section -->
-  <section id="main-findings" class="content-section">
-    <div class="container">
-      <h2 class="section-title"><i class="fas fa-laptop-code"></i>Main Findings: Breaking Frontier-LLM Agents</h2>
-      <div class="section-content">
-
-        <p>
-          We use <span class="doomarena">DoomArena</span> to evaluate state-of-the-art AI agents (GPT-4o,
-          Claude-3.5-Sonnet) against various attacks in <span class="emph">tool-calling</span> (τ-Bench, e-mail agent), <span
-            class="emph">web navigation</span> (BrowserGym), and <span class="emph">computer-use</span> (OSWorld) environments.
-          We present our main findings below, which highlight the vulnerabilities of these agents to various attacks.
-        </p>
-
-        <!-- <p>
-          We find that even <span class="emph">frontier LLMs</span> such as GPT-4o and Claude-3.5-Sonnet present significant <span class="danger">vulnerabilities</span> when used out-of-the-box.
-        </p> -->
-
-        <div class="use-cases-container">
-
-          <div class="use-case shadow-card">
-            <div class="use-case-header">
-              <div class="use-case-icon"><i class="fas fa-globe"></i></div>
-              <h3>Web Agent Security</h3>
-            </div>
-            <div class="use-case-content">
-              <p>Some elements of a web page may be controlled by a malicious 3rd party, such as <span class="danger">banners</span> and <span class="danger">pop-ups</span>.
-                We inject attacks into the WebArena environment through BrowserGym.</p>
-              <div class="use-case-result">
-                <span class="result-label">Finding:</span> GPT-4o and Claude-3.5-Sonnet showed high vulnerability to
-                pop-ups, often failing tasks, though defenses were effective.
-              </div>
-            </div>
-          </div>
-
-          <div class="use-case shadow-card">
-            <div class="use-case-header">
-              <div class="use-case-icon"><i class="fas fa-desktop"></i></div>
-              <h3>Computer-Use Agents</h3>
-            </div>
-            <div class="use-case-content">
-              <p>Similarly, unwanted pop-ups may sometimes appear in a computer environment. We inject pop-up inpainting attacks into OSWorld observations using <span class="doomarena">DoomArena</span>.</p>
-
-              <p style="text-align: center;">
-                <img src="static/images/osworld_attack.png" style="width: 60%; max-width: 300;" alt="OSWorld Pop-ups" class="use-case-image">
-              </p>
-
-              <div class="use-case-result">
-                <span class="result-label">Finding:</span> Frontier models including GPT-4o and Claude-3.5-Sonnet take the bait and fail 23%-78% of the time.
-              </div>
-            </div>
-          </div>
-
-          <div class="use-case shadow-card">
-            <div class="use-case-header">
-              <div class="use-case-icon"><i class="fas fa-tools"></i></div>
-              <h3>Tool-Calling Vulnerabilities</h3>
-            </div>
-            <div class="use-case-content">
-              <p>Evaluated TauBench agents (Airline, Retail scenarios) against malicious user inputs and poisoned tool
-                outputs (e.g., malicious catalog items).</p>
-              <div class="use-case-result">
-                <span class="result-label">Finding:</span> GPT-4o was more susceptible to malicious user inputs and
-                catalog items than Claude-3.5-Sonnet. Combined attacks significantly increased success rates.
-              </div>
-
-              Reproduced an [e-mail agent
-              environment](https://github.com/ServiceNow/DoomArena/tree/main/doomarena/mailinject) inspired from the
-              LLMail-Inject challenge with spotlighting and LLM-as-a-judge defenses.
-
-            </div>
-          </div>
-
-          <div class="use-case shadow-card">
-            <div class="use-case-header">
-              <div class="use-case-icon"><i class="fas fa-shield-alt"></i></div>
-              <h3>Defense Mechanism Evaluation</h3>
-            </div>
-            <div class="use-case-content">
-              <p>Compared the effectiveness of a GPT-4o based judge defense against various attacks in both web and
-                tool-calling contexts.</p>
-              <div class="use-case-result">
-                <span class="result-label">Finding:</span> The defense significantly reduced attack success rates across
-                most scenarios, especially for pop-ups and malicious user inputs, although task success sometimes
-                slightly decreased.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
 
 
