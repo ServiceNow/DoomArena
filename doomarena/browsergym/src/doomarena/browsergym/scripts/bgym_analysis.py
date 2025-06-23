@@ -434,6 +434,3 @@ def collect_results(exp_root: str | Path):
 
 if __name__ == "__main__":
     collect_results("results/browsergym/study_2025-06-05_02-14-28")
-    # sum_defense_tokens(
-    #     "results/browsergym/study_2025-03-12_19-29-44/2025-03-12_19-29-44_genericagent-anthropic-claude-3-5-sonnet-beta-on-webarena-shopping-subset20/2025-03-12_19-29-48_GenericAgent-anthropic_claude-3.5-sonnet_beta_on_webarena.588_0/experiment.log"
-    # )
