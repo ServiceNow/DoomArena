@@ -84,7 +84,7 @@ dummy_attack_config_persistent = AttackConfig(
     attackable_component={"type": "popup-element"},
     attack=attack_static,
     filter=AlwaysTrueFilter(),
-    success_filter=TargetUrl(target_urls=["https://security-test.example.com/report"]),
+    success_filter=TargetUrl(port=80, target_urls=["https://security-test.example.com/report"]),
     # persistent=True,
 )
 
@@ -92,7 +92,7 @@ dummy_attack_config_non_persistent = AttackConfig(
     attackable_component={"type": "popup-element"},
     attack=attack_static,
     filter=UsedOnceFilter(),
-    success_filter=TargetUrl(target_urls=["https://security-test.example.com/report"]),
+    success_filter=TargetUrl(port=80, target_urls=["https://security-test.example.com/report"]),
     # persistent=False,
 )
 
