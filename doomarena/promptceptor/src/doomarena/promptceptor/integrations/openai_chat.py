@@ -9,7 +9,7 @@ class OpenAIChatPatcher(BasePatcher):
     def name(cls) -> str:
         return "openai_chat"
     
-    def __init__(self, log_dir: Path, text_only: bool = True):
+    def __init__(self, log_dir: Path, text_only: bool = False):
         super().__init__(log_dir=log_dir)
         self.text_only = text_only
 

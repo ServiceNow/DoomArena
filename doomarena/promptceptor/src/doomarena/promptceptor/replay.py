@@ -7,6 +7,7 @@ import yaml
 from functools import wraps
 from doomarena.promptceptor.integrations.base import BasePatcher
 
+from openai import NOT_GIVEN
 
 YELLOW = "\033[93m"
 RESET = "\033[0m"
@@ -26,6 +27,19 @@ def _should_recompute(
             return True
         return input_path.stat().st_mtime > output_file.stat().st_mtime
     raise ValueError(f"Unknown overwrite_mode: {overwrite_mode}")
+
+
+# Handle openai's notgiven
+def construct_notgiven(loader, node):
+    # map YAML's !!python/object:openai.NotGiven to the sentinel
+    return NOT_GIVEN
+
+yaml.add_constructor(
+    "tag:yaml.org,2002:python/object:openai.NotGiven",
+    construct_notgiven,
+    Loader=yaml.FullLoader,
+)
+
 
 
 def replay_missing_outputs(
@@ -73,7 +87,7 @@ def replay_missing_outputs(
 
             stream = kwargs.get("stream", False)
 
-            print(f"🔄 [{i}/{len(inputs_to_process)}] Replaying: {input_path.relative_to(log_root)}")
+            print(f"🔄 [{i}/{len(inputs_to_process)}] Replaying: {input_path.absolute()}")
             
             if patcher_class != "same":
                 patcher: BasePatcher = patcher_class(log_dir=log_root)
@@ -95,9 +109,10 @@ def replay_missing_outputs(
                 for chunk in output:
                     print(f".", end="", flush=True)
 
-            print(f"   ✅ Wrote: {output_file.relative_to(log_root)}")
+            print(f"   ✅ Wrote: {output_file.input_path.absolute()}")
 
         except Exception as e:
+            raise e
             with open(error_file, "w", encoding="utf-8") as ef:
                 ef.write(f"Error during replay:\n{repr(e)}\n")
             print(f"   ❌ Error (logged to {error_file.relative_to(log_root)})")
