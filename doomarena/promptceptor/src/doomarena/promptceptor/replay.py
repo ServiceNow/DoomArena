@@ -36,7 +36,7 @@ def replay_missing_outputs(
 ):
     """
     Recursively scans for input.yaml files under `log_root`.
-    For any input.yaml missing an output.txt or error.txt, it calls the target_func
+    For any input.yaml missing an output.yaml or error.txt, it calls the target_func
     with stored args and kwargs, preserving stream behavior.
     """
     print(f"\n📂 Scanning logs in: {log_root}")
@@ -47,7 +47,7 @@ def replay_missing_outputs(
     for path in log_root.rglob("input.yaml"):
         total_inputs += 1
         folder = path.parent
-        output_file = folder / "output.txt"
+        output_file = folder / "output.yaml"
         # error_file = folder / "error.txt"
 
         if _should_recompute(path, output_file, overwrite_mode):
@@ -58,7 +58,7 @@ def replay_missing_outputs(
 
     for i, input_path in enumerate(inputs_to_process):
         folder = input_path.parent
-        output_file = folder / "output.txt"
+        output_file = folder / "output.yaml"
         error_file = folder / "error.txt"
 
         try:

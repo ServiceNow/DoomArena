@@ -7,6 +7,10 @@ from pathlib import Path
 import yaml
 
 
+YELLOW = "\033[93m"
+RESET = "\033[0m"
+
+
 def convert_tuples_to_lists(obj):
     if isinstance(obj, tuple):
         return list(obj)
@@ -79,5 +83,5 @@ def write_llm_output(
         with open(output_file, "w", encoding="utf-8") as outf:
             outf.write(content)
         if show_logs:
-            print(f"🟢 Finished writing to {output_file}")
+            print(f"{YELLOW} saving output       ->  Finished writing to {output_file}{RESET}")
         return response

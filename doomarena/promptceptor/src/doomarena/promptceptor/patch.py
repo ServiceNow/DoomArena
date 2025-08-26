@@ -79,7 +79,7 @@ def patch_llm_method(
         subfolder = create_indexed_subfolder(folder)
 
         input_file = subfolder / "input.yaml"
-        output_file = subfolder / "output.txt"
+        output_file = subfolder / "output.yaml"
 
         # Log all args and kwargs so they can be dumped to YAML and later read back
         all_inputs = {
