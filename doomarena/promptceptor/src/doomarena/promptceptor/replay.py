@@ -7,6 +7,7 @@ import yaml
 from functools import wraps
 from doomarena.promptceptor.integrations.base import BasePatcher
 
+from openai import NOT_GIVEN
 
 YELLOW = "\033[93m"
 RESET = "\033[0m"
@@ -28,6 +29,19 @@ def _should_recompute(
     raise ValueError(f"Unknown overwrite_mode: {overwrite_mode}")
 
 
+# Handle openai's notgiven
+def construct_notgiven(loader, node):
+    # map YAML's !!python/object:openai.NotGiven to the sentinel
+    return NOT_GIVEN
+
+yaml.add_constructor(
+    "tag:yaml.org,2002:python/object:openai.NotGiven",
+    construct_notgiven,
+    Loader=yaml.FullLoader,
+)
+
+
+
 def replay_missing_outputs(
     log_root: Path,
     patcher_class: Type[BasePatcher] | Literal["same"] = "same",
@@ -36,7 +50,7 @@ def replay_missing_outputs(
 ):
     """
     Recursively scans for input.yaml files under `log_root`.
-    For any input.yaml missing an output.txt or error.txt, it calls the target_func
+    For any input.yaml missing an output.yaml or error.txt, it calls the target_func
     with stored args and kwargs, preserving stream behavior.
     """
     print(f"\n📂 Scanning logs in: {log_root}")
@@ -47,7 +61,7 @@ def replay_missing_outputs(
     for path in log_root.rglob("input.yaml"):
         total_inputs += 1
         folder = path.parent
-        output_file = folder / "output.txt"
+        output_file = folder / "output.yaml"
         # error_file = folder / "error.txt"
 
         if _should_recompute(path, output_file, overwrite_mode):
@@ -58,7 +72,7 @@ def replay_missing_outputs(
 
     for i, input_path in enumerate(inputs_to_process):
         folder = input_path.parent
-        output_file = folder / "output.txt"
+        output_file = folder / "output.yaml"
         error_file = folder / "error.txt"
 
         try:
@@ -73,7 +87,7 @@ def replay_missing_outputs(
 
             stream = kwargs.get("stream", False)
 
-            print(f"🔄 [{i}/{len(inputs_to_process)}] Replaying: {input_path.relative_to(log_root)}")
+            print(f"🔄 [{i}/{len(inputs_to_process)}] Replaying: {input_path.absolute()}")
             
             if patcher_class != "same":
                 patcher: BasePatcher = patcher_class(log_dir=log_root)
@@ -95,9 +109,10 @@ def replay_missing_outputs(
                 for chunk in output:
                     print(f".", end="", flush=True)
 
-            print(f"   ✅ Wrote: {output_file.relative_to(log_root)}")
+            print(f"   ✅ Wrote: {output_file.input_path.absolute()}")
 
         except Exception as e:
+            raise e
             with open(error_file, "w", encoding="utf-8") as ef:
                 ef.write(f"Error during replay:\n{repr(e)}\n")
             print(f"   ❌ Error (logged to {error_file.relative_to(log_root)})")
