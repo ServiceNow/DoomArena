@@ -109,7 +109,7 @@ def replay_missing_outputs(
                 for chunk in output:
                     print(f".", end="", flush=True)
 
-            print(f"   ✅ Wrote: {output_file.input_path.absolute()}")
+            print(f"   ✅ Wrote: {output_file.absolute()}")
 
         except Exception as e:
             raise e
