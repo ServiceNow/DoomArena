@@ -41,6 +41,14 @@ yaml.add_constructor(
 )
 
 
+def load_yaml_for_replay(file_path_or_content: str | Path) -> dict:
+    if isinstance(file_path_or_content, Path):
+        with open(file_path_or_content, "r", encoding="utf-8") as f:
+            data = yaml.load(f, yaml.FullLoader)
+    else:
+        data = yaml.load(file_path_or_content, yaml.FullLoader)
+    return data
+
 
 def replay_missing_outputs(
     log_root: Path,
@@ -109,7 +117,7 @@ def replay_missing_outputs(
                 for chunk in output:
                     print(f".", end="", flush=True)
 
-            print(f"   ✅ Wrote: {output_file.input_path.absolute()}")
+            print(f"   ✅ Wrote: {output_file.absolute()}")
 
         except Exception as e:
             raise e
